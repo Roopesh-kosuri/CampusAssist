@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local cache & data logs
+.cache/
+data/query_logs.db
+data/*.db
+
+# Environment and secrets
+.env
+*.local
+
+# OS files
+.DS_Store
+Thumbs.db

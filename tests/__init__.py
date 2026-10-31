@@ -1,0 +1,1 @@
+"""CampusAssist automated test suite."""

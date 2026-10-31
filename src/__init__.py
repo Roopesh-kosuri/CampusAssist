@@ -1,0 +1,1 @@
+"""CampusAssist core source package."""

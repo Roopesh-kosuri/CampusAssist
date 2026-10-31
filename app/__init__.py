@@ -1,0 +1,1 @@
+"""CampusAssist application package."""
