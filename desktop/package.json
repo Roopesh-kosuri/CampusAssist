@@ -1,0 +1,43 @@
+{
+  "name": "campusassist-desktop",
+  "version": "1.0.0",
+  "description": "CampusAssist - LPU Student AI Assistant Desktop Application",
+  "main": "main.js",
+  "author": "CampusAssist Team",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist:win": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.lpu.campusassist",
+    "productName": "CampusAssist",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "icon": "build/icon.ico",
+      "legalTrademarks": "Lovely Professional University"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CampusAssist"
+    },
+    "portable": {
+      "artifactName": "CampusAssist-Portable-${version}.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

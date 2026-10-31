@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CampusAssist · LPU Campus FAQ</title>
+<meta name="theme-color" content="#2563EB">
+<meta name="description" content="Official AI student assistant for Lovely Professional University. Fast, accurate, knowledge-grounded answers.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CampusAssist">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..500;1,6..72,400&family=Nunito:wght@800&display=swap" rel="stylesheet">
 <style>
@@ -213,6 +221,8 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
  <div class="logo"><span class="mark">C</span><b>CampusAssist</b><em>LPU</em></div>
  <button class="btn" id="newchat"><span data-ic="plus"></span>New chat</button>
  <button class="btn" id="histbtn" style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;margin-top:-4px"><span data-ic="hist"></span>History</button>
+ <button class="btn" id="pwa-install-btn" style="background:linear-gradient(135deg,var(--fill),#EA580C);font-size:13px;padding:10px 14px;margin-top:-4px;box-shadow:0 4px 14px -3px var(--fill)"><span data-ic="phone"></span>Install Mobile App</button>
+ <a href="/downloads/CampusAssist-Portable.exe" class="btn" id="dl-win-btn" download style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;font-size:13px;padding:10px 14px;margin-top:-4px;text-decoration:none"><span data-ic="dl"></span>Download Windows App (.exe)</a>
  <h6>Retrieval method</h6><div id="methods"></div>
  <div class="card"><div class="row"><b>AI-polished answers</b><button class="tg on" id="polish" role="switch" aria-checked="true" aria-label="AI-polished answers"></button></div><p>Rewrites the matched FAQ in friendlier language. Never used for matching.</p></div>
  <h6>Category</h6><div class="chips" id="cats"></div>
@@ -278,7 +288,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 <nav class="glass tabbar" id="tabbar"></nav>
 <script>
 const $=s=>document.querySelector(s),root=document.documentElement;
-const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 12l7-7 7 7",ok:"M5 12l5 5 9-9",chev:"M6 9l6 6 6-6",tu:"M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9H19a2 2 0 012 2.3l-1.2 7A2 2 0 0117.8 20H7",copy:"M9 9h10v10H9zM5 15V5h10",sun:"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 100 8 4 4 0 000-8z",moon:"M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z",chat:"M4 5h16v11H9l-5 4z",chart:"M5 20V10M12 20V4M19 20v-7",eval:"M5 12l4 4 10-10M5 20h14",hist:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",close:"M6 18L18 6M6 6l12 12"};
+const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 12l7-7 7 7",ok:"M5 12l5 5 9-9",chev:"M6 9l6 6 6-6",tu:"M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9H19a2 2 0 012 2.3l-1.2 7A2 2 0 0117.8 20H7",copy:"M9 9h10v10H9zM5 15V5h10",sun:"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 100 8 4 4 0 000-8z",moon:"M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z",chat:"M4 5h16v11H9l-5 4z",chart:"M5 20V10M12 20V4M19 20v-7",eval:"M5 12l4 4 10-10M5 20h14",hist:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",close:"M6 18L18 6M6 6l12 12",dl:"M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17",phone:"M12 18h.01M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"};
 const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function formatText(s){
@@ -366,7 +376,7 @@ async function ask(t){
       fb:data.fallback,contact:data.department_contact,top:data.top3,method:data.method,showOrig:false
     };
     M.push(m);
-    msgs.insertAdjacentHTML("beforeend",m.fb?fbHTML(m):cardHTML(m));scroll();
+    msgs.insertAdjacentHTML("beforeend",(m.ai || !m.fb)?cardHTML(m):fbHTML(m));scroll();
     saveSession();
   }catch(err){
     sk.remove();
@@ -620,6 +630,39 @@ async function init(){
   drawSide();setView("chat");
 }
 init();
+
+/* PWA Service Worker Registration & Mobile Install Trigger */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('ServiceWorker registered:', reg.scope))
+      .catch(err => console.warn('ServiceWorker registration error:', err));
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const pwaBtn = document.getElementById('pwa-install-btn');
+  if (pwaBtn) pwaBtn.style.display = 'flex';
+});
+
+const pwaBtn = document.getElementById('pwa-install-btn');
+if (pwaBtn) {
+  pwaBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+      alert('To install CampusAssist:\n• On iOS (Safari): Tap the Share button, then "Add to Home Screen".\n• On Android (Chrome): Tap the three dots menu, then "Install app".');
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      pwaBtn.style.display = 'none';
+    }
+    deferredPrompt = null;
+  });
+}
 </script>
 </body>
 </html>

@@ -24,3 +24,9 @@ data/*.db
 # OS files
 .DS_Store
 Thumbs.db
+
+# Node & Desktop Electron build artifacts
+desktop/node_modules/
+desktop/dist/
+*.exe
+*.blockmap

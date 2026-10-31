@@ -1,0 +1,26 @@
+{
+  "name": "CampusAssist - LPU Student AI Assistant",
+  "short_name": "CampusAssist",
+  "description": "Smart, grounded campus assistant for Lovely Professional University students.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B0F19",
+  "theme_color": "#2563EB",
+  "categories": ["education", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/static/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

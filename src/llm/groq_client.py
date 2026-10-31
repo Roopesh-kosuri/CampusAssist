@@ -45,21 +45,26 @@ CRITICAL GROUNDING RULES:
 
 FALLBACK_SYSTEM_PROMPT = """You are CampusAssist, the official AI student helper for Lovely Professional University (LPU), Phagwara, Punjab.
 
-Answer ONLY questions about LPU campus life, services, portals, and student procedures.
-Be friendly, concise (2-3 sentences), and match the student's tone (English or Hinglish).
+Answer questions about LPU campus life, academic facilities, library, study areas, services, portals, and student procedures.
+Be warm, helpful, and concise (2-4 sentences), matching the student's tone (English or Hinglish).
 
-ALWAYS reference real LPU links when relevant:
-- UMS Portal: https://ums.lpu.in/lpuums/
-- Main Website: https://www.lpu.in
-- Fee Payment: https://zee.lpu.in/feepayment/
-- e-Connect (Exams/Results): https://econnect.lpu.in
-- Helpline: +91-1824-517000 | Toll-Free: 1800-102-4431
+VERIFIED LPU CAMPUS FACTS:
+- Central Library: Block 37, open 8:00 AM – 12:00 AM midnight daily (extended to 2:00 AM during exams). Dedicated reading halls, quiet study cubicles, and discussion rooms.
+- Academic Blocks: Blocks 33, 34, 35, 36, 38 with departmental reading spaces.
+- Admin Hub: Block 32 (Student Relationship, Accounts, ID cards, Security, Lost & Found).
+- Hostels: BH-1 through BH-8 (Boys), GH-1 through GH-6 (Girls) with study rooms and LPU_Campus Wi-Fi.
+- Official Portals:
+  * UMS Portal: https://ums.lpu.in/lpuums/
+  * Fee Payment: https://zee.lpu.in/feepayment/
+  * e-Connect (Exams/Results): https://econnect.lpu.in
+  * Main Website: https://www.lpu.in
+- Helplines: +91-1824-517000 | Toll-Free: 1800-102-4431
 
 RULES:
-1. If asked something completely unrelated to LPU campus life, politely say you only handle LPU student queries and direct them to +91-1824-517000.
-2. Never invent specific fees, exact dates, or room numbers you aren't sure about — say "check UMS or call +91-1824-517000".
-3. Never mention any other university.
-4. Max 3 sentences. End with the most relevant link or contact if applicable."""
+1. Always synthesize a concrete, helpful answer for study spaces, facilities, or campus procedures. Never say you don't know when campus facilities (like Central Library Block 37) exist.
+2. If reference campus information is provided, ground your answer directly in those facts.
+3. If asked something completely unrelated to university or student life, politely state you only handle LPU queries and offer the helpline +91-1824-517000.
+4. Keep answers friendly, practical, and under 4 sentences. Include relevant portal URLs or block numbers."""
 
 
 class GroqPolisher:
@@ -96,12 +101,14 @@ class GroqPolisher:
     def direct_answer(
         self,
         query: str,
-        category: str = "All"
+        category: str = "All",
+        context: list[str] | None = None
     ) -> tuple[str, bool, float, str]:
         """Generate a direct AI answer when the retrieval engine fails (fallback mode).
 
         Unlike polish(), this is a generative call — it produces a full answer
-        from the LPU knowledge baked into the LLM, grounded by the system prompt.
+        from the LPU knowledge baked into the LLM, grounded by reference context
+        and the system prompt.
 
         Returns:
             tuple[str, bool, float, str]: (answer_text, success, latency_ms, message)
@@ -121,7 +128,15 @@ class GroqPolisher:
         start_time = time.perf_counter()
         category_hint = f" The student is asking about: {category}." if category and category != "All" else ""
 
-        user_content = f"Student question:{category_hint} {query}"
+        if context:
+            context_block = "\n".join(f"- {c}" for c in context[:3])
+            user_content = (
+                f"Relevant LPU Knowledge Base entries:\n{context_block}\n\n"
+                f"Student question:{category_hint} {query}\n\n"
+                "Provide a helpful, friendly, and accurate answer for the student based on LPU facts:"
+            )
+        else:
+            user_content = f"Student question:{category_hint} {query}"
 
         last_error = ""
         for attempt in range(2):
@@ -133,7 +148,7 @@ class GroqPolisher:
                         {"role": "user", "content": user_content}
                     ],
                     temperature=0.2,
-                    max_tokens=200,
+                    max_tokens=250,
                 )
                 latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
                 answer = response.choices[0].message.content.strip()

@@ -174,6 +174,46 @@ def serve_index():
     return FileResponse(index_file)
 
 
+@app.get("/manifest.json", response_class=FileResponse)
+def serve_manifest():
+    """Serve PWA Web App Manifest."""
+    manifest_file = APP_DIR / "static" / "manifest.json"
+    if not manifest_file.exists():
+        raise HTTPException(status_code=404, detail="manifest.json not found")
+    return FileResponse(manifest_file, media_type="application/manifest+json")
+
+
+@app.get("/service-worker.js", response_class=FileResponse)
+def serve_service_worker():
+    """Serve PWA Service Worker."""
+    sw_file = APP_DIR / "static" / "service-worker.js"
+    if not sw_file.exists():
+        raise HTTPException(status_code=404, detail="service-worker.js not found")
+    return FileResponse(sw_file, media_type="application/javascript")
+
+
+@app.get("/favicon.ico", response_class=FileResponse)
+def serve_favicon():
+    """Serve app favicon."""
+    fav_file = APP_DIR / "static" / "favicon.ico"
+    if not fav_file.exists():
+        raise HTTPException(status_code=404, detail="favicon.ico not found")
+    return FileResponse(fav_file, media_type="image/x-icon")
+
+
+downloads_dir = APP_DIR / "static" / "downloads"
+downloads_dir.mkdir(parents=True, exist_ok=True)
+
+
+@app.get("/downloads/{filename}", response_class=FileResponse)
+def download_file(filename: str):
+    """Serve downloadable desktop app binaries."""
+    file_path = downloads_dir / filename
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail=f"File {filename} not found")
+    return FileResponse(file_path, filename=filename)
+
+
 @app.get("/api/config", response_model=ConfigResponse)
 def get_config():
     """Return configured methods, categories, thresholds, and Groq status."""
@@ -284,9 +324,15 @@ def handle_query(req: QueryRequest):
         department_contact = fallback_router.get_department_contact(category_filter)
 
         if req.polish and polisher and polisher.is_available() and not polisher.is_adversarial(sanitized_query):
+            context_snippets = [
+                f"FAQ [{c['id']}]: {c['question']} -> {c.get('answer', '')}"
+                for c in top_candidates[:3]
+                if c.get("question") and c.get("answer")
+            ]
             ai_answer, groq_ok, groq_lat, msg = polisher.direct_answer(
                 query=sanitized_query,
-                category=category_filter
+                category=category_filter,
+                context=context_snippets
             )
             groq_latency_ms = groq_lat
             if groq_ok and ai_answer:
