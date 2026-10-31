@@ -276,3 +276,40 @@
 | `[umc hearing venue]` | Examination Committee Room, Block 34 | | | |
 | `[umc hearing regulations]` | Standard Operating Procedure for UMC Hearings | | | |
 | `[unfair means committee]` | Central Unfair Means Committee (UMC) | | | |
+
+
+---
+
+## 7. Owner Verified Terminology & Provenance Ledger (Updated November 2024)
+
+> **Verified by Project Owner (Roopesh) from LPU Student Portal (UMS), e-Connect, and Official Circulars (2024).**
+
+### Academic & Student Systems
+- **Relationship Management System (RMS):** Official ticket logging module under UMS for hostel maintenance, Electrical Complaints, infrastructure repair, and academic feedback.
+- **Academics & Continuous Assessment:** Real-time CA scores, internal evaluation components, quizzes, and homework tracking under the UMS Academics section.
+- **LPUNEST:** Lovely Professional University National Entrance and Scholarship Test governing merit scholarship criteria.
+- **Freshmen Induction Program:** Orientation ceremony held for incoming first-year students at Shanti Devi Mittal Auditorium and Block 32.
+- **Student Profile Details:** Official registrar records section for personal detail corrections and identity updates.
+
+### Banking & Financial Settlement
+- **Fee Modes:** Online Net Banking, Credit / Debit cards, UPI, and authorized university bank challans (HDFC Bank & PNB).
+- **Payment History & Fee Estimate:** Official statement of fees and Bonafide certificate for Bank Loan applications.
+- **NEFT Refunds:** Direct bank transfer protocol used for caution deposit and security return upon graduation.
+- **Fines & Penalties:** Proctorial, late fee, and discipline ledger accessible under UMS.
+
+### Library & Digital Research Infrastructure
+- **Central Library Operations:** Operational schedule includes regular Sundays (9:00 AM – 6:00 PM). Official closed days are the 3 declared national holidays: Republic Day (Jan 26), Independence Day (Aug 15), and Gandhi Jayanti (Oct 2).
+- **Academic Degree Quotas:** Specific borrowing limits structured for Undergraduate (UG), Postgraduate (PG), and PhD / research scholars.
+- **Digital Resource Databases:** IEEE Xplore, ScienceDirect, Springer, and Scopus accessible remotely via Knimbus / UMS login credentials.
+- **Acquisition Desk:** Book recommendation and donation intake desk located on the 1st Floor of Block 37.
+
+### Residential, Dining & Campus Facilities
+- **Uni-Hotel:** Campus guest house facility situated in Block 34 offering guest rooms for visiting parents.
+- **Catering Options:** Hostel dining options include North Indian, South Indian, and Special catering plans.
+- **Parent Leave Verification:** Automated IVR telephone calls and SMS notifications to registered parental mobile numbers.
+- **Turnstile Security & IDs:** Biometric smart card entry gates requiring valid physical RFID student IDs.
+
+### Transit & Examination Regulations
+- **Transit Network:** Dedicated day-scholar commuter routes covering Jalandhar, Ludhiana, Amritsar, Phagwara, and Kapurthala.
+- **Examination Schedules:** Official Mid-Term Examination (MTE) and End-Term Examination (ETE) timetables released via e-Connect.
+- **Unfair Means Case (UMC):** Formal disciplinary proceeding conducted by the Examination Unfair Means Committee in Block 32 for exam malpractice.

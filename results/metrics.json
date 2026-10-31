@@ -1,6 +1,6 @@
 {
   "split": "test",
-  "evaluated_at": "2026-10-31T16:07:39.527335+00:00",
+  "evaluated_at": "2026-10-31T19:45:20.427782+00:00",
   "num_queries": 144,
   "num_oos": 30,
   "random_seed": 42,
@@ -29,8 +29,8 @@
         0.7372,
         0.8484
       ],
-      "latency_mean_ms": 0.15,
-      "latency_p95_ms": 0.16,
+      "latency_mean_ms": 0.13,
+      "latency_p95_ms": 0.17,
       "threshold_used": 0.24,
       "oos_rejection_rate": 66.67,
       "per_type_top1": {
@@ -49,18 +49,18 @@
         62.48,
         76.39
       ],
-      "top3_acc": 85.42,
+      "top3_acc": 84.72,
       "top3_ci_95": [
-        79.17,
-        90.97
+        78.47,
+        90.28
       ],
-      "mrr": 0.7685,
+      "mrr": 0.7662,
       "mrr_ci_95": [
-        0.706,
-        0.8252
+        0.7025,
+        0.8229
       ],
-      "latency_mean_ms": 0.55,
-      "latency_p95_ms": 0.62,
+      "latency_mean_ms": 0.56,
+      "latency_p95_ms": 0.69,
       "threshold_used": 0.2,
       "oos_rejection_rate": 53.33,
       "per_type_top1": {
@@ -89,8 +89,8 @@
         0.7234,
         0.8368
       ],
-      "latency_mean_ms": 6.49,
-      "latency_p95_ms": 6.78,
+      "latency_mean_ms": 6.71,
+      "latency_p95_ms": 7.97,
       "threshold_used": 0.47,
       "oos_rejection_rate": 80.0,
       "per_type_top1": {
@@ -104,31 +104,31 @@
     },
     "emb_kw": {
       "name": "Embeddings + KW (Ablation)",
-      "top1_acc": 79.86,
+      "top1_acc": 78.47,
       "top1_ci_95": [
-        72.92,
-        86.11
+        71.53,
+        84.72
       ],
       "top3_acc": 91.67,
       "top3_ci_95": [
         87.5,
         95.83
       ],
-      "mrr": 0.8565,
+      "mrr": 0.8472,
       "mrr_ci_95": [
-        0.8067,
-        0.9028
+        0.7986,
+        0.8947
       ],
-      "latency_mean_ms": 6.82,
-      "latency_p95_ms": 9.22,
+      "latency_mean_ms": 6.06,
+      "latency_p95_ms": 7.26,
       "threshold_used": 0.47,
       "oos_rejection_rate": 86.67,
       "per_type_top1": {
-        "hinglish_mixed": 72.22,
+        "hinglish_mixed": 69.44,
         "low_overlap": 66.67,
         "reorder": 100.0,
         "synonym_swap": 82.35,
-        "typo": 96.43,
+        "typo": 92.86,
         "verbose": 100.0
       }
     },
@@ -149,8 +149,8 @@
         0.787,
         0.882
       ],
-      "latency_mean_ms": 7.63,
-      "latency_p95_ms": 8.23,
+      "latency_mean_ms": 7.22,
+      "latency_p95_ms": 7.25,
       "threshold_used": 0.4,
       "oos_rejection_rate": 86.67,
       "per_type_top1": {

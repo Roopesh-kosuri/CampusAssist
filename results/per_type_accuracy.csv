@@ -17,11 +17,11 @@ emb,reorder,9,6,66.67
 emb,synonym_swap,34,19,55.88
 emb,typo,28,27,96.43
 emb,verbose,1,1,100.0
-emb_kw,hinglish_mixed,36,26,72.22
+emb_kw,hinglish_mixed,36,25,69.44
 emb_kw,low_overlap,36,24,66.67
 emb_kw,reorder,9,9,100.0
 emb_kw,synonym_swap,34,28,82.35
-emb_kw,typo,28,27,96.43
+emb_kw,typo,28,26,92.86
 emb_kw,verbose,1,1,100.0
 hyb,hinglish_mixed,36,31,86.11
 hyb,low_overlap,36,20,55.56

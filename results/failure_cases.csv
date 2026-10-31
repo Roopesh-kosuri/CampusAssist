@@ -15,7 +15,7 @@ test,kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta h
 test,kw,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_04,0.1889,What is the tuition fee refund policy if a student withdraws admission?
 test,kw,low_overlap,My roommate has sudden severe chest pain and cannot stand up,hos_10,hos_02,0.1062,What are the evening curfew and hostel gate closing timings?
 test,kw,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_07,0.3187,Is parking facility available for day-scholar personal cars or motorbikes?
-test,kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_03,0.2833,How do newly admitted first-year students collect their official campus ID card?
+test,kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.5967,How much is the fee for a duplicate student ID card and where do I pay it?
 test,kw,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.3643,I lost my university student ID card. What is the immediate replacement procedure?
 test,kw,low_overlap,How many rupees does the security section charge to print a second identity card?,idc_02,idc_01,0.2076,I lost my university student ID card. What is the immediate replacement procedure?
 test,kw,low_overlap,The optical electronic chip in my card beeps red and denies barrier passage,idc_04,idc_02,0.17,How much is the fee for a duplicate student ID card and where do I pay it?
@@ -50,18 +50,18 @@ test,tf,low_overlap,Will my portal access get locked if my payment arrives five 
 test,tf,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.2822,What should I do if money was deducted from my bank but the fee receipt was not generated?
 test,tf,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,idc_10,0.2099,Do final-year students need to surrender their ID cards before graduating?
 test,tf,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_08,0.1286,How do I pay hostel and mess fees for the upcoming academic year?
-test,tf,low_overlap,What is the payment calendar window for booking residence accommodation next year?,fee_08,hos_08,0.1479,How can visitors or parents visit me in the hostel or book guest accommodation?
+test,tf,low_overlap,What is the payment calendar window for booking residence accommodation next year?,fee_08,hos_08,0.1401,How can visitors or parents visit me in the hostel or book guest accommodation?
 test,tf,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.4929,How do I register for reappear or backlog examinations?
 test,tf,reorder,reappear exam fee per subject and how to pay on portal,fee_09,exm_05,0.3098,How do I register for reappear or backlog examinations?
 test,tf,synonym_swap,What is the latest time at night we are permitted to enter our residence block?,hos_02,idc_12,0.2019,Can my ID card be blocked or suspended for disciplinary violations?
 test,tf,low_overlap,After what hour do the security turnstiles lock us out of the dormitory building?,hos_02,lib_01,0.221,What are the central library opening and closing hours?
-test,tf,typo,how to aply for hostal nite out pass on portal,hos_03,trn_02,0.2996,How do I apply for or renew a semester bus pass?
+test,tf,typo,how to aply for hostal nite out pass on portal,hos_03,trn_02,0.1716,How do I apply for or renew a semester bus pass?
 test,tf,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_04,0.1354,What is the tuition fee refund policy if a student withdraws admission?
 test,tf,low_overlap,My roommate has sudden severe chest pain and cannot stand up,hos_10,exm_09,0.1113,How are Continuous Assessment (CA) and internal marks calculated and viewed?
 test,tf,synonym_swap,What telephone extension calls an emergency paramedic vehicle to our hostel block?,hos_10,trn_11,0.1976,What emergency transport is available for injured or unwell students on campus?
 test,tf,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,fee_08,0.0746,How do I pay hostel and mess fees for the upcoming academic year?
 test,tf,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_07,0.2056,Is parking facility available for day-scholar personal cars or motorbikes?
-test,tf,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_07,0.2853,Is it mandatory to wear or display the ID card on campus at all times?
+test,tf,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.3408,How much is the fee for a duplicate student ID card and where do I pay it?
 test,tf,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.2955,I lost my university student ID card. What is the immediate replacement procedure?
 test,tf,low_overlap,How many rupees does the security section charge to print a second identity card?,idc_02,idc_01,0.1994,I lost my university student ID card. What is the immediate replacement procedure?
 test,tf,reorder,where to colect new student id card after admission verification,idc_03,idc_01,0.3511,I lost my university student ID card. What is the immediate replacement procedure?
@@ -134,11 +134,13 @@ test,emb_kw,low_overlap,"I have decided to join an NIT instead, how much deducte
 test,emb_kw,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,trn_09,0.4978,What is the transport fee refund policy if I discontinue the bus service?
 test,emb_kw,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_04,0.4814,What is the tuition fee refund policy if a student withdraws admission?
 test,emb_kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.6435,How do I register for reappear or backlog examinations?
+test,emb_kw,hinglish_mixed,bhai hostel room ka pankha kharab ho gaya kahan complain karu,hos_01,hos_08,0.3797,How can visitors or parents visit me in the hostel or book guest accommodation?
 test,emb_kw,typo,how to registar hostle maintence complant for pluming,hos_01,exm_05,0.3206,How do I register for reappear or backlog examinations?
 test,emb_kw,hinglish_mixed,ghar jane ke liye hostel se leave pass kaise apply kare,hos_03,fee_08,0.3979,How do I pay hostel and mess fees for the upcoming academic year?
 test,emb_kw,hinglish_mixed,hostel room me kettle aur iron use kar sakte hai kya,hos_05,hos_09,0.4301,Where are hostel laundry facilities located and how do I use them?
 test,emb_kw,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,trn_07,0.453,Is parking facility available for day-scholar personal cars or motorbikes?
 test,emb_kw,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_05,0.5757,Are internal campus shuttles or e-rickshaws available inside the university?
+test,emb_kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.5399,How much is the fee for a duplicate student ID card and where do I pay it?
 test,emb_kw,hinglish_mixed,kya mobile me id card ki photo dikha kar hostel ya exam me entry mil sakti hai,idc_05,exm_03,0.4225,How and when can I download my examination admit card or hall ticket?
 test,emb_kw,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.4607,How do newly admitted first-year students collect their official campus ID card?
 test,emb_kw,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,exm_03,0.4958,How and when can I download my examination admit card or hall ticket?
@@ -171,7 +173,7 @@ test,hyb,low_overlap,I have been eating outside for a month and want money credi
 test,hyb,synonym_swap,How do I switch my catering meal plan to a different dining hall?,hos_06,hos_04,0.3192,How do I change my hostel room or room-partner?
 test,hyb,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,idc_03,0.3164,How do newly admitted first-year students collect their official campus ID card?
 test,hyb,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_05,0.4203,Are internal campus shuttles or e-rickshaws available inside the university?
-test,hyb,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_09,0.4078,What should I do if I find someone else's lost ID card on campus?
+test,hyb,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.3972,How much is the fee for a duplicate student ID card and where do I pay it?
 test,hyb,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.5082,I lost my university student ID card. What is the immediate replacement procedure?
 test,hyb,reorder,where to colect new student id card after admission verification,idc_03,idc_01,0.6209,I lost my university student ID card. What is the immediate replacement procedure?
 test,hyb,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.3976,How do newly admitted first-year students collect their official campus ID card?
