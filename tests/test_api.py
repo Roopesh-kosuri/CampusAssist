@@ -134,3 +134,5 @@ def test_get_evaluation(client):
     assert "methods" in data
     assert "split" in data
     assert "thresholds_used" in data
+    assert "failure_cases" in data
+    assert len(data["failure_cases"]) > 0

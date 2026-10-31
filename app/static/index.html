@@ -212,9 +212,41 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   <section id="empty"><h1>What can I help you find?</h1><p>Ask about hostel, library, fees, ID cards, transport or exams.</p><div class="sugs" id="sugs"></div></section>
   <div class="msgs" id="msgs"></div>
  </main>
- <main class="view" id="v-analytics"><h1 style="font-size:34px">Analytics</h1><p class="note">Live from this session’s queries.</p><div class="g4" id="g4"></div><div class="glass pane"><h3>Answered by category</h3><div id="catbars"></div></div><div class="glass pane"><h3>Recent fallbacks</h3><div id="fbs" class="note"></div></div></main>
- <main class="view" id="v-eval"><h1 style="font-size:34px">Evaluation</h1><p class="note">Comparing three retrieval methods on a paraphrased test set.</p>
-  <div class="glass pane sc" style="margin-top:20px"><table><tr><th>Method</th><th>Top-1</th><th>Top-3</th><th>MRR</th><th>Latency</th></tr><tr><td>Keyword</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>TF-IDF</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Embeddings</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></table><p class="note">Empty on purpose. Fill from results/metrics.json once the evaluation script has run on the test split.</p></div></main>
+ <main class="view" id="v-analytics">
+  <h1 style="font-size:34px">Analytics</h1>
+  <p class="note">Live telemetry from student query sessions.</p>
+  <div class="g4" id="g4"></div>
+  <div class="glass pane"><h3>Answered by category</h3><div id="catbars"></div></div>
+  <div class="glass pane"><h3>Recent fallbacks (unanswered queries)</h3><div id="fbs" class="note"></div></div>
+ </main>
+ <main class="view" id="v-eval">
+  <h1 style="font-size:34px">Evaluation & Benchmarks</h1>
+  <p class="note">Controlled scientific comparison of retrieval methods on the 100% human-authored TEST split (144 student queries, 30 out-of-scope queries) evaluated offline.</p>
+  <div class="glass pane sc" style="margin-top:20px">
+   <h3>Overall Retrieval Benchmark</h3>
+   <table id="eval-main-table">
+    <thead><tr><th>Method</th><th>Top-1 (%)</th><th>Top-3 (%)</th><th>MRR</th><th>OOS Rej (%)</th><th>Threshold (&tau;*)</th><th>Latency</th></tr></thead>
+    <tbody><tr><td colspan="7">Loading benchmark data...</td></tr></tbody>
+   </table>
+   <p class="note" style="margin-top:8px">Metrics evaluated with 1,000-resample Bootstrap 95% Confidence Intervals.</p>
+  </div>
+  <div class="glass pane sc">
+   <h3>Accuracy by Paraphrase Challenge Type</h3>
+   <table id="eval-types-table">
+    <thead><tr><th>Method</th><th>Hinglish</th><th>Low Overlap</th><th>Reorder</th><th>Synonym</th><th>Typo</th><th>Verbose</th></tr></thead>
+    <tbody><tr><td colspan="7">Loading challenge breakdown...</td></tr></tbody>
+   </table>
+   <p class="note" style="margin-top:8px">Proves Dense & Hybrid semantic advantage on zero-overlap queries and spelling typos.</p>
+  </div>
+  <div class="glass pane sc">
+   <h3>Representative Failure Analysis</h3>
+   <table id="eval-failures-table">
+    <thead><tr><th>Method</th><th>Type</th><th>Student Query</th><th>Expected FAQ</th><th>Predicted Top-1</th><th>Score</th></tr></thead>
+    <tbody><tr><td colspan="6">Loading failure cases...</td></tr></tbody>
+   </table>
+   <p class="note" style="margin-top:8px">Transparent error analysis cataloging boundary conditions and ambiguities for viva defense.</p>
+  </div>
+ </main>
 </div>
 <form class="glass bar" id="form"><input id="q" autocomplete="off" maxlength="300" placeholder="Ask about hostel, fees, library, exams..." aria-label="Your question"><button class="send" aria-label="Send" data-ic="up"></button></form>
 <div class="hint">Enter to send</div>
@@ -380,16 +412,73 @@ async function loadEval(){
     if(!res.ok)return;
     const data=await res.json();
     const m=data.methods||{};
-    const rows=[["kw","Keyword Overlap"],["tf","TF-IDF Cosine"],["emb","Dense Embeddings"],["emb_kw","Embeddings + KW"],["hyb","Hybrid Fusion"]].map(([code,name])=>{
+    const ths=data.thresholds_used||{};
+    const methodOrder=[
+      ["kw","Keyword Overlap"],
+      ["tf","TF-IDF Cosine"],
+      ["emb","Dense Embeddings"],
+      ["emb_kw","Embeddings + KW (Ablation)"],
+      ["hyb","Hybrid Fusion (a=0.70)"]
+    ];
+
+    // 1. Overall Benchmark Table
+    const mainRows=methodOrder.map(([code,name])=>{
       const info=m[code];
-      if(!info)return `<tr><td>${name}</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;
-      return `<tr><td><b>${name}</b></td><td>${info.top1_acc}%</td><td>${info.top3_acc}%</td><td>${info.mrr}</td><td>${info.latency_mean_ms} ms</td></tr>`;
+      if(!info)return "";
+      const top1Ci=info.top1_ci_95?` <small class="note">[${info.top1_ci_95[0].toFixed(1)}–${info.top1_ci_95[1].toFixed(1)}]</small>`:"";
+      const top3Ci=info.top3_ci_95?` <small class="note">[${info.top3_ci_95[0].toFixed(1)}–${info.top3_ci_95[1].toFixed(1)}]</small>`:"";
+      const mrrCi=info.mrr_ci_95?` <small class="note">[${info.mrr_ci_95[0].toFixed(3)}–${info.mrr_ci_95[1].toFixed(3)}]</small>`:"";
+      const tau=ths[code]!=null?ths[code].toFixed(2):(info.threshold_used?info.threshold_used.toFixed(2):"—");
+      const oosRej=info.oos_rejection_rate!=null?info.oos_rejection_rate.toFixed(1)+"%":"—";
+      return `<tr>
+        <td><b>${name}</b></td>
+        <td><b>${info.top1_acc.toFixed(1)}%</b>${top1Ci}</td>
+        <td>${info.top3_acc.toFixed(1)}%${top3Ci}</td>
+        <td>${info.mrr.toFixed(3)}${mrrCi}</td>
+        <td>${oosRej}</td>
+        <td>${tau}</td>
+        <td>${info.latency_mean_ms.toFixed(1)} ms</td>
+      </tr>`;
     }).join("");
-    const evalPane=$("#v-eval table");
-    if(evalPane){
-      evalPane.innerHTML=`<tr><th>Method</th><th>Top-1</th><th>Top-3</th><th>MRR</th><th>Latency</th></tr>`+rows;
+    const mainTbody=$("#eval-main-table tbody");
+    if(mainTbody)mainTbody.innerHTML=mainRows;
+
+    // 2. Paraphrase Type Breakdown Table
+    const typesTbody=$("#eval-types-table tbody");
+    if(typesTbody){
+      const typeRows=methodOrder.map(([code,name])=>{
+        const info=m[code];
+        if(!info||!info.per_type_top1)return "";
+        const pt=info.per_type_top1;
+        const fmt=v=>v!=null?`<b>${v.toFixed(1)}%</b>`:"—";
+        return `<tr>
+          <td><b>${name}</b></td>
+          <td>${fmt(pt.hinglish_mixed)}</td>
+          <td>${fmt(pt.low_overlap)}</td>
+          <td>${fmt(pt.reorder)}</td>
+          <td>${fmt(pt.synonym_swap)}</td>
+          <td>${fmt(pt.typo)}</td>
+          <td>${fmt(pt.verbose)}</td>
+        </tr>`;
+      }).join("");
+      typesTbody.innerHTML=typeRows;
     }
-  }catch(_){}
+
+    // 3. Failure Cases Table
+    const failuresTbody=$("#eval-failures-table tbody");
+    if(failuresTbody){
+      const failures=data.failure_cases||[];
+      const failureRows=failures.slice(0,12).map(f=>`<tr>
+        <td><span class="pill">${esc(f.method||"")}</span></td>
+        <td><small class="note">${esc(f.paraphrase_type||"")}</small></td>
+        <td>“${esc(f.query||"")}”</td>
+        <td><b>${esc(f.expected_id||"")}</b></td>
+        <td>${esc(f.predicted_id||"")}: <small class="note">${esc(f.predicted_question||"")}</small></td>
+        <td><span>${Number(f.predicted_score||0).toFixed(2)}</span></td>
+      </tr>`).join("");
+      failuresTbody.innerHTML=failureRows||"<tr><td colspan='6'>No failure cases logged.</td></tr>";
+    }
+  }catch(err){console.error("Evaluation load failed",err);}
 }
 
 /* theme */

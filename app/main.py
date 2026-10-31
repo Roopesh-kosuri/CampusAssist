@@ -22,6 +22,7 @@ from src.config import (
     FAQS_PATH,
     METRICS_PATH,
     THRESHOLDS_PATH,
+    FAILURE_CASES_PATH,
     CATEGORIES,
     APP_DIR,
 )
@@ -307,4 +308,15 @@ def handle_evaluation():
     if not METRICS_PATH.exists():
         raise HTTPException(status_code=404, detail="Evaluation results not yet generated. Run evaluate.py first.")
     with open(METRICS_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+
+    # Attach sample failure cases for viva defense error analysis
+    failure_cases = []
+    if FAILURE_CASES_PATH.exists():
+        import csv
+        with open(FAILURE_CASES_PATH, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            failure_cases = list(reader)[:15]
+
+    data["failure_cases"] = failure_cases
+    return data
