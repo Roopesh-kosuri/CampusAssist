@@ -247,3 +247,26 @@ python -m src.llm.evaluate_grounding
 * **Vector Index**: Facebook AI Similarity Search (FAISS-CPU) under MIT license.
 * **LLM Layer**: Optional conversational rewrite via Groq SDK (`qwen/qwen3.8-27b`). Groq is **never used for retrieval or matching**; retrieval is 100% offline, deterministic, and self-hosted.
 * **Student Privacy**: All phone numbers, emails, and student registration numbers are redacted before logging or processing.
+
+---
+
+## 9. Mobile PWA, Vercel & Desktop Apps
+
+### Progressive Web App (PWA)
+CampusAssist is an installable PWA featuring offline shell caching via Service Worker and native-like mobile ergonomics:
+- **Mobile Installation**: Tap **Install Mobile App** in the drawer or add to Home Screen from Safari / Chrome.
+- **Offline Shell**: `service-worker.js` pre-caches the user interface for instant startup.
+
+### Vercel Deployment
+To deploy the web app to Vercel:
+```bash
+# Deploy with Vercel CLI
+vercel deploy --prod
+```
+The included `vercel.json` and `api/index.py` handle serverless Python execution and static asset routing automatically.
+
+### Windows Desktop Executable (.exe)
+CampusAssist is packaged as a native desktop application using Electron and `electron-builder`:
+- **Portable Binary**: `desktop/dist/CampusAssist-Portable-1.0.0.exe` (Run directly without installation)
+- **Installer**: `desktop/dist/CampusAssist Setup 1.0.0.exe` (Full Windows NSIS installer)
+- **Web Download**: Click **"Download Windows App (.exe)"** in the pinned sidebar or navigate to `http://localhost:8000/downloads/CampusAssist-Portable.exe`.
