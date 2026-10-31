@@ -1,0 +1,278 @@
+"""FastAPI Application for CampusAssist - LPU Campus FAQ Chatbot.
+
+Provides REST API endpoints for configuration, query processing, student feedback,
+analytics telemetry, and model evaluation metrics. Serves the Liquid Glass web UI.
+"""
+import json
+import os
+import re
+import time
+from contextlib import asynccontextmanager
+from pathlib import Path
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+
+# Offline guarantees
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+
+from src.config import (
+    FAQS_PATH,
+    METRICS_PATH,
+    THRESHOLDS_PATH,
+    CATEGORIES,
+    APP_DIR,
+)
+from src.validate_data import load_faqs
+from src.privacy import redact_pii
+from src.analytics import log_query, record_feedback, get_analytics, init_db
+from src.fallback import FallbackRouter
+from src.retrievers.keyword import KeywordRetriever
+from src.retrievers.tfidf import TfidfRetriever
+from src.retrievers.embedding import EmbeddingRetriever
+from src.retrievers.hybrid import HybridRetriever
+from app.schemas import (
+    ConfigResponse,
+    MethodInfo,
+    QueryRequest,
+    QueryResponse,
+    MatchedFaq,
+    FeedbackRequest,
+    FeedbackResponse,
+)
+
+# Global engine registry
+engines = {}
+fallback_router = None
+faqs_data = []
+
+METHOD_NORMALIZATION = {
+    "keyword": "kw",
+    "kw": "kw",
+    "tfidf": "tf",
+    "tf": "tf",
+    "embedding": "emb",
+    "emb": "emb",
+    "emb_kw": "emb_kw",
+    "hybrid": "hyb",
+    "hyb": "hyb",
+}
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize SQLite DB, load FAQ data, and fit all retrieval engines on startup."""
+    global engines, fallback_router, faqs_data
+    init_db()
+
+    # Load canonical FAQs
+    faqs_data = load_faqs(FAQS_PATH)
+
+    # Initialize FallbackRouter
+    fallback_router = FallbackRouter()
+    fallback_router.reload_thresholds()
+
+    # Fit retrievers
+    kw = KeywordRetriever()
+    kw.fit(faqs_data)
+
+    tf = TfidfRetriever()
+    tf.fit(faqs_data)
+
+    emb = EmbeddingRetriever(include_keywords=False)
+    emb.fit(faqs_data)
+
+    emb_kw = EmbeddingRetriever(include_keywords=True)
+    emb_kw.fit(faqs_data)
+
+    hyb = HybridRetriever(alpha=0.70)
+    hyb.fit(faqs_data)
+
+    engines = {
+        "kw": kw,
+        "tf": tf,
+        "emb": emb,
+        "emb_kw": emb_kw,
+        "hyb": hyb,
+    }
+    yield
+    engines.clear()
+
+
+app = FastAPI(
+    title="CampusAssist API",
+    description="Campus Service Chatbot with Semantic FAQ Matching for Lovely Professional University",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+# Enable CORS for local development and testing
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Static files mount
+static_dir = APP_DIR / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint."""
+    return {"status": "ok", "retrievers_loaded": len(engines) > 0}
+
+
+@app.get("/", response_class=FileResponse)
+def serve_index():
+    """Serve the Liquid Glass web interface."""
+    index_file = APP_DIR / "static" / "index.html"
+    if not index_file.exists():
+        raise HTTPException(status_code=404, detail="UI index.html not found")
+    return FileResponse(index_file)
+
+
+@app.get("/api/config", response_model=ConfigResponse)
+def get_config():
+    """Return configured methods, categories, thresholds, and Groq status."""
+    fallback_router.reload_thresholds()
+    groq_enabled = bool(os.environ.get("GROQ_API_KEY"))
+
+    methods = [
+        MethodInfo(id="hyb", name="Hybrid Fusion", desc="Weighted combination of lexical and dense retrieval (alpha=0.70)"),
+        MethodInfo(id="emb", name="Semantic Embeddings", desc="Dense semantic vector matching using all-MiniLM-L6-v2"),
+        MethodInfo(id="tf", name="TF-IDF Cosine", desc="Sublinear TF-IDF term weighting with cosine similarity"),
+        MethodInfo(id="kw", name="Keyword Overlap", desc="Exact word overlap and Hinglish campus token mapping"),
+    ]
+
+    return ConfigResponse(
+        thresholds=fallback_router.thresholds,
+        methods=methods,
+        categories=CATEGORIES,
+        groq_enabled=groq_enabled,
+    )
+
+
+@app.post("/api/query", response_model=QueryResponse)
+def handle_query(req: QueryRequest):
+    """Handle student query with input validation, PII redaction, retrieval, threshold gating, and fallback routing."""
+    start_time = time.perf_counter()
+
+    raw_query = req.query.strip()
+    # Guardrail 1: Control character stripping
+    cleaned_query = re.sub(r"[\x00-\x1f\x7f-\x9f]", " ", raw_query).strip()
+    if not cleaned_query:
+        raise HTTPException(status_code=400, detail="Query cannot be empty")
+
+    if len(cleaned_query) > 300:
+        raise HTTPException(status_code=400, detail="Query exceeds maximum length of 300 characters")
+
+    # Guardrail 2: PII Redaction
+    sanitized_query, _ = redact_pii(cleaned_query)
+
+    # Normalize method
+    method_code = METHOD_NORMALIZATION.get(req.method.lower(), "hyb")
+    retriever = engines.get(method_code, engines.get("hyb"))
+    if not retriever:
+        raise HTTPException(status_code=500, detail="Retrieval engine not initialized")
+
+    category_filter = req.category if req.category in CATEGORIES else "All"
+
+    # Query retriever
+    top_candidates = retriever.query(sanitized_query, top_k=3, category=category_filter)
+
+    top_score = top_candidates[0]["score"] if top_candidates else 0.0
+    active_threshold = fallback_router.get_threshold(method_code)
+    is_fallback = fallback_router.should_fallback(top_score, method_code)
+
+    matched_faq = None
+    answer_original = None
+    answer_polished = None
+    polished = False
+    matched_faq_id = None
+
+    if is_fallback or not top_candidates:
+        department_contact = fallback_router.get_department_contact(category_filter)
+    else:
+        top_cand = top_candidates[0]
+        matched_faq_id = top_cand["id"]
+        matched_faq = MatchedFaq(
+            id=top_cand["id"],
+            question=top_cand["question"],
+            category=top_cand["category"]
+        )
+        answer_original = top_cand["answer"]
+        department_contact = top_cand.get("department_contact") or fallback_router.get_department_contact(top_cand["category"])
+
+    latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+
+    # Log telemetry to SQLite
+    query_id = log_query(
+        query=sanitized_query,
+        method=method_code,
+        category_filter=category_filter,
+        matched_faq_id=matched_faq_id,
+        score=top_score,
+        threshold_used=active_threshold,
+        fallback=is_fallback,
+        polished=polished,
+        groq_latency_ms=None,
+        groq_failed=False,
+        latency_ms=latency_ms,
+    )
+
+    # Prepare candidate top3 list for explainability
+    top3_formatted = [
+        {
+            "id": c["id"],
+            "question": c["question"],
+            "score": round(c["score"], 4),
+            "category": c.get("category", "")
+        }
+        for c in top_candidates[:3]
+    ]
+
+    return QueryResponse(
+        query_id=query_id,
+        fallback=is_fallback,
+        confidence=round(top_score, 4),
+        threshold=round(active_threshold, 4),
+        method=method_code,
+        matched_faq=matched_faq,
+        answer_original=answer_original,
+        answer_polished=answer_polished,
+        polished=polished,
+        department_contact=department_contact,
+        top3=top3_formatted,
+        latency_ms=latency_ms,
+    )
+
+
+@app.post("/api/feedback", response_model=FeedbackResponse)
+def handle_feedback(req: FeedbackRequest):
+    """Record student feedback (thumbs-up / thumbs-down) for a specific query ID."""
+    success = record_feedback(query_id=req.query_id, helpful=req.helpful)
+    if not success:
+        raise HTTPException(status_code=404, detail=f"Query ID {req.query_id} not found")
+    return FeedbackResponse(status="ok")
+
+
+@app.get("/api/analytics")
+def handle_analytics():
+    """Return aggregated query logs, confidence metrics, and fallback stats."""
+    return get_analytics()
+
+
+@app.get("/api/evaluation")
+def handle_evaluation():
+    """Return offline evaluation benchmark results and metrics from results/metrics.json."""
+    if not METRICS_PATH.exists():
+        raise HTTPException(status_code=404, detail="Evaluation results not yet generated. Run evaluate.py first.")
+    with open(METRICS_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)

@@ -225,61 +225,116 @@ const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 1
 const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-/* DEMO DATA: placeholders only. Replace bracketed items with verified LPU facts. */
-const FAQ=[
-["Hostel","How do I register a hostel maintenance complaint?","Raise it on [hostel complaint portal] or at the warden’s office with your room number and a short description. You’ll get a complaint ID to track it.","repair fix broken fan plumbing electrician room"],
-["Hostel","What are the hostel gate closing timings?","Hostel gates close at [gate closing time]. Late entry needs prior permission from the warden.","curfew entry late lock in-time"],
-["Library","What are the library opening and closing times?","The library is open from [opening time] to [closing time] on working days. During exams the timings are [exam-period timings].","hours timing schedule open shut close"],
-["Library","How can I issue or renew a book?","Issue books at the circulation desk with your ID card. Renew before the due date on [library portal] or at the desk.","borrow return due extend"],
-["Fees","How do I pay my semester fee?","Pay online through [fee payment portal] or at the accounts counter. Keep the receipt for future reference.","tuition dues installment payment online challan"],
-["Fees","What happens if I miss the fee deadline?","A late fee of [late fee amount] may apply after [deadline]. Contact [accounts office] if you need an extension.","late penalty fine delay overdue"],
-["ID Card","I lost my ID card. What should I do?","Report the loss at [ID card office] and apply for a duplicate. A replacement fee of [fee amount] may apply.","misplaced missing stolen duplicate replacement reissue"],
-["ID Card","How do I get a new ID card as a first-year student?","New cards are issued after document verification at [ID card office]. Carry [required documents].","first year new apply"],
-["Transport","What are the campus bus timings?","Bus routes and timings are listed at [transport office / portal].","shuttle schedule route pickup drop vehicle"],
-["Transport","How do I apply for a transport pass?","Apply at [transport office] with your ID card and the [pass fee amount].","bus pass subscription monthly"],
-["Exams","Where can I find my exam date sheet?","The date sheet is published on [student portal]. Check it regularly, as dates can change.","datesheet schedule timetable examination test"],
-["Exams","How do I apply for exam re-evaluation?","Submit a request on [student portal] before [deadline] and pay [re-evaluation fee].","recheck revaluation marks result retotal reappear"]
-].map(([cat,q,a,kw],i)=>({id:i,cat,q,a,kw}));
 const CATS=["All","Hostel","Library","Fees","ID Card","Transport","Exams"];
-const SUG=["My room fan is broken, who do I tell?","When does the library shut?","How do I pay my tuition?","I misplaced my ID card","Where can I check bus timings?","Where do I see my exam dates?"];
-const METHODS=[["kw","Keyword","Exact word overlap"],["tf","TF-IDF","Weighted term cosine"],["emb","Semantic Embeddings","Matches by meaning"]];
-const MN=Object.fromEntries(METHODS.map(m=>[m[0],m[1]]));
-const TH=0.72;
+const SUG=["How do I register a hostel maintenance complaint?","When does the library shut?","How do I pay my semester fee?","I lost my ID card, what to do?","What are the campus bus timings?","Where can I find my exam date sheet?"];
+let METHODS=[["hyb","Hybrid Fusion","Lexical + dense combination"],["emb","Semantic Embeddings","Matches by meaning (MiniLM)"],["tf","TF-IDF","Weighted term cosine"],["kw","Keyword","Exact word overlap"]];
+let MN=Object.fromEntries(METHODS.map(m=>[m[0],m[1]]));
 
-/* DEMO RETRIEVAL: stand-in for the real backend. Swap search() for fetch("/api/query") and polish() for the Groq call. */
-const STOP=new Set("the a an is are do does did i my me to of for in on at it and or with from what how can should be this that there any will you your".split(" "));
-const MAP={};"shut close closing closes closed end|time timing timings hours schedule when open opening|lost misplaced missing stolen|card id|fix repair broken complaint problem|pay payment paid fee fees dues tuition|late delay overdue miss missed deadline|bus shuttle transport vehicle|exam exams examination test datesheet|recheck reevaluation revaluation marks|borrow lend|renew extend|hostel room dorm warden".split("|").forEach((g,i)=>g.split(" ").forEach(w=>MAP[w]="g"+i));
-const tok=(s,syn)=>s.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w&&!STOP.has(w)).map(w=>(syn&&MAP[w])||(w.length>4?w.replace(/(ing|es|ed|s)$/,""):w));
-FAQ.forEach(f=>f.t={kw:tok(f.q),tf:tok(f.q+" "+f.kw),emb:tok(f.q+" "+f.kw,1)});
-const IDF={};["kw","tf","emb"].forEach(m=>{const df={};FAQ.forEach(f=>new Set(f.t[m]).forEach(w=>df[w]=(df[w]||0)+1));IDF[m]={};for(const w in df)IDF[m][w]=Math.log((FAQ.length+1)/(df[w]+1))+1});
-function vec(t,m){const v={};(m==="kw"?[...new Set(t)]:t).forEach(w=>v[w]=(v[w]||0)+(m==="kw"?1:IDF[m][w]||1));return v}
-function cos(a,b){let d=0,x=0,y=0;for(const k in a){x+=a[k]*a[k];if(b[k])d+=a[k]*b[k]}for(const k in b)y+=b[k]*b[k];return x&&y?d/Math.sqrt(x*y):0}
-function search(text){const m=state.method,qv=vec(tok(text,m==="emb"),m);
- return FAQ.filter(f=>state.cat==="All"||f.cat===state.cat).map(f=>({f,s:Math.sqrt(cos(qv,vec(f.t[m],m)))})).sort((a,b)=>b.s-a.s).slice(0,3)}
-const polish=a=>"Here’s what the FAQ says: "+a;
-
-const state={method:"emb",cat:"All",polish:true,view:"chat",log:[]},M=[];
+const state={method:"hyb",cat:"All",polish:true,view:"chat",thresholds:{}},M=[];
 function ring(p){const c=p>=.85?"var(--ok)":"var(--ct)";return `<svg width="18" height="18" viewBox="0 0 36 36" style="transform:rotate(-90deg)"><circle cx="18" cy="18" r="14" fill="none" stroke="var(--ln)" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${p*88} 88"/></svg>`}
-const cands=t=>`<div class="cd">${t.map(c=>`<div class="row"><b>${esc(c.f.q)}</b><span>${c.s.toFixed(2)}</span></div><div class="bar2"><i style="width:${Math.round(c.s*100)}%"></i></div>`).join("")}</div>`;
-function cardHTML(m){const pct=Math.round(m.s*100);return `<div class="glass card-a" data-i="${m.i}"><p class="ans">${m.pol?polish(m.f.a):m.f.a}</p><p class="src">Matched FAQ: “${m.f.q}”</p><div class="badges"><span class="pill ok">${ring(m.s)}${pct}%</span><span class="pill">${MN[m.method]}</span><span class="pill">${m.f.cat}</span>${m.pol?`<span class="pill">AI-polished · <button class="lnk" data-act="orig">Show original FAQ answer</button></span>`:""}</div><details class="why"><summary>Why this answer?${ic("chev",16)}</summary>${cands(m.top)}</details><div class="acts"><span><button class="ib" data-act="up" aria-label="Helpful">${ic("tu",17)}</button><button class="ib flip" data-act="down" aria-label="Not helpful">${ic("tu",17)}</button></span><button class="lnk" data-act="copy">${ic("copy",15)}Copy</button></div></div>`}
-const fbHTML=m=>`<div class="amb" data-i="${m.i}"><h3>I’m not sure about that one</h3><p>I couldn’t find a close enough match in the campus FAQ.</p><p class="dc">[Department contact]</p><button class="lnk" data-act="closest">Show closest matches anyway</button><div class="cl" hidden>${cands(m.top)}</div></div>`;
+const cands=t=>`<div class="cd">${(t||[]).map(c=>`<div class="row"><b>${esc(c.question||(c.f&&c.f.q)||"")}</b><span>${Number(c.score||c.s||0).toFixed(2)}</span></div><div class="bar2"><i style="width:${Math.round(Number(c.score||c.s||0)*100)}%"></i></div>`).join("")}</div>`;
+
+function cardHTML(m){
+  const pct=Math.round(m.s*100);
+  const activeAnswer=m.pol&&m.ans_pol&&!m.showOrig?m.ans_pol:(m.ans_orig||"");
+  const canTogglePolish=m.pol&&m.ans_pol;
+  return `<div class="glass card-a" data-i="${m.i}">
+    <p class="ans">${esc(activeAnswer)}</p>
+    <p class="src">Matched FAQ: “${esc(m.f?m.f.question:"")}”</p>
+    <div class="badges">
+      <span class="pill ok">${ring(m.s)}${pct}%</span>
+      <span class="pill">${MN[m.method]||m.method}</span>
+      <span class="pill">${m.f?m.f.category:state.cat}</span>
+      ${canTogglePolish?`<span class="pill">AI-polished · <button class="lnk" data-act="orig">${m.showOrig?"Show AI-polished answer":"Show original FAQ answer"}</button></span>`:""}
+    </div>
+    <details class="why"><summary>Why this answer?${ic("chev",16)}</summary>${cands(m.top)}</details>
+    <div class="acts"><span><button class="ib" data-act="up" aria-label="Helpful">${ic("tu",17)}</button><button class="ib flip" data-act="down" aria-label="Not helpful">${ic("tu",17)}</button></span><button class="lnk" data-act="copy">${ic("copy",15)}Copy</button></div>
+  </div>`;
+}
+
+const fbHTML=m=>`<div class="amb" data-i="${m.i}">
+  <h3>I’m not sure about that one</h3>
+  <p>I couldn’t find a close enough match in the campus FAQ (confidence: ${(m.s*100).toFixed(0)}%, threshold: ${(m.th*100).toFixed(0)}%).</p>
+  <p class="dc">Department Contact: <b>${esc(m.contact||"LPU Student Helpdesk")}</b></p>
+  <button class="lnk" data-act="closest">Show closest matches anyway</button>
+  <div class="cl" hidden>${cands(m.top)}</div>
+</div>`;
+
 const msgs=$("#msgs"),scroll=()=>setTimeout(()=>window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}),30);
-function ask(t){t=t.trim().slice(0,300);if(!t)return;$("#empty").hidden=true;if(!msgs.children.length)$("#ttl").textContent=t.length>46?t.slice(0,46)+"…":t;
- const u=document.createElement("div");u.className="u";u.textContent=t;msgs.append(u);
- const sk=document.createElement("div");sk.className="glass sk";sk.innerHTML="<i></i><i></i><i></i>";msgs.append(sk);scroll();
- setTimeout(()=>{sk.remove();const top=search(t),b=top[0],fb=!b||b.s<TH;
-  const L={q:t,method:state.method,cat:b&&!fb?b.f.cat:null,s:b?b.s:0,fb,h:null};state.log.push(L);
-  const m={i:M.length,f:b&&b.f,s:L.s,top,fb,L,method:state.method,pol:state.polish,show:false};M.push(m);
-  msgs.insertAdjacentHTML("beforeend",fb?fbHTML(m):cardHTML(m));scroll()},450)}
-msgs.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const c=b.closest("[data-i]"),m=M[c.dataset.i],a=b.dataset.act;
- if(a==="orig"){m.show=!m.show;c.querySelector(".ans").textContent=m.show?m.f.a:polish(m.f.a);b.textContent=m.show?"Show AI-polished answer":"Show original FAQ answer"}
- else if(a==="closest"){c.querySelector(".cl").hidden=false;b.remove()}
- else if(a==="copy"){try{navigator.clipboard.writeText(c.querySelector(".ans").textContent)}catch(_){}b.lastChild.textContent="Copied";setTimeout(()=>b.lastChild.textContent="Copy",1500)}
- else{const up=a==="up";m.L.h=m.L.h===up?null:up;c.querySelectorAll("[data-act=up],[data-act=down]").forEach(x=>x.classList.remove("on"));if(m.L.h!==null)b.classList.add("on")}});
+
+async function ask(t){
+  t=t.trim().slice(0,300);if(!t)return;$("#empty").hidden=true;
+  if(!msgs.children.length)$("#ttl").textContent=t.length>46?t.slice(0,46)+"…":t;
+  const u=document.createElement("div");u.className="u";u.textContent=t;msgs.append(u);
+  const sk=document.createElement("div");sk.className="glass sk";sk.innerHTML="<i></i><i></i><i></i>";msgs.append(sk);scroll();
+  try{
+    const res=await fetch("/api/query",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({query:t,method:state.method,category:state.cat,polish:state.polish})
+    });
+    const data=await res.json();
+    sk.remove();
+    if(!res.ok){
+      const errDiv=document.createElement("div");errDiv.className="amb";
+      errDiv.innerHTML=`<h3>Error</h3><p>${esc(data.detail||"Request failed")}</p>`;
+      msgs.append(errDiv);scroll();return;
+    }
+    const m={
+      i:M.length,qid:data.query_id,f:data.matched_faq,s:data.confidence,th:data.threshold,
+      ans_orig:data.answer_original,ans_pol:data.answer_polished,pol:data.polished,
+      fb:data.fallback,contact:data.department_contact,top:data.top3,method:data.method,showOrig:false
+    };
+    M.push(m);
+    msgs.insertAdjacentHTML("beforeend",m.fb?fbHTML(m):cardHTML(m));scroll();
+  }catch(err){
+    sk.remove();
+    const errDiv=document.createElement("div");errDiv.className="amb";
+    errDiv.innerHTML=`<h3>Network Error</h3><p>${esc(err.message||"Failed to reach server")}</p>`;
+    msgs.append(errDiv);scroll();
+  }
+}
+
+msgs.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const c=b.closest("[data-i]"),m=M[c.dataset.i],a=b.dataset.act;
+  if(a==="orig"){
+    m.showOrig=!m.showOrig;
+    c.querySelector(".ans").textContent=m.showOrig?m.ans_orig:m.ans_pol;
+    b.textContent=m.showOrig?"Show AI-polished answer":"Show original FAQ answer";
+  }else if(a==="closest"){
+    c.querySelector(".cl").hidden=false;b.remove();
+  }else if(a==="copy"){
+    try{navigator.clipboard.writeText(c.querySelector(".ans").textContent)}catch(_){}
+    b.lastChild.textContent="Copied";setTimeout(()=>b.lastChild.textContent="Copy",1500);
+  }else if(a==="up"||a==="down"){
+    const isUp=a==="up";const already=b.classList.contains("on");
+    c.querySelectorAll("[data-act=up],[data-act=down]").forEach(x=>x.classList.remove("on"));
+    if(!already){
+      b.classList.add("on");
+      if(m&&m.qid){
+        try{
+          await fetch("/api/feedback",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({query_id:m.qid,helpful:isUp})
+          });
+        }catch(_){}
+      }
+    }
+  }
+});
 
 /* sidebar + chrome */
-function drawSide(){$("#methods").innerHTML=METHODS.map(([k,n,d])=>`<button class="opt ${k===state.method?"on":""}" data-m="${k}" role="radio" aria-checked="${k===state.method}"><span><b>${n}</b><small>${d}</small></span><span class="r">${k===state.method?ic("ok",13):""}</span></button>`).join("");
- $("#cats").innerHTML=CATS.map(c=>`<button class="chip ${c===state.cat?"on":""}" data-c="${c}">${c}</button>`).join("");$("#mchip").textContent=MN[state.method]}
+function drawSide(){
+  $("#methods").innerHTML=METHODS.map(([k,n,d])=>`<button class="opt ${k===state.method?"on":""}" data-m="${k}" role="radio" aria-checked="${k===state.method}"><span><b>${n}</b><small>${d}</small></span><span class="r">${k===state.method?ic("ok",13):""}</span></button>`).join("");
+  $("#cats").innerHTML=CATS.map(c=>`<button class="chip ${c===state.cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+  $("#mchip").textContent=MN[state.method]||state.method;
+  const curTh=state.thresholds[state.method];
+  $("#thv").textContent=curTh==null?"—":curTh.toFixed(2);
+  $("#thb").style.width=curTh==null?"0%":Math.round(curTh*100)+"%";
+}
+
 $("#methods").onclick=e=>{const b=e.target.closest("[data-m]");if(b){state.method=b.dataset.m;drawSide()}};
 $("#cats").onclick=e=>{const b=e.target.closest("[data-c]");if(b){state.cat=b.dataset.c;drawSide()}};
 $("#polish").onclick=e=>{state.polish=!state.polish;e.currentTarget.classList.toggle("on",state.polish);e.currentTarget.setAttribute("aria-checked",state.polish)};
@@ -289,30 +344,76 @@ $("#hamb").onclick=()=>side(true);$("#scrim").onclick=()=>side(false);
 $("#form").onsubmit=e=>{e.preventDefault();const i=$("#q");ask(i.value);i.value=""};
 $("#sugs").innerHTML=SUG.map((s,i)=>`<button class="glass sug" data-q="${i}"><small>${CATS[i+1]}</small><span>${s}</span></button>`).join("");
 $("#sugs").onclick=e=>{const b=e.target.closest("[data-q]");if(b)ask(SUG[b.dataset.q])};
-$("#thv").textContent=TH.toFixed(2);$("#thb").style.width=TH*100+"%";
 document.querySelectorAll("[data-ic]").forEach(el=>el.innerHTML=ic(el.dataset.ic,el.classList.contains("send")?20:18));
 
 /* views */
 const VIEWS=[["chat","Chat","chat"],["analytics","Analytics","chart"],["eval","Evaluation","eval"]];
 $("#seg").innerHTML='<i class="ind"></i>'+VIEWS.map(v=>`<button data-v="${v[0]}">${v[1]}</button>`).join("");
 $("#tabbar").innerHTML=VIEWS.map(v=>`<button data-v="${v[0]}">${ic(v[2],22)}${v[1]}</button>`).join("");
-function setView(v){state.view=v;document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
- document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#seg").style.setProperty("--i",VIEWS.findIndex(x=>x[0]===v));
- $("#form").hidden=document.querySelector(".hint").hidden=v!=="chat";if(v==="analytics")stats();window.scrollTo(0,0)}
+function setView(v){
+  state.view=v;document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
+  document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#seg").style.setProperty("--i",VIEWS.findIndex(x=>x[0]===v));
+  $("#form").hidden=document.querySelector(".hint").hidden=v!=="chat";
+  if(v==="analytics")stats();
+  if(v==="eval")loadEval();
+  window.scrollTo(0,0);
+}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(b)setView(b.dataset.v)});
-function stats(){const L=state.log,n=L.length,fb=L.filter(x=>x.fb),ok=L.filter(x=>!x.fb),r=L.filter(x=>x.h!==null);
- const cards=[["Total queries",n],["Fallback rate",n?Math.round(fb.length/n*100)+"%":"—"],["Avg confidence",ok.length?Math.round(ok.reduce((a,x)=>a+x.s,0)/ok.length*100)+"%":"—"],["Helpful",r.length?Math.round(r.filter(x=>x.h).length/r.length*100)+"%":"—"]];
- $("#g4").innerHTML=cards.map(c=>`<div class="glass mc"><small>${c[0]}</small><b>${c[1]}</b></div>`).join("");
- const mx=Math.max(1,...CATS.slice(1).map(c=>ok.filter(x=>x.cat===c).length));
- $("#catbars").innerHTML=ok.length?CATS.slice(1).map(c=>{const k=ok.filter(x=>x.cat===c).length;return `<div class="row note"><span>${c}</span><span>${k}</span></div><div class="bar2"><i style="width:${k/mx*100}%"></i></div>`}).join(""):"No answered queries yet.";
- $("#fbs").innerHTML=fb.length?fb.slice(-5).reverse().map(x=>`<p>${esc(x.q)}</p>`).join(""):"None yet."}
+
+async function stats(){
+  try{
+    const res=await fetch("/api/analytics");
+    if(!res.ok)return;
+    const data=await res.json();
+    const cards=[["Total queries",data.total_queries],["Fallback rate",data.fallback_rate+"%"],["Avg confidence",data.avg_confidence+"%"],["Helpful",data.helpful_percent+"%"]];
+    $("#g4").innerHTML=cards.map(c=>`<div class="glass mc"><small>${c[0]}</small><b>${c[1]}</b></div>`).join("");
+    const bc=data.by_category||{};const catsList=CATS.slice(1);
+    const mx=Math.max(1,...catsList.map(c=>bc[c]||0));
+    $("#catbars").innerHTML=catsList.map(c=>{const k=bc[c]||0;return `<div class="row note"><span>${c}</span><span>${k}</span></div><div class="bar2"><i style="width:${k/mx*100}%"></i></div>`}).join("");
+    $("#fbs").innerHTML=(data.recent_fallbacks&&data.recent_fallbacks.length)?data.recent_fallbacks.map(q=>`<p>${esc(q)}</p>`).join(""):"None yet.";
+  }catch(_){}
+}
+
+async function loadEval(){
+  try{
+    const res=await fetch("/api/evaluation");
+    if(!res.ok)return;
+    const data=await res.json();
+    const m=data.methods||{};
+    const rows=[["kw","Keyword Overlap"],["tf","TF-IDF Cosine"],["emb","Dense Embeddings"],["emb_kw","Embeddings + KW"],["hyb","Hybrid Fusion"]].map(([code,name])=>{
+      const info=m[code];
+      if(!info)return `<tr><td>${name}</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;
+      return `<tr><td><b>${name}</b></td><td>${info.top1_acc}%</td><td>${info.top3_acc}%</td><td>${info.mrr}</td><td>${info.latency_mean_ms} ms</td></tr>`;
+    }).join("");
+    const evalPane=$("#v-eval table");
+    if(evalPane){
+      evalPane.innerHTML=`<tr><th>Method</th><th>Top-1</th><th>Top-3</th><th>MRR</th><th>Latency</th></tr>`+rows;
+    }
+  }catch(_){}
+}
 
 /* theme */
 const isDark=()=>root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
 function setTheme(t){root.dataset.theme=t;const b=$("#theme");b.dataset.d=t==="dark"?1:0;b.innerHTML=`<i class="knob"></i><span class="${t==="light"?"a":""}">${ic("sun",15)}</span><span class="${t==="dark"?"a":""}">${ic("moon",15)}</span>`;try{localStorage.setItem("ca-theme",t)}catch(_){}}
 $("#theme").onclick=()=>setTheme(isDark()?"light":"dark");
 let st=null;try{st=localStorage.getItem("ca-theme")}catch(_){}
-setTheme(st||(isDark()?"dark":"light"));drawSide();setView("chat");
+
+async function init(){
+  setTheme(st||(isDark()?"dark":"light"));
+  try{
+    const res=await fetch("/api/config");
+    if(res.ok){
+      const cfg=await res.json();
+      state.thresholds=cfg.thresholds||{};
+      if(cfg.methods&&cfg.methods.length){
+        METHODS=cfg.methods.map(m=>[m.id,m.name,m.desc]);
+        MN=Object.fromEntries(METHODS.map(m=>[m[0],m[1]]));
+      }
+    }
+  }catch(_){}
+  drawSide();setView("chat");
+}
+init();
 </script>
 </body>
 </html>
