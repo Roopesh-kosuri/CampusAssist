@@ -33,6 +33,8 @@ from src.retrievers.keyword import KeywordRetriever
 from src.retrievers.tfidf import TfidfRetriever
 from src.retrievers.embedding import EmbeddingRetriever
 from src.retrievers.hybrid import HybridRetriever
+from src.llm.groq_client import GroqPolisher
+from src.llm.grounding_check import verify_grounding
 from app.schemas import (
     ConfigResponse,
     MethodInfo,
@@ -47,6 +49,7 @@ from app.schemas import (
 engines = {}
 fallback_router = None
 faqs_data = []
+polisher = None
 
 METHOD_NORMALIZATION = {
     "keyword": "kw",
@@ -64,7 +67,7 @@ METHOD_NORMALIZATION = {
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialize SQLite DB, load FAQ data, and fit all retrieval engines on startup."""
-    global engines, fallback_router, faqs_data
+    global engines, fallback_router, faqs_data, polisher
     init_db()
 
     # Load canonical FAQs
@@ -73,6 +76,9 @@ async def lifespan(app: FastAPI):
     # Initialize FallbackRouter
     fallback_router = FallbackRouter()
     fallback_router.reload_thresholds()
+
+    # Initialize Groq Polisher
+    polisher = GroqPolisher()
 
     # Fit retrievers
     kw = KeywordRetriever()
@@ -142,7 +148,7 @@ def serve_index():
 def get_config():
     """Return configured methods, categories, thresholds, and Groq status."""
     fallback_router.reload_thresholds()
-    groq_enabled = bool(os.environ.get("GROQ_API_KEY"))
+    groq_enabled = bool(polisher and polisher.is_available())
 
     methods = [
         MethodInfo(id="hyb", name="Hybrid Fusion", desc="Weighted combination of lexical and dense retrieval (alpha=0.70)"),
@@ -196,6 +202,8 @@ def handle_query(req: QueryRequest):
     answer_polished = None
     polished = False
     matched_faq_id = None
+    groq_latency_ms = None
+    groq_failed = False
 
     if is_fallback or not top_candidates:
         department_contact = fallback_router.get_department_contact(category_filter)
@@ -210,6 +218,30 @@ def handle_query(req: QueryRequest):
         answer_original = top_cand["answer"]
         department_contact = top_cand.get("department_contact") or fallback_router.get_department_contact(top_cand["category"])
 
+        # Phase 7: Grounded Groq Polish Layer
+        if req.polish and polisher and polisher.is_available():
+            raw_polished, groq_ok, groq_lat, msg = polisher.polish(
+                query=sanitized_query,
+                faq_id=matched_faq_id,
+                answer_original=answer_original
+            )
+            groq_latency_ms = groq_lat
+            if groq_ok:
+                grounding_passed, ground_reason, _ = verify_grounding(answer_original, raw_polished)
+                if grounding_passed:
+                    answer_polished = raw_polished
+                    polished = True
+                    groq_failed = False
+                else:
+                    # Grounding verification failed! Block hallucinated response
+                    answer_polished = None
+                    polished = False
+                    groq_failed = True
+            else:
+                answer_polished = None
+                polished = False
+                groq_failed = True if ("failed" in msg or "timeout" in msg) else False
+
     latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
     # Log telemetry to SQLite
@@ -222,8 +254,8 @@ def handle_query(req: QueryRequest):
         threshold_used=active_threshold,
         fallback=is_fallback,
         polished=polished,
-        groq_latency_ms=None,
-        groq_failed=False,
+        groq_latency_ms=groq_latency_ms,
+        groq_failed=groq_failed,
         latency_ms=latency_ms,
     )
 
