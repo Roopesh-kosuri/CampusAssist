@@ -1,0 +1,166 @@
+{
+  "split": "test",
+  "evaluated_at": "2026-10-31T16:02:39.469010+00:00",
+  "num_queries": 144,
+  "num_oos": 30,
+  "random_seed": 42,
+  "thresholds_used": {
+    "kw": 0.4,
+    "tf": 0.35,
+    "emb": 0.5,
+    "emb_kw": 0.5,
+    "hyb": 0.45
+  },
+  "methods": {
+    "kw": {
+      "name": "Keyword Overlap",
+      "top1_acc": 73.61,
+      "top1_ci_95": [
+        66.67,
+        80.56
+      ],
+      "top3_acc": 87.5,
+      "top3_ci_95": [
+        81.94,
+        92.36
+      ],
+      "mrr": 0.7951,
+      "mrr_ci_95": [
+        0.7372,
+        0.8484
+      ],
+      "latency_mean_ms": 0.12,
+      "latency_p95_ms": 0.14,
+      "threshold_used": 0.4,
+      "oos_rejection_rate": 100.0,
+      "per_type_top1": {
+        "hinglish_mixed": 88.89,
+        "low_overlap": 44.44,
+        "reorder": 88.89,
+        "synonym_swap": 73.53,
+        "typo": 85.71,
+        "verbose": 100.0
+      }
+    },
+    "tf": {
+      "name": "TF-IDF Cosine",
+      "top1_acc": 69.44,
+      "top1_ci_95": [
+        62.48,
+        76.39
+      ],
+      "top3_acc": 85.42,
+      "top3_ci_95": [
+        79.17,
+        90.97
+      ],
+      "mrr": 0.7685,
+      "mrr_ci_95": [
+        0.706,
+        0.8252
+      ],
+      "latency_mean_ms": 0.48,
+      "latency_p95_ms": 0.61,
+      "threshold_used": 0.35,
+      "oos_rejection_rate": 96.67,
+      "per_type_top1": {
+        "hinglish_mixed": 91.67,
+        "low_overlap": 36.11,
+        "reorder": 77.78,
+        "synonym_swap": 61.76,
+        "typo": 89.29,
+        "verbose": 100.0
+      }
+    },
+    "emb": {
+      "name": "Dense Embeddings",
+      "top1_acc": 70.14,
+      "top1_ci_95": [
+        62.5,
+        77.08
+      ],
+      "top3_acc": 88.19,
+      "top3_ci_95": [
+        82.64,
+        93.06
+      ],
+      "mrr": 0.7824,
+      "mrr_ci_95": [
+        0.7234,
+        0.8368
+      ],
+      "latency_mean_ms": 7.35,
+      "latency_p95_ms": 6.75,
+      "threshold_used": 0.5,
+      "oos_rejection_rate": 83.33,
+      "per_type_top1": {
+        "hinglish_mixed": 80.56,
+        "low_overlap": 52.78,
+        "reorder": 66.67,
+        "synonym_swap": 55.88,
+        "typo": 96.43,
+        "verbose": 100.0
+      }
+    },
+    "emb_kw": {
+      "name": "Embeddings + KW (Ablation)",
+      "top1_acc": 79.86,
+      "top1_ci_95": [
+        72.92,
+        86.11
+      ],
+      "top3_acc": 91.67,
+      "top3_ci_95": [
+        87.5,
+        95.83
+      ],
+      "mrr": 0.8565,
+      "mrr_ci_95": [
+        0.8067,
+        0.9028
+      ],
+      "latency_mean_ms": 5.91,
+      "latency_p95_ms": 6.27,
+      "threshold_used": 0.5,
+      "oos_rejection_rate": 93.33,
+      "per_type_top1": {
+        "hinglish_mixed": 72.22,
+        "low_overlap": 66.67,
+        "reorder": 100.0,
+        "synonym_swap": 82.35,
+        "typo": 96.43,
+        "verbose": 100.0
+      }
+    },
+    "hyb": {
+      "name": "Hybrid Fusion (a=0.70)",
+      "top1_acc": 76.39,
+      "top1_ci_95": [
+        70.12,
+        82.64
+      ],
+      "top3_acc": 91.67,
+      "top3_ci_95": [
+        86.81,
+        95.83
+      ],
+      "mrr": 0.8356,
+      "mrr_ci_95": [
+        0.787,
+        0.882
+      ],
+      "latency_mean_ms": 7.06,
+      "latency_p95_ms": 7.07,
+      "threshold_used": 0.45,
+      "oos_rejection_rate": 90.0,
+      "per_type_top1": {
+        "hinglish_mixed": 86.11,
+        "low_overlap": 55.56,
+        "reorder": 88.89,
+        "synonym_swap": 70.59,
+        "typo": 92.86,
+        "verbose": 100.0
+      }
+    }
+  }
+}

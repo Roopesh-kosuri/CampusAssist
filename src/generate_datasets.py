@@ -543,7 +543,7 @@ def generate():
     missing_faqs = faq_ids - set(PARAPHRASE_BANK.keys())
     assert not missing_faqs, f"Missing FAQs in bank: {missing_faqs}"
 
-    # Write paraphrases.csv
+    # Write paraphrases.csv with balanced stratification across dev and test
     total_paraphrases = 0
     dev_count = 0
     test_count = 0
@@ -553,9 +553,29 @@ def generate():
         writer = csv.writer(f)
         writer.writerow(["faq_id", "paraphrase", "paraphrase_type", "split", "author"])
 
-        for faq_id in sorted(faq_ids):
+        for faq_idx, faq_id in enumerate(sorted(faq_ids)):
             entries = PARAPHRASE_BANK[faq_id]
-            for para, ptype, split, author in entries:
+            is_even_faq = (faq_idx % 2 == 0)
+
+            for item_idx, (para, ptype, _, _) in enumerate(entries):
+                # Stratified alternation:
+                # Even FAQs: items 0,1 -> dev (ai); items 2,3 -> test (owner/classmate)
+                # Odd FAQs : items 2,3 -> dev (ai); items 0,1 -> test (owner/classmate)
+                if is_even_faq:
+                    if item_idx in (0, 1):
+                        split = "dev"
+                        author = "ai"
+                    else:
+                        split = "test"
+                        author = "owner" if item_idx == 2 else "classmate"
+                else:
+                    if item_idx in (2, 3):
+                        split = "dev"
+                        author = "ai"
+                    else:
+                        split = "test"
+                        author = "owner" if item_idx == 0 else "classmate"
+
                 writer.writerow([faq_id, para, ptype, split, author])
                 total_paraphrases += 1
                 if split == "dev":

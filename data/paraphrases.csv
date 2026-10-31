@@ -3,287 +3,287 @@ exm_01,How many weeks before theory testing begins does the university release t
 exm_01,On which ERP tab can students view their final-term examination timetable?,synonym_swap,dev,ai
 exm_01,semester exam ki date sheet kab aati hai aur kahan se check kare,hinglish_mixed,test,owner
 exm_01,where to downlod end term exam datesheet and timetible,typo,test,classmate
-exm_02,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",low_overlap,dev,ai
-exm_02,What is the mandatory attendance threshold to generate a test hall permit?,synonym_swap,dev,ai
-exm_02,exam me baithne ke liye minimum kitni attendance chahiye admit card ke liye,hinglish_mixed,test,owner
-exm_02,is 75 percent attendence compulsory to get exam admit card,reorder,test,classmate
+exm_02,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",low_overlap,test,owner
+exm_02,What is the mandatory attendance threshold to generate a test hall permit?,synonym_swap,test,classmate
+exm_02,exam me baithne ke liye minimum kitni attendance chahiye admit card ke liye,hinglish_mixed,dev,ai
+exm_02,is 75 percent attendence compulsory to get exam admit card,reorder,dev,ai
 exm_03,How many days before the mid-term test does the electronic hall entry pass become active?,low_overlap,dev,ai
 exm_03,Where on the student portal can I print my official examination roll number permit?,synonym_swap,dev,ai
 exm_03,exam hall ticket aur admit card portal se kab aur kaise download hoga,hinglish_mixed,test,owner
 exm_03,how to downlod exam admit card and hall tcket printout,typo,test,classmate
-exm_04,I received a D grade but was confident my written solutions were completely correct,low_overlap,dev,ai
-exm_04,How many days after marks release can a candidate petition to view their graded answer booklet?,synonym_swap,dev,ai
-exm_04,result aane ke baad paper re-evaluation aur rechecking ke liye kaise apply kare,hinglish_mixed,test,owner
-exm_04,what is revaluation fee per subject and deadline to chalenge exam marks,verbose,test,classmate
+exm_04,I received a D grade but was confident my written solutions were completely correct,low_overlap,test,owner
+exm_04,How many days after marks release can a candidate petition to view their graded answer booklet?,synonym_swap,test,classmate
+exm_04,result aane ke baad paper re-evaluation aur rechecking ke liye kaise apply kare,hinglish_mixed,dev,ai
+exm_04,what is revaluation fee per subject and deadline to chalenge exam marks,verbose,dev,ai
 exm_05,Where on the student portal do I enroll to clear an unpassed credit from third term?,low_overlap,dev,ai
 exm_05,What is the registration window and fee payment process for supplementary re-tests?,synonym_swap,dev,ai
 exm_05,backlog paper clear karne ke liye reappear exam registration kaise kare,hinglish_mixed,test,owner
 exm_05,how to registar for supplemntary backlog exam on portal,typo,test,classmate
-exm_06,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,low_overlap,dev,ai
-exm_06,"What electronic devices, notes, and calculation tools are barred from test classrooms?",synonym_swap,dev,ai
-exm_06,exam hall me kya kya le jana mana hai smartwatch aur mobile rules,hinglish_mixed,test,owner
-exm_06,prohibted items in examinatn hall and unfair means rules,typo,test,classmate
+exm_06,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,low_overlap,test,owner
+exm_06,"What electronic devices, notes, and calculation tools are barred from test classrooms?",synonym_swap,test,classmate
+exm_06,exam hall me kya kya le jana mana hai smartwatch aur mobile rules,hinglish_mixed,dev,ai
+exm_06,prohibted items in examinatn hall and unfair means rules,typo,dev,ai
 exm_07,I am hospitalized with viral typhoid and unable to sit for tomorrow morning's mid-term,low_overlap,dev,ai
 exm_07,What medical verification documents must be filed to request a makeup testing session?,synonym_swap,dev,ai
 exm_07,agar exam ke time bimar ho jaye toh medical certificate submit karke re-exam hoga kya,hinglish_mixed,test,owner
 exm_07,sick during exams procdure to apply for makeup exam with medical,reorder,test,classmate
-exm_08,My regular semester course and my repeat paper both appear on the exact same Thursday morning slot,low_overlap,dev,ai
-exm_08,Where can I log a date sheet conflict grievance for concurrent examination timings?,synonym_swap,dev,ai
-exm_08,agar do exam ek hi date aur time slot par clash ho rahe ho toh kya kare,hinglish_mixed,test,owner
-exm_08,datesheet time clash grievence reporting process for overlaping papers,reorder,test,classmate
+exm_08,My regular semester course and my repeat paper both appear on the exact same Thursday morning slot,low_overlap,test,owner
+exm_08,Where can I log a date sheet conflict grievance for concurrent examination timings?,synonym_swap,test,classmate
+exm_08,agar do exam ek hi date aur time slot par clash ho rahe ho toh kya kare,hinglish_mixed,dev,ai
+exm_08,datesheet time clash grievence reporting process for overlaping papers,reorder,dev,ai
 exm_09,"How do tutorial quizzes, coding assignments, and term attendance combine into my 30-mark internal score?",low_overlap,dev,ai
 exm_09,Where on the learning management portal can I review my continuous assessment score tally?,synonym_swap,dev,ai
 exm_09,internal ca marks kaise calculate hote hai portal par kahan check kare,hinglish_mixed,test,owner
 exm_09,how is continuos assesment ca marks calculated and updated on portal,typo,test,classmate
-exm_10,How many weeks after final examinations does the university calculate official CGPA results?,synonym_swap,dev,ai
-exm_10,Where can students download their digital grade sheet ledger after the academic term ends?,low_overlap,dev,ai
-exm_10,semester exam ka result kab declare hota hai grade card kahan milega,hinglish_mixed,test,owner
-exm_10,when will end term exam result and tgpa cgpa be anounced on portal,verbose,test,classmate
+exm_10,How many weeks after final examinations does the university calculate official CGPA results?,synonym_swap,test,owner
+exm_10,Where can students download their digital grade sheet ledger after the academic term ends?,low_overlap,test,classmate
+exm_10,semester exam ka result kab declare hota hai grade card kahan milega,hinglish_mixed,dev,ai
+exm_10,when will end term exam result and tgpa cgpa be anounced on portal,verbose,dev,ai
 exm_11,I misplaced my third semester physical mark sheet and need a certified replacement copy,low_overlap,dev,ai
 exm_11,What is the application procedure to request official academic transcripts for overseas study?,synonym_swap,dev,ai
 exm_11,duplicate marksheet ya official transcript nikalwane ka kya process hai,hinglish_mixed,test,owner
 exm_11,how to apply for duplcate grade sheet and transcript request,typo,test,classmate
-exm_12,What happens during a formal disciplinary committee hearing after getting caught with paper chits?,low_overlap,dev,ai
-exm_12,What penalties can the proctorial board decree if a student is booked under unfair means?,synonym_swap,dev,ai
-exm_12,exam me umc banne ke baad hearing ka process kya hota hai penalty kya lagegi,hinglish_mixed,test,owner
-exm_12,unfair means commitee umc hearing process for cheating case in exam,reorder,test,classmate
+exm_12,What happens during a formal disciplinary committee hearing after getting caught with paper chits?,low_overlap,test,owner
+exm_12,What penalties can the proctorial board decree if a student is booked under unfair means?,synonym_swap,test,classmate
+exm_12,exam me umc banne ke baad hearing ka process kya hota hai penalty kya lagegi,hinglish_mixed,dev,ai
+exm_12,unfair means commitee umc hearing process for cheating case in exam,reorder,dev,ai
 fee_01,Can I settle my college installment using UPI without paying debit card transaction surcharges?,low_overlap,dev,ai
 fee_01,What electronic payment methods does the university cashier portal support?,synonym_swap,dev,ai
 fee_01,semester tuition fee bharne ke liye kaunse payment options available hai,hinglish_mixed,test,owner
 fee_01,accepted paymnt modes for online college fee deposit challan upi,typo,test,classmate
-fee_02,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,synonym_swap,dev,ai
-fee_02,Will my portal access get locked if my payment arrives five days behind schedule?,low_overlap,dev,ai
-fee_02,due date nikalne ke baad tuition fee par kitna late fine lagta hai per day,hinglish_mixed,test,owner
-fee_02,late fee penlty per day after due date for semester tution,reorder,test,classmate
+fee_02,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,synonym_swap,test,owner
+fee_02,Will my portal access get locked if my payment arrives five days behind schedule?,low_overlap,test,classmate
+fee_02,due date nikalne ke baad tuition fee par kitna late fine lagta hai per day,hinglish_mixed,dev,ai
+fee_02,late fee penlty per day after due date for semester tution,reorder,dev,ai
 fee_03,Where can my parent print the GST payment proof voucher for claiming income tax deduction?,low_overlap,dev,ai
 fee_03,Where on the student ERP can I download paid fee statements and challan slips?,synonym_swap,dev,ai
 fee_03,college fee payment ki official receipt kahan se download hogi,hinglish_mixed,test,owner
 fee_03,how to downlod fee recipt and tuition invoice from student portal,typo,test,classmate
-fee_04,"I have decided to join an NIT instead, how much deducted money will be wired back?",low_overlap,dev,ai
-fee_04,What are the cancellation and fee surrender deadlines per statutory guidelines?,synonym_swap,dev,ai
-fee_04,admission cancel karwane par fee refund policy kya hai deduction kitna hoga,hinglish_mixed,test,owner
-fee_04,how to apply for college admision withdrawl and fee refund amount,verbose,test,classmate
+fee_04,"I have decided to join an NIT instead, how much deducted money will be wired back?",low_overlap,test,owner
+fee_04,What are the cancellation and fee surrender deadlines per statutory guidelines?,synonym_swap,test,classmate
+fee_04,admission cancel karwane par fee refund policy kya hai deduction kitna hoga,hinglish_mixed,dev,ai
+fee_04,how to apply for college admision withdrawl and fee refund amount,verbose,dev,ai
 fee_05,"My agricultural family suffered crop loss, can I split my term charges into three parts?",low_overlap,dev,ai
 fee_05,What is the formal procedure to seek financial hardship extension for paying fees?,synonym_swap,dev,ai
 fee_05,financial problem ki wajah se fee installment me de sakte hai kya extension application,hinglish_mixed,test,owner
 fee_05,can semester fee be paid in part instalmnts request process,typo,test,classmate
-fee_06,What minimum academic grade point average must I retain so my fee rebate does not lapse?,low_overlap,dev,ai
-fee_06,What is the renewal application criteria for entrance merit tuition waivers?,synonym_swap,dev,ai
-fee_06,scholarship retain karne ke liye kitna cgpa aur attendance chahiye fee concession,hinglish_mixed,test,owner
-fee_06,how to apply for merit scholarshp renewal on student portal,reorder,test,classmate
+fee_06,What minimum academic grade point average must I retain so my fee rebate does not lapse?,low_overlap,test,owner
+fee_06,What is the renewal application criteria for entrance merit tuition waivers?,synonym_swap,test,classmate
+fee_06,scholarship retain karne ke liye kitna cgpa aur attendance chahiye fee concession,hinglish_mixed,dev,ai
+fee_06,how to apply for merit scholarshp renewal on student portal,reorder,dev,ai
 fee_07,My SBI debit balance was debited but the screen displayed a payment timeout failure,low_overlap,dev,ai
 fee_07,How long does reconciliation take when bank money is debited but fee invoice is pending?,synonym_swap,dev,ai
 fee_07,account se paise kat gaye par fee receipt generate nahi hui kahan complain kare,hinglish_mixed,test,owner
 fee_07,money deduted from bank accout but fee portal showing unpaid,typo,test,classmate
-fee_08,Where do residential hostellers renew room rent and dining charges for next term?,synonym_swap,dev,ai
-fee_08,What is the payment calendar window for booking residence accommodation next year?,low_overlap,dev,ai
-fee_08,agle saal ke liye hostel aur mess ki fee kab aur kahan bharni hai,hinglish_mixed,test,owner
-fee_08,hostel room rent and dining mess fee paymnt portal window,reorder,test,classmate
+fee_08,Where do residential hostellers renew room rent and dining charges for next term?,synonym_swap,test,owner
+fee_08,What is the payment calendar window for booking residence accommodation next year?,low_overlap,test,classmate
+fee_08,agle saal ke liye hostel aur mess ki fee kab aur kahan bharni hai,hinglish_mixed,dev,ai
+fee_08,hostel room rent and dining mess fee paymnt portal window,reorder,dev,ai
 fee_09,How much does each supplementary examination paper cost when registering on the portal?,synonym_swap,dev,ai
 fee_09,"I got an E grade in Data Structures, what is the fee to sit in the repeat test?",low_overlap,dev,ai
 fee_09,backlog ya reappear exam ka per subject kitna fee lagta hai,hinglish_mixed,test,owner
 fee_09,reappear exam fee per subject and how to pay on portal,reorder,test,classmate
-fee_10,The national bank manager demands an authorized expense quotation on university letterhead,low_overlap,dev,ai
-fee_10,Where can I apply for an official Bonafide and course cost certificate for bank credit?,synonym_swap,dev,ai
-fee_10,bank education loan ke liye fee estimate letter aur bonafide kahan se milega,hinglish_mixed,test,owner
-fee_10,how to get fee estemate certifcate for bank educatin loan,typo,test,classmate
+fee_10,The national bank manager demands an authorized expense quotation on university letterhead,low_overlap,test,owner
+fee_10,Where can I apply for an official Bonafide and course cost certificate for bank credit?,synonym_swap,test,classmate
+fee_10,bank education loan ke liye fee estimate letter aur bonafide kahan se milega,hinglish_mixed,dev,ai
+fee_10,how to get fee estemate certifcate for bank educatin loan,typo,dev,ai
 fee_11,When will the security deposit deducted at initial admission be transferred back to my account?,synonym_swap,dev,ai
 fee_11,How many weeks after final convocation clearance does the institute return institute caution funds?,low_overlap,dev,ai
 fee_11,graduation ke baad caution money security deposit kab tak bank account me wapas aati hai,hinglish_mixed,test,owner
 fee_11,security deposite refund procdure after completing degree graduation,typo,test,classmate
-fee_12,Where can a student deposit penalty fines imposed by security guards or proctorial staff?,synonym_swap,dev,ai
-fee_12,"I received an ID misconduct violation charge, which cash counter clears it?",low_overlap,dev,ai
-fee_12,campus me disciplinary fine ya challan kahan pay karna hota hai,hinglish_mixed,test,owner
-fee_12,where to pay proctorial fine and clear online disciplinary ledger,verbose,test,classmate
+fee_12,Where can a student deposit penalty fines imposed by security guards or proctorial staff?,synonym_swap,test,owner
+fee_12,"I received an ID misconduct violation charge, which cash counter clears it?",low_overlap,test,classmate
+fee_12,campus me disciplinary fine ya challan kahan pay karna hota hai,hinglish_mixed,dev,ai
+fee_12,where to pay proctorial fine and clear online disciplinary ledger,verbose,dev,ai
 hos_01,My ceiling fan is making a grinding noise and stopped spinning,low_overlap,dev,ai
 hos_01,Where should I file a ticket for a carpenter to fix my broken study table?,synonym_swap,dev,ai
 hos_01,bhai hostel room ka pankha kharab ho gaya kahan complain karu,hinglish_mixed,test,owner
 hos_01,how to registar hostle maintence complant for pluming,typo,test,classmate
-hos_02,What is the latest time at night we are permitted to enter our residence block?,synonym_swap,dev,ai
-hos_02,After what hour do the security turnstiles lock us out of the dormitory building?,low_overlap,dev,ai
-hos_02,hostel gate kitne baje band hota hai night curfew time kya hai,hinglish_mixed,test,owner
-hos_02,what is hostle gate closng time for boys and grls,typo,test,classmate
+hos_02,What is the latest time at night we are permitted to enter our residence block?,synonym_swap,test,owner
+hos_02,After what hour do the security turnstiles lock us out of the dormitory building?,low_overlap,test,classmate
+hos_02,hostel gate kitne baje band hota hai night curfew time kya hai,hinglish_mixed,dev,ai
+hos_02,what is hostle gate closng time for boys and grls,typo,dev,ai
 hos_03,I need to travel to my hometown for an urgent family wedding this Friday,low_overlap,dev,ai
 hos_03,What is the official procedure on the portal to request a weekend gate pass?,synonym_swap,dev,ai
 hos_03,ghar jane ke liye hostel se leave pass kaise apply kare,hinglish_mixed,test,owner
 hos_03,how to aply for hostal nite out pass on portal,typo,test,classmate
-hos_04,Can I shift into my school friend's 3-seater room next week?,low_overlap,dev,ai
-hos_04,What is the official window and process for swapping dormitory rooms?,reorder,dev,ai
-hos_04,hostel room change karne ka option kab khulta hai portal par,hinglish_mixed,test,owner
-hos_04,room partner change kaise karu hostel mein,hinglish_mixed,test,classmate
+hos_04,Can I shift into my school friend's 3-seater room next week?,low_overlap,test,owner
+hos_04,What is the official window and process for swapping dormitory rooms?,reorder,test,classmate
+hos_04,hostel room change karne ka option kab khulta hai portal par,hinglish_mixed,dev,ai
+hos_04,room partner change kaise karu hostel mein,hinglish_mixed,dev,ai
 hos_05,Can I bring a small electric boiler to make tea during late night study sessions?,low_overlap,dev,ai
 hos_05,Are cooking heating rods and immersion coils permitted in student residences?,synonym_swap,dev,ai
 hos_05,hostel room me kettle aur iron use kar sakte hai kya,hinglish_mixed,test,owner
 hos_05,is electric heater and indiction allowed in hostel room fine amount,typo,test,classmate
-hos_06,I have been eating outside for a month and want money credited back for unused food,low_overlap,dev,ai
-hos_06,How do I switch my catering meal plan to a different dining hall?,synonym_swap,dev,ai
-hos_06,hostel mess change karne ka process kya hai aur rebate kaise milega,hinglish_mixed,test,owner
-hos_06,how to change mess caterer in hostel for next month,verbose,test,classmate
+hos_06,I have been eating outside for a month and want money credited back for unused food,low_overlap,test,owner
+hos_06,How do I switch my catering meal plan to a different dining hall?,synonym_swap,test,classmate
+hos_06,hostel mess change karne ka process kya hai aur rebate kaise milega,hinglish_mixed,dev,ai
+hos_06,how to change mess caterer in hostel for next month,verbose,dev,ai
 hos_07,My laptop keeps getting redirected to an authentication page without loading internet,low_overlap,dev,ai
 hos_07,How do I whitelist the physical MAC address of my tablet for campus wireless?,synonym_swap,dev,ai
 hos_07,hostel wifi connect nahi ho raha login portal password kya hai,hinglish_mixed,test,owner
 hos_07,how to registar laptop mac adress for hostle wifi internet,typo,test,classmate
-hos_08,Where can my mother and father stay overnight when visiting me on campus?,low_overlap,dev,ai
-hos_08,What are the visiting hours for relatives in the hostel reception lounge?,reorder,dev,ai
-hos_08,parents ke liye campus me guest house kaise book kare,hinglish_mixed,test,owner
-hos_08,can parents visit hostel room or guest house booking procedure,verbose,test,classmate
+hos_08,Where can my mother and father stay overnight when visiting me on campus?,low_overlap,test,owner
+hos_08,What are the visiting hours for relatives in the hostel reception lounge?,reorder,test,classmate
+hos_08,parents ke liye campus me guest house kaise book kare,hinglish_mixed,dev,ai
+hos_08,can parents visit hostel room or guest house booking procedure,verbose,dev,ai
 hos_09,Where do students drop dirty shirts and trousers for machine washing and drying?,low_overlap,dev,ai
 hos_09,What is the monthly garment washing allowance and where is the drop-off counter?,synonym_swap,dev,ai
 hos_09,hostel laundry me kapde dhone ke liye token kaise milta hai,hinglish_mixed,test,owner
 hos_09,where is laundry facilty in hostel and how many cloths allowed,typo,test,classmate
-hos_10,My roommate has sudden severe chest pain and cannot stand up,low_overlap,dev,ai
-hos_10,What telephone extension calls an emergency paramedic vehicle to our hostel block?,synonym_swap,dev,ai
-hos_10,raat ko hostel me tabiyat kharab ho jaye toh doctor kahan milega,hinglish_mixed,test,owner
-hos_10,emergency ambulance number for hostel medical clinic at night,reorder,test,classmate
+hos_10,My roommate has sudden severe chest pain and cannot stand up,low_overlap,test,owner
+hos_10,What telephone extension calls an emergency paramedic vehicle to our hostel block?,synonym_swap,test,classmate
+hos_10,raat ko hostel me tabiyat kharab ho jaye toh doctor kahan milega,hinglish_mixed,dev,ai
+hos_10,emergency ambulance number for hostel medical clinic at night,reorder,dev,ai
 hos_11,I am moving to an off-campus flat and need my caution money returned to my bank,low_overlap,dev,ai
 hos_11,What is the room handover inspection process when vacating the residence hall?,synonym_swap,dev,ai
 hos_11,hostel vacate karte waqt caution deposit refund kaise milega,hinglish_mixed,test,owner
 hos_11,hostle checkout no dues clearance process for leaving hostel,typo,test,classmate
-hos_12,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,synonym_swap,dev,ai
-hos_12,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,low_overlap,dev,ai
-hos_12,hostel parking me bike ya cycle rakhne ke liye sticker kahan se le,hinglish_mixed,test,owner
-hos_12,is two wheeler scooty allowed in hostel parking area sticker rules,reorder,test,classmate
+hos_12,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,synonym_swap,test,owner
+hos_12,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,low_overlap,test,classmate
+hos_12,hostel parking me bike ya cycle rakhne ke liye sticker kahan se le,hinglish_mixed,dev,ai
+hos_12,is two wheeler scooty allowed in hostel parking area sticker rules,reorder,dev,ai
 idc_01,Where do I go to order a duplicate identity pass after misplacing mine yesterday?,synonym_swap,dev,ai
 idc_01,"I dropped my wallet with my campus badge on the highway, how do I get a new one?",low_overlap,dev,ai
 idc_01,mera student id card kho gaya duplicate card kaise banwaye,hinglish_mixed,test,owner
 idc_01,how to aply for duplcate id crd after losing it in campus,typo,test,classmate
-idc_02,What is the replacement charge to reissue a lost electronic campus credential?,synonym_swap,dev,ai
-idc_02,How many rupees does the security section charge to print a second identity card?,low_overlap,dev,ai
-idc_02,duplicate id card banwane ki kitni fee lagti hai aur kahan pay kare,hinglish_mixed,test,owner
-idc_02,duplicate id card fee amont and payment counter location,reorder,test,classmate
+idc_02,What is the replacement charge to reissue a lost electronic campus credential?,synonym_swap,test,owner
+idc_02,How many rupees does the security section charge to print a second identity card?,low_overlap,test,classmate
+idc_02,duplicate id card banwane ki kitni fee lagti hai aur kahan pay kare,hinglish_mixed,dev,ai
+idc_02,duplicate id card fee amont and payment counter location,reorder,dev,ai
 idc_03,Where do freshers collect their plastic smart badge after document verification?,low_overlap,dev,ai
 idc_03,What is the distribution venue for physical identity cards during orientation week?,synonym_swap,dev,ai
 idc_03,first year freshers ko permanent id card kahan se aur kab milega,hinglish_mixed,test,owner
 idc_03,where to colect new student id card after admission verification,reorder,test,classmate
-idc_04,The optical electronic chip in my card beeps red and denies barrier passage,low_overlap,dev,ai
-idc_04,Where can I bring a non-responsive defective RFID badge to have it recalibrated?,synonym_swap,dev,ai
-idc_04,rfid id card turnstile aur mess me scan nahi ho raha chip damage ho gayi,hinglish_mixed,test,owner
-idc_04,id card rfid reader not scaning at gate what to do repair,typo,test,classmate
+idc_04,The optical electronic chip in my card beeps red and denies barrier passage,low_overlap,test,owner
+idc_04,Where can I bring a non-responsive defective RFID badge to have it recalibrated?,synonym_swap,test,classmate
+idc_04,rfid id card turnstile aur mess me scan nahi ho raha chip damage ho gayi,hinglish_mixed,dev,ai
+idc_04,id card rfid reader not scaning at gate what to do repair,typo,dev,ai
 idc_05,Can I display a phone snapshot of my identity card to enter the test hall?,synonym_swap,dev,ai
 idc_05,Will security turnstiles permit entrance if I display a digital PDF on my smartphone?,low_overlap,dev,ai
 idc_05,kya mobile me id card ki photo dikha kar hostel ya exam me entry mil sakti hai,hinglish_mixed,test,owner
 idc_05,is digtal soft copy of id card valid for campus gate entry,reorder,test,classmate
-idc_06,My family surname is misspelled by two letters on the front of my badge,low_overlap,dev,ai
-idc_06,What office updates typographical mistakes in blood type or photo prints on student cards?,synonym_swap,dev,ai
-idc_06,id card par naam ki spelling ya photo change karwane ka process kya hai,hinglish_mixed,test,owner
-idc_06,how to corect wrong name spelling or blood grop on id card,typo,test,classmate
+idc_06,My family surname is misspelled by two letters on the front of my badge,low_overlap,test,owner
+idc_06,What office updates typographical mistakes in blood type or photo prints on student cards?,synonym_swap,test,classmate
+idc_06,id card par naam ki spelling ya photo change karwane ka process kya hai,hinglish_mixed,dev,ai
+idc_06,how to corect wrong name spelling or blood grop on id card,typo,dev,ai
 idc_07,Are proctor guards allowed to challenge me if my identity lanyard is inside my backpack?,low_overlap,dev,ai
 idc_07,What is the institutional regulation regarding wearing the official neck ribbon on university grounds?,synonym_swap,dev,ai
 idc_07,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,hinglish_mixed,test,owner
 idc_07,is wearng id card lanyard mandtory all time inside campus,typo,test,classmate
-idc_08,I left my university card on my bedroom study table in Jalandhar city this morning,low_overlap,dev,ai
-idc_08,What is the entrance verification protocol for day commuters arriving without their plastic pass?,synonym_swap,dev,ai
-idc_08,agar day scholar id card ghar bhul jaye toh main gate se entry kaise milegi,hinglish_mixed,test,owner
-idc_08,forgot id card at home day scholar temparary gate pass process,reorder,test,classmate
+idc_08,I left my university card on my bedroom study table in Jalandhar city this morning,low_overlap,test,owner
+idc_08,What is the entrance verification protocol for day commuters arriving without their plastic pass?,synonym_swap,test,classmate
+idc_08,agar day scholar id card ghar bhul jaye toh main gate se entry kaise milegi,hinglish_mixed,dev,ai
+idc_08,forgot id card at home day scholar temparary gate pass process,reorder,dev,ai
 idc_09,I picked up an unfamiliar student's identification badge lying in the food kiosk plaza,low_overlap,dev,ai
 idc_09,Where is the designated lost-and-found repository to return misplaced student cards?,synonym_swap,dev,ai
 idc_09,kisi aur ka id card campus me mila kahan submit karna chahiye,hinglish_mixed,test,owner
 idc_09,where to submit found student id card lost and found counter,reorder,test,classmate
-idc_10,Can graduating alumni keep their plastic identity card as a college souvenir?,low_overlap,dev,ai
-idc_10,Must departing graduates surrender their identification badges during final exit sign-off?,synonym_swap,dev,ai
-idc_10,degree complete hone par id card surrender karna padta hai ya rakh sakte hai,hinglish_mixed,test,owner
-idc_10,do final year studnts need to return id card during clearence,typo,test,classmate
+idc_10,Can graduating alumni keep their plastic identity card as a college souvenir?,low_overlap,test,owner
+idc_10,Must departing graduates surrender their identification badges during final exit sign-off?,synonym_swap,test,classmate
+idc_10,degree complete hone par id card surrender karna padta hai ya rakh sakte hai,hinglish_mixed,dev,ai
+idc_10,do final year studnts need to return id card during clearence,typo,dev,ai
 idc_11,What authorization form does a lab fellow need to obtain an institutional worker pass?,low_overlap,dev,ai
 idc_11,Where do short-term internship fellows get their temporary visitor passes issued?,synonym_swap,dev,ai
 idc_11,research scholar ya temporary project intern ko id card kaise milta hai,hinglish_mixed,test,owner
 idc_11,id card issuance process for project fellows and research scholors,reorder,test,classmate
-idc_12,Will the turnstile access reader flash red and reject me if I have unpaid dues?,low_overlap,dev,ai
-idc_12,Under what university provisions can proctorial officials deactivate an identity pass?,synonym_swap,dev,ai
-idc_12,kya discipline violation ya fee default par student id card block ho sakta hai,hinglish_mixed,test,owner
-idc_12,can security block my id card turnstile entry for pending dues,verbose,test,classmate
+idc_12,Will the turnstile access reader flash red and reject me if I have unpaid dues?,low_overlap,test,owner
+idc_12,Under what university provisions can proctorial officials deactivate an identity pass?,synonym_swap,test,classmate
+idc_12,kya discipline violation ya fee default par student id card block ho sakta hai,hinglish_mixed,dev,ai
+idc_12,can security block my id card turnstile entry for pending dues,verbose,dev,ai
 lib_01,Until what time are students allowed to study in the main reading halls?,synonym_swap,dev,ai
 lib_01,When does the big 14-story book repository shut its front doors at night?,low_overlap,dev,ai
 lib_01,central library kab band hoti hai raat ko timings kya hai,hinglish_mixed,test,owner
 lib_01,what are libary openig and closng hours on regular days,typo,test,classmate
-lib_02,What is the online catalogue button to extend the borrowing period of my novel?,low_overlap,dev,ai
-lib_02,How do I borrow textbooks at the front circulation counter using my identity badge?,synonym_swap,dev,ai
-lib_02,library se book issue aur renew kaise karwaye portal se,hinglish_mixed,test,owner
-lib_02,how to renuw library book online before due date,typo,test,classmate
+lib_02,What is the online catalogue button to extend the borrowing period of my novel?,low_overlap,test,owner
+lib_02,How do I borrow textbooks at the front circulation counter using my identity badge?,synonym_swap,test,classmate
+lib_02,library se book issue aur renew kaise karwaye portal se,hinglish_mixed,dev,ai
+lib_02,how to renuw library book online before due date,typo,dev,ai
 lib_03,How much penalty money accumulates each day after the stamped return date expires?,synonym_swap,dev,ai
 lib_03,"I forgot to return a handbook three weeks ago, what charges must I settle?",low_overlap,dev,ai
 lib_03,library book late return karne par kitna fine lagta hai per day,hinglish_mixed,test,owner
 lib_03,what is overdue penlty fine amount for delay in returning libary books,typo,test,classmate
-lib_04,Can I sit and read in the central facility on weekend mornings and festive breaks?,synonym_swap,dev,ai
-lib_04,Does the university learning centre operate during declared gazetted national holidays?,low_overlap,dev,ai
-lib_04,sunday ko central library khulti hai kya holiday timing kya hai,hinglish_mixed,test,owner
-lib_04,is libary open on sundays and pubic holydays schedule,typo,test,classmate
+lib_04,Can I sit and read in the central facility on weekend mornings and festive breaks?,synonym_swap,test,owner
+lib_04,Does the university learning centre operate during declared gazetted national holidays?,low_overlap,test,classmate
+lib_04,sunday ko central library khulti hai kya holiday timing kya hai,hinglish_mixed,dev,ai
+lib_04,is libary open on sundays and pubic holydays schedule,typo,dev,ai
 lib_05,What is the maximum textbook borrowing quota for BTech undergraduate candidates?,synonym_swap,dev,ai
 lib_05,How many volumes am I authorized to check out simultaneously on my student UID?,low_overlap,dev,ai
 lib_05,ek student ko library se kitni books milti hai kitne din ke liye,hinglish_mixed,test,owner
 lib_05,what is book borrowig limit and days duration for ug students,typo,test,classmate
-lib_06,How can I download IEEE Xplore and Springer research papers from my home Wi-Fi?,low_overlap,dev,ai
-lib_06,What is the off-campus login gateway for accessing digital periodicals and journals?,synonym_swap,dev,ai
-lib_06,ghar se library ke e-books aur journals access kaise kare,hinglish_mixed,test,owner
-lib_06,how to acess digital libary research papers remote vpn login,typo,test,classmate
+lib_06,How can I download IEEE Xplore and Springer research papers from my home Wi-Fi?,low_overlap,test,owner
+lib_06,What is the off-campus login gateway for accessing digital periodicals and journals?,synonym_swap,test,classmate
+lib_06,ghar se library ke e-books aur journals access kaise kare,hinglish_mixed,dev,ai
+lib_06,how to acess digital libary research papers remote vpn login,typo,dev,ai
 lib_07,My backpack got soaked in heavy rain and ruined an issued hardbound volume,low_overlap,dev,ai
 lib_07,What compensation protocol applies if a student misplaces a library textbook?,synonym_swap,dev,ai
 lib_07,agar library ki book gum ho jaye ya phat jaye toh kya karna hoga,hinglish_mixed,test,owner
 lib_07,lost library book replacment policy and penlaty charges,reorder,test,classmate
-lib_08,Where can my final-year capstone team reserve an enclosed soundproof conference room?,low_overlap,dev,ai
-lib_08,What is the scheduling procedure for private project rooms in the central library?,synonym_swap,dev,ai
-lib_08,library me discussion room ya group cubicle kaise book kare,hinglish_mixed,test,owner
-lib_08,how to reserve study cubicle for group project in library portal,verbose,test,classmate
+lib_08,Where can my final-year capstone team reserve an enclosed soundproof conference room?,low_overlap,test,owner
+lib_08,What is the scheduling procedure for private project rooms in the central library?,synonym_swap,test,classmate
+lib_08,library me discussion room ya group cubicle kaise book kare,hinglish_mixed,dev,ai
+lib_08,how to reserve study cubicle for group project in library portal,verbose,dev,ai
 lib_09,Where can scholarship recipients pick up complete bundles of curriculum textbooks?,low_overlap,dev,ai
 lib_09,What are the eligible criteria and collection dates for semester book bank sets?,synonym_swap,dev,ai
 lib_09,book bank se semester ki sari books lene ka process kya hai,hinglish_mixed,test,owner
 lib_09,how does book bank scheem work for getting semester course books,typo,test,classmate
-lib_10,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,low_overlap,dev,ai
-lib_10,What is the per-page fee for digital laser printing inside the library building?,synonym_swap,dev,ai
-lib_10,library me printout aur xerox photocopy ki facility kahan hai,hinglish_mixed,test,owner
-lib_10,photocopy and documnt printig charges in central library floor,reorder,test,classmate
+lib_10,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,low_overlap,test,owner
+lib_10,What is the per-page fee for digital laser printing inside the library building?,synonym_swap,test,classmate
+lib_10,library me printout aur xerox photocopy ki facility kahan hai,hinglish_mixed,dev,ai
+lib_10,photocopy and documnt printig charges in central library floor,reorder,dev,ai
 lib_11,I am graduating this summer and need verification that all borrowed titles are cleared,low_overlap,dev,ai
 lib_11,How do I request an electronic library settlement slip for degree dispatch?,synonym_swap,dev,ai
 lib_11,convocation se pehle library ka no dues clearance kaise hota hai,hinglish_mixed,test,owner
 lib_11,libary clearance slip and no dues certifcate for final year students,typo,test,classmate
-lib_12,Who should a department professor contact to request purchasing new AI reference texts?,low_overlap,dev,ai
-lib_12,How do I recommend a new academic book acquisition to the chief librarian?,synonym_swap,dev,ai
-lib_12,library me nayi books suggest karne ya donate karne ka process kya hai,hinglish_mixed,test,owner
-lib_12,can students dontate old textbooks to university library collection,reorder,test,classmate
+lib_12,Who should a department professor contact to request purchasing new AI reference texts?,low_overlap,test,owner
+lib_12,How do I recommend a new academic book acquisition to the chief librarian?,synonym_swap,test,classmate
+lib_12,library me nayi books suggest karne ya donate karne ka process kya hai,hinglish_mixed,dev,ai
+lib_12,can students dontate old textbooks to university library collection,reorder,dev,ai
 trn_01,Where can I read the pickup stop schedule for morning buses running to Ludhiana?,low_overlap,dev,ai
 trn_01,What time do university commuter coaches depart from campus in the evening?,synonym_swap,dev,ai
 trn_01,day scholar bus ka timetable aur pickup routes kahan check kare,hinglish_mixed,test,owner
 trn_01,where to check day scholer bus routs and morning timmings,typo,test,classmate
-trn_02,Where on the student system do commuters enroll for daily bus transport for the next session?,synonym_swap,dev,ai
-trn_02,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,low_overlap,dev,ai
-trn_02,semester bus pass apply aur renew karne ka process kya hai portal par,hinglish_mixed,test,owner
-trn_02,how to aply for bus pas on student portal deadline,typo,test,classmate
+trn_02,Where on the student system do commuters enroll for daily bus transport for the next session?,synonym_swap,test,owner
+trn_02,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,low_overlap,test,classmate
+trn_02,semester bus pass apply aur renew karne ka process kya hai portal par,hinglish_mixed,dev,ai
+trn_02,how to aply for bus pas on student portal deadline,typo,dev,ai
 trn_03,"I moved to a different rental address in Amritsar, how do I transfer my coach seat?",low_overlap,dev,ai
 trn_03,What is the formal procedure to modify a commuter boarding stop mid-academic term?,synonym_swap,dev,ai
 trn_03,mid semester me bus pickup point ya route change karwa sakte hai kya,hinglish_mixed,test,owner
 trn_03,can i change my bus stop and route mid session fee charges,verbose,test,classmate
-trn_04,How many thousands of rupees is the semester charge for the bus ride from Hoshiarpur?,low_overlap,dev,ai
-trn_04,What are the distance slab rates for university commuter transport services?,synonym_swap,dev,ai
-trn_04,day scholar bus ka semester fee kitna hai distance ke hisaab se,hinglish_mixed,test,owner
-trn_04,what is transpot charges and bus fare chart for differnt cities,reorder,test,classmate
+trn_04,How many thousands of rupees is the semester charge for the bus ride from Hoshiarpur?,low_overlap,test,owner
+trn_04,What are the distance slab rates for university commuter transport services?,synonym_swap,test,classmate
+trn_04,day scholar bus ka semester fee kitna hai distance ke hisaab se,hinglish_mixed,dev,ai
+trn_04,what is transpot charges and bus fare chart for differnt cities,reorder,dev,ai
 trn_05,How can students travel the 3 kilometers between Main Gate 1 and the remote hospital block?,low_overlap,dev,ai
 trn_05,What are the ticket prices and schedule for battery-operated internal campus rides?,synonym_swap,dev,ai
 trn_05,campus ke andar chalne wale e-rickshaw aur shuttle bus ka fare kitna hai,hinglish_mixed,test,owner
 trn_05,is internal campus shittle e-rikshaw available for students inside,typo,test,classmate
-trn_06,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,low_overlap,dev,ai
-trn_06,What emergency control number should commuters dial if their scheduled coach fails to show up?,synonym_swap,dev,ai
-trn_06,agar morning bus time par na aaye ya raste me kharab ho jaye toh kahan call kare,hinglish_mixed,test,owner
-trn_06,bus delay breakdwn emergency contact helpline number,reorder,test,classmate
+trn_06,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,low_overlap,test,owner
+trn_06,What emergency control number should commuters dial if their scheduled coach fails to show up?,synonym_swap,test,classmate
+trn_06,agar morning bus time par na aaye ya raste me kharab ho jaye toh kahan call kare,hinglish_mixed,dev,ai
+trn_06,bus delay breakdwn emergency contact helpline number,reorder,dev,ai
 trn_07,Can non-resident students commute with their personal motorcycle and park behind Gate 4?,low_overlap,dev,ai
 trn_07,Where can day-commuter students obtain an approved vehicle parking pass?,synonym_swap,dev,ai
 trn_07,day scholar students ke liye bike aur car parking kahan hai pass kaise banega,hinglish_mixed,test,owner
 trn_07,is car and motorbyke parkng facility available for day scholers,typo,test,classmate
-trn_08,Can a resident hosteller purchase a single one-way bus ticket to visit Jalandhar on Saturday?,low_overlap,dev,ai
-trn_08,Are boarding students permitted onto commuter transit fleets for weekend shopping trips?,synonym_swap,dev,ai
-trn_08,hostel ke students weekend par university bus se city ja sakte hai kya,hinglish_mixed,test,owner
-trn_08,can hostel boarders use day scholar buses for weekend travel,reorder,test,classmate
+trn_08,Can a resident hosteller purchase a single one-way bus ticket to visit Jalandhar on Saturday?,low_overlap,test,owner
+trn_08,Are boarding students permitted onto commuter transit fleets for weekend shopping trips?,synonym_swap,test,classmate
+trn_08,hostel ke students weekend par university bus se city ja sakte hai kya,hinglish_mixed,dev,ai
+trn_08,can hostel boarders use day scholar buses for weekend travel,reorder,dev,ai
 trn_09,"If I shift into an on-campus hostel room next month, can I surrender my commuter pass for cash?",low_overlap,dev,ai
 trn_09,What are the cancellation and refund terms for discontinued commuter bus subscriptions?,synonym_swap,dev,ai
 trn_09,bus service discontinue karne par transport fee refund kaise milega,hinglish_mixed,test,owner
 trn_09,how to cancle bus pass and get refund of transport fee,typo,test,classmate
-trn_10,Does the transport fleet provide late departures for students whose tests finish at 6:30 PM?,low_overlap,dev,ai
-trn_10,What are the revised evening transit schedules operating during end-semester exams?,synonym_swap,dev,ai
-trn_10,exam days me shaam ko late shift ke baad special bus milti hai kya,hinglish_mixed,test,owner
-trn_10,late evenig bus schedule during end term examination shifts,reorder,test,classmate
+trn_10,Does the transport fleet provide late departures for students whose tests finish at 6:30 PM?,low_overlap,test,owner
+trn_10,What are the revised evening transit schedules operating during end-semester exams?,synonym_swap,test,classmate
+trn_10,exam days me shaam ko late shift ke baad special bus milti hai kya,hinglish_mixed,dev,ai
+trn_10,late evenig bus schedule during end term examination shifts,reorder,dev,ai
 trn_11,A player broke their ankle during an inter-hostel football match on the outdoor turf,low_overlap,dev,ai
 trn_11,What emergency hospital van telephone number provides rapid medical transport on campus?,synonym_swap,dev,ai
 trn_11,emergency me ambulance bulane ke liye campus me kaunsa number dial kare,hinglish_mixed,test,owner
 trn_11,campus emergancy ambulnce service number for sick students,typo,test,classmate
-trn_12,Can transit privileges be revoked if a student argues loudly with the transport conductor?,low_overlap,dev,ai
-trn_12,What proctorial consequences apply to disorderly conduct or ragging on campus buses?,synonym_swap,dev,ai
-trn_12,bus me ladai ya misconduct karne par kya disciplinary action hota hai,hinglish_mixed,test,owner
-trn_12,disciplinary rules and bus pass suspention policy for misconduct,reorder,test,classmate
+trn_12,Can transit privileges be revoked if a student argues loudly with the transport conductor?,low_overlap,test,owner
+trn_12,What proctorial consequences apply to disorderly conduct or ragging on campus buses?,synonym_swap,test,classmate
+trn_12,bus me ladai ya misconduct karne par kya disciplinary action hota hai,hinglish_mixed,dev,ai
+trn_12,disciplinary rules and bus pass suspention policy for misconduct,reorder,dev,ai
