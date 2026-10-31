@@ -39,9 +39,27 @@ Your task is to rewrite the provided canonical FAQ answer in a clear, friendly, 
 
 CRITICAL GROUNDING RULES:
 1. Use ONLY the factual information in the provided FAQ Answer.
-2. Do NOT add, infer, or hallucinate any numbers, dates, times, fee amounts, room/block numbers, phone numbers, email addresses, URLs, or campus policies.
-3. You MUST PRESERVE all [bracketed placeholders] (such as [gate closing time], [hostel complaint portal], [accounts office]) EXACTLY as they appear, enclosed in square brackets. NEVER alter, remove, or fill in a placeholder.
+2. Do NOT add, infer, or hallucinate any numbers, dates, times, fee amounts, room/block numbers, phone numbers, email addresses, URLs, or campus policies not present in the FAQ answer.
+3. You MUST PRESERVE all official URLs, phone numbers, and block numbers (e.g., Block 32, Block 37, https://ums.lpu.in/lpuums/) from the original answer.
 4. Keep your response concise: 2 to 3 friendly sentences."""
+
+FALLBACK_SYSTEM_PROMPT = """You are CampusAssist, the official AI student helper for Lovely Professional University (LPU), Phagwara, Punjab.
+
+Answer ONLY questions about LPU campus life, services, portals, and student procedures.
+Be friendly, concise (2-3 sentences), and match the student's tone (English or Hinglish).
+
+ALWAYS reference real LPU links when relevant:
+- UMS Portal: https://ums.lpu.in/lpuums/
+- Main Website: https://www.lpu.in
+- Fee Payment: https://zee.lpu.in/feepayment/
+- e-Connect (Exams/Results): https://econnect.lpu.in
+- Helpline: +91-1824-517000 | Toll-Free: 1800-102-4431
+
+RULES:
+1. If asked something completely unrelated to LPU campus life, politely say you only handle LPU student queries and direct them to +91-1824-517000.
+2. Never invent specific fees, exact dates, or room numbers you aren't sure about — say "check UMS or call +91-1824-517000".
+3. Never mention any other university.
+4. Max 3 sentences. End with the most relevant link or contact if applicable."""
 
 
 class GroqPolisher:
@@ -74,6 +92,68 @@ class GroqPolisher:
         if not query:
             return False
         return any(pattern.search(query) for pattern in ADVERSARIAL_PATTERNS)
+
+    def direct_answer(
+        self,
+        query: str,
+        category: str = "All"
+    ) -> tuple[str, bool, float, str]:
+        """Generate a direct AI answer when the retrieval engine fails (fallback mode).
+
+        Unlike polish(), this is a generative call — it produces a full answer
+        from the LPU knowledge baked into the LLM, grounded by the system prompt.
+
+        Returns:
+            tuple[str, bool, float, str]: (answer_text, success, latency_ms, message)
+        """
+        if not self.is_available():
+            return "", False, 0.0, "Groq client not available"
+
+        if self.is_adversarial(query):
+            return "", False, 0.0, "Adversarial query detected; AI fallback skipped"
+
+        # Cache keyed on query alone for fallback answers
+        cache_key = ("__fallback__", query.strip().lower())
+        if cache_key in self._cache:
+            self._cache.move_to_end(cache_key)
+            return self._cache[cache_key], True, 0.5, "Retrieved from cache"
+
+        start_time = time.perf_counter()
+        category_hint = f" The student is asking about: {category}." if category and category != "All" else ""
+
+        user_content = f"Student question:{category_hint} {query}"
+
+        last_error = ""
+        for attempt in range(2):
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": FALLBACK_SYSTEM_PROMPT},
+                        {"role": "user", "content": user_content}
+                    ],
+                    temperature=0.2,
+                    max_tokens=200,
+                )
+                latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+                answer = response.choices[0].message.content.strip()
+
+                if not answer:
+                    return "", False, latency_ms, "Empty response from Groq"
+
+                # Cache the answer
+                self._cache[cache_key] = answer
+                if len(self._cache) > self.cache_size:
+                    self._cache.popitem(last=False)
+
+                return answer, True, latency_ms, "Success"
+
+            except Exception as e:
+                last_error = str(e)
+                time.sleep(0.5)
+
+        latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+        return "", False, latency_ms, f"Groq fallback failed: {last_error}"
 
     def polish(
         self,

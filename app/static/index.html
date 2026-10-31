@@ -187,6 +187,24 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .chip{padding:5px 12px;font-size:12.5px}
 @media(max-height:900px){.opt small{display:none}.opt{padding:12px 14px}.side{gap:10px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* AI-generated badge */
+.pill.ai{background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(234,88,12,.12));border-color:rgba(245,158,11,.4);color:#b45309}
+:root[data-theme="dark"] .pill.ai{color:#fbbf24;border-color:rgba(251,191,36,.35)}
+/* Chat history drawer */
+#hist-drawer{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:55;padding:calc(24px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:0;transform:translateX(-105%);transition:transform .3s ease;border-radius:0 24px 24px 0;overflow:hidden}
+#hist-drawer.open{transform:none}
+#hist-scrim{position:fixed;inset:0;background:var(--sc);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+#hist-scrim.on{opacity:1;pointer-events:auto}
+#hist-drawer h5{font:600 12px Inter;letter-spacing:.07em;text-transform:uppercase;color:var(--tx2);padding:16px 4px 10px;border-bottom:1px solid var(--ln);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+#hist-list{flex:1;overflow-y:auto;padding:4px 0}
+.hday{font:600 11px Inter;letter-spacing:.05em;color:var(--tx3);padding:12px 8px 4px}
+.hitem{width:100%;text-align:left;padding:9px 12px;border-radius:14px;font-size:13px;color:var(--tx);line-height:1.35;transition:background .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hitem:hover{background:var(--in)}
+.hitem small{display:block;font-size:11px;color:var(--tx3);margin-top:1px}
+#hist-clear{width:100%;padding:10px;border-radius:14px;background:var(--in);border:1px solid var(--ln);font-size:13px;color:var(--tx2);margin-top:8px;transition:background .15s}
+#hist-clear:hover{background:var(--cs);color:var(--ct)}
+/* auto badge on method chip in header */
+.mchip.auto-mode::after{content:"Auto";font-size:10px;background:var(--cs);color:var(--ct);border-radius:99px;padding:1px 6px;margin-left:4px}
 </style>
 </head>
 <body>
@@ -194,6 +212,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 <aside class="glass side" id="side">
  <div class="logo"><span class="mark">C</span><b>CampusAssist</b><em>LPU</em></div>
  <button class="btn" id="newchat"><span data-ic="plus"></span>New chat</button>
+ <button class="btn" id="histbtn" style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;margin-top:-4px"><span data-ic="hist"></span>History</button>
  <h6>Retrieval method</h6><div id="methods"></div>
  <div class="card"><div class="row"><b>AI-polished answers</b><button class="tg on" id="polish" role="switch" aria-checked="true" aria-label="AI-polished answers"></button></div><p>Rewrites the matched FAQ in friendlier language. Never used for matching.</p></div>
  <h6>Category</h6><div class="chips" id="cats"></div>
@@ -201,6 +220,12 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
  <p class="foot">Answers come from the campus FAQ. Not official advice.</p>
 </aside>
 <div id="scrim"></div>
+<div id="hist-scrim"></div>
+<div class="glass" id="hist-drawer">
+ <h5>Chat History <button class="ib" id="hist-close" style="width:28px;height:28px" data-ic="close"></button></h5>
+ <div id="hist-list"></div>
+ <button id="hist-clear">Clear all history</button>
+</div>
 <header class="glass top">
  <button class="ib hamb" id="hamb" aria-label="Open menu" data-ic="menu"></button>
  <b class="brand">CampusAssist</b><span class="ttl" id="ttl">New conversation</span>
@@ -253,29 +278,51 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 <nav class="glass tabbar" id="tabbar"></nav>
 <script>
 const $=s=>document.querySelector(s),root=document.documentElement;
-const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 12l7-7 7 7",ok:"M5 12l5 5 9-9",chev:"M6 9l6 6 6-6",tu:"M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9H19a2 2 0 012 2.3l-1.2 7A2 2 0 0117.8 20H7",copy:"M9 9h10v10H9zM5 15V5h10",sun:"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 100 8 4 4 0 000-8z",moon:"M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z",chat:"M4 5h16v11H9l-5 4z",chart:"M5 20V10M12 20V4M19 20v-7",eval:"M5 12l4 4 10-10M5 20h14"};
+const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 12l7-7 7 7",ok:"M5 12l5 5 9-9",chev:"M6 9l6 6 6-6",tu:"M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9H19a2 2 0 012 2.3l-1.2 7A2 2 0 0117.8 20H7",copy:"M9 9h10v10H9zM5 15V5h10",sun:"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 100 8 4 4 0 000-8z",moon:"M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z",chat:"M4 5h16v11H9l-5 4z",chart:"M5 20V10M12 20V4M19 20v-7",eval:"M5 12l4 4 10-10M5 20h14",hist:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",close:"M6 18L18 6M6 6l12 12"};
 const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
-const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function formatText(s){
+  let t=esc(s);
+  t=t.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:var(--ct);text-decoration:underline;word-break:break-all">$1</a>');
+  return t;
+}
 
 const CATS=["All","Hostel","Library","Fees","ID Card","Transport","Exams"];
 const SUG=["How do I register a hostel maintenance complaint?","When does the library shut?","How do I pay my semester fee?","I lost my ID card, what to do?","What are the campus bus timings?","Where can I find my exam date sheet?"];
-let METHODS=[["hyb","Hybrid Fusion","Lexical + dense combination"],["emb","Semantic Embeddings","Matches by meaning (MiniLM)"],["tf","TF-IDF","Weighted term cosine"],["kw","Keyword","Exact word overlap"]];
+let METHODS=[["auto","Auto (Smart)","Selects best method dynamically"],["hyb","Hybrid Fusion","Lexical + dense combination"],["emb","Semantic Embeddings","Matches by meaning (MiniLM)"],["tf","TF-IDF","Weighted term cosine"],["kw","Keyword","Exact word overlap"]];
 let MN=Object.fromEntries(METHODS.map(m=>[m[0],m[1]]));
 
-const state={method:"hyb",cat:"All",polish:true,view:"chat",thresholds:{}},M=[];
+let currentSessionId=Date.now();
+const state={method:"auto",cat:"All",polish:true,view:"chat",thresholds:{}},M=[];
 function ring(p){const c=p>=.85?"var(--ok)":"var(--ct)";return `<svg width="18" height="18" viewBox="0 0 36 36" style="transform:rotate(-90deg)"><circle cx="18" cy="18" r="14" fill="none" stroke="var(--ln)" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${p*88} 88"/></svg>`}
 const cands=t=>`<div class="cd">${(t||[]).map(c=>`<div class="row"><b>${esc(c.question||(c.f&&c.f.q)||"")}</b><span>${Number(c.score||c.s||0).toFixed(2)}</span></div><div class="bar2"><i style="width:${Math.round(Number(c.score||c.s||0)*100)}%"></i></div>`).join("")}</div>`;
 
+function aiCardHTML(m){
+  const activeAnswer=m.ans_orig||"";
+  const autoTag=m.auto_method?` · Auto: ${MN[m.auto_method]||m.auto_method}`:"";
+  return `<div class="glass card-a" data-i="${m.i}">
+    <p class="ans">${formatText(activeAnswer)}</p>
+    <div class="badges">
+      <span class="pill ai">✨ Generated by Campus AI</span>
+      <span class="pill">${MN[m.method]||m.method}${autoTag}</span>
+      <span class="pill">${esc(m.contact||"LPU Student Helpdesk: +91-1824-517000")}</span>
+    </div>
+    <div class="acts"><span><button class="ib" data-act="up" aria-label="Helpful">${ic("tu",17)}</button><button class="ib flip" data-act="down" aria-label="Not helpful">${ic("tu",17)}</button></span><button class="lnk" data-act="copy">${ic("copy",15)}Copy</button></div>
+  </div>`;
+}
+
 function cardHTML(m){
+  if(m.ai) return aiCardHTML(m);
   const pct=Math.round(m.s*100);
   const activeAnswer=m.pol&&m.ans_pol&&!m.showOrig?m.ans_pol:(m.ans_orig||"");
   const canTogglePolish=m.pol&&m.ans_pol;
+  const autoTag=m.auto_method?` · Auto: ${MN[m.auto_method]||m.auto_method}`:"";
   return `<div class="glass card-a" data-i="${m.i}">
-    <p class="ans">${esc(activeAnswer)}</p>
+    <p class="ans">${formatText(activeAnswer)}</p>
     <p class="src">Matched FAQ: “${esc(m.f?m.f.question:"")}”</p>
     <div class="badges">
       <span class="pill ok">${ring(m.s)}${pct}%</span>
-      <span class="pill">${MN[m.method]||m.method}</span>
+      <span class="pill">${MN[m.method]||m.method}${autoTag}</span>
       <span class="pill">${m.f?m.f.category:state.cat}</span>
       ${canTogglePolish?`<span class="pill">AI-polished · <button class="lnk" data-act="orig">${m.showOrig?"Show AI-polished answer":"Show original FAQ answer"}</button></span>`:""}
     </div>
@@ -287,7 +334,7 @@ function cardHTML(m){
 const fbHTML=m=>`<div class="amb" data-i="${m.i}">
   <h3>I’m not sure about that one</h3>
   <p>I couldn’t find a close enough match in the campus FAQ (confidence: ${(m.s*100).toFixed(0)}%, threshold: ${(m.th*100).toFixed(0)}%).</p>
-  <p class="dc">Department Contact: <b>${esc(m.contact||"LPU Student Helpdesk")}</b></p>
+  <p class="dc">Department Contact: <b>${esc(m.contact||"LPU Student Helpdesk: +91-1824-517000")}</b></p>
   <button class="lnk" data-act="closest">Show closest matches anyway</button>
   <div class="cl" hidden>${cands(m.top)}</div>
 </div>`;
@@ -315,10 +362,12 @@ async function ask(t){
     const m={
       i:M.length,qid:data.query_id,f:data.matched_faq,s:data.confidence,th:data.threshold,
       ans_orig:data.answer_original,ans_pol:data.answer_polished,pol:data.polished,
+      ai:data.ai_generated,auto_method:data.auto_method,
       fb:data.fallback,contact:data.department_contact,top:data.top3,method:data.method,showOrig:false
     };
     M.push(m);
     msgs.insertAdjacentHTML("beforeend",m.fb?fbHTML(m):cardHTML(m));scroll();
+    saveSession();
   }catch(err){
     sk.remove();
     const errDiv=document.createElement("div");errDiv.className="amb";
@@ -370,7 +419,75 @@ function drawSide(){
 $("#methods").onclick=e=>{const b=e.target.closest("[data-m]");if(b){state.method=b.dataset.m;drawSide()}};
 $("#cats").onclick=e=>{const b=e.target.closest("[data-c]");if(b){state.cat=b.dataset.c;drawSide()}};
 $("#polish").onclick=e=>{state.polish=!state.polish;e.currentTarget.classList.toggle("on",state.polish);e.currentTarget.setAttribute("aria-checked",state.polish)};
-$("#newchat").onclick=()=>{msgs.innerHTML="";M.length=0;$("#empty").hidden=false;$("#ttl").textContent="New conversation";setView("chat");side(false)};
+function saveSession(){
+  if(!M.length) return;
+  try{
+    const history=JSON.parse(localStorage.getItem("ca-history")||"[]");
+    const firstQ=$("#msgs .u")?$("#msgs .u").textContent:"Conversation";
+    const title=firstQ.length>36?firstQ.slice(0,36)+"…":firstQ;
+    const session={
+      id:currentSessionId,
+      title:title,
+      time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+      date:new Date().toLocaleDateString([],{month:'short',day:'numeric'}),
+      messages:M,
+      dom:$("#msgs").innerHTML
+    };
+    const idx=history.findIndex(s=>s.id===currentSessionId);
+    if(idx>=0){history[idx]=session;}else{history.unshift(session);}
+    if(history.length>40)history.pop();
+    localStorage.setItem("ca-history",JSON.stringify(history));
+  }catch(_){}
+}
+
+function renderHistory(){
+  try{
+    const history=JSON.parse(localStorage.getItem("ca-history")||"[]");
+    const list=$("#hist-list");
+    if(!history.length){
+      list.innerHTML='<p class="note" style="padding:16px 8px">No chat history yet.</p>';
+      return;
+    }
+    list.innerHTML=history.map(s=>`
+      <button class="hitem" data-hid="${s.id}">
+        <b>${esc(s.title)}</b>
+        <small>${esc(s.date)} · ${esc(s.time)} (${(s.messages||[]).length} msgs)</small>
+      </button>
+    `).join("");
+  }catch(_){}
+}
+
+const toggleHist=o=>{
+  $("#hist-drawer").classList.toggle("open",o);
+  $("#hist-scrim").classList.toggle("on",o);
+  if(o)renderHistory();
+};
+$("#histbtn").onclick=()=>{side(false);toggleHist(true);};
+$("#hist-close").onclick=()=>toggleHist(false);
+$("#hist-scrim").onclick=()=>toggleHist(false);
+$("#hist-clear").onclick=()=>{
+  localStorage.removeItem("ca-history");
+  renderHistory();
+};
+$("#hist-list").onclick=e=>{
+  const item=e.target.closest("[data-hid]");
+  if(!item)return;
+  const hid=Number(item.dataset.hid);
+  const history=JSON.parse(localStorage.getItem("ca-history")||"[]");
+  const session=history.find(s=>s.id===hid);
+  if(session){
+    currentSessionId=session.id;
+    M.length=0;
+    M.push(...(session.messages||[]));
+    $("#msgs").innerHTML=session.dom||"";
+    $("#empty").hidden=true;
+    $("#ttl").textContent=session.title;
+    toggleHist(false);
+    setView("chat");
+  }
+};
+
+$("#newchat").onclick=()=>{currentSessionId=Date.now();msgs.innerHTML="";M.length=0;$("#empty").hidden=false;$("#ttl").textContent="New conversation";setView("chat");side(false)};
 const side=o=>{$("#side").classList.toggle("open",o);$("#scrim").classList.toggle("on",o)};
 $("#hamb").onclick=()=>side(true);$("#scrim").onclick=()=>side(false);
 $("#form").onsubmit=e=>{e.preventDefault();const i=$("#q");ask(i.value);i.value=""};

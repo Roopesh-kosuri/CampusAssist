@@ -46,6 +46,34 @@ from app.schemas import (
     FeedbackResponse,
 )
 
+# ---------------------------------------------------------------------------
+# Auto-mode retrieval method classifier
+# ---------------------------------------------------------------------------
+_HINGLISH_TOKENS = {
+    "bhai", "yaar", "kahan", "karo", "kaise", "kya", "mera", "meri",
+    "ho", "gaya", "wala", "hai", "hain", "nahi", "nhi", "btao", "bta",
+    "kab", "kyun", "isko", "usko", "hua", "karna", "chahiye", "please",
+    "dude", "bro", "scene", "jugaad", "theek", "pata", "pls",
+}
+
+def auto_select_method(query: str) -> str:
+    """Choose retrieval method automatically based on query characteristics."""
+    tokens = set(query.lower().split())
+
+    # Hinglish detected → semantic embeddings handle transliteration best
+    if tokens & _HINGLISH_TOKENS:
+        return "emb"
+
+    # Very short queries with admin keywords → keyword is fast & precise
+    words = query.split()
+    admin_kws = {"fee", "hostel", "library", "timing", "contact", "number",
+                 "hours", "open", "close", "shut", "bus"}
+    if len(words) <= 6 and tokens & admin_kws:
+        return "kw"
+
+    # Default: hybrid gives best overall accuracy
+    return "hyb"
+
 # Global engine registry
 engines = {}
 fallback_router = None
@@ -62,6 +90,7 @@ METHOD_NORMALIZATION = {
     "emb_kw": "emb_kw",
     "hybrid": "hyb",
     "hyb": "hyb",
+    "auto": "auto",
 }
 
 
@@ -152,6 +181,7 @@ def get_config():
     groq_enabled = bool(polisher and polisher.is_available())
 
     methods = [
+        MethodInfo(id="auto", name="Auto (Smart)", desc="Picks Hybrid, Semantic, or Keyword based on your question"),
         MethodInfo(id="hyb", name="Hybrid Fusion", desc="Weighted combination of lexical and dense retrieval (alpha=0.70)"),
         MethodInfo(id="emb", name="Semantic Embeddings", desc="Dense semantic vector matching using all-MiniLM-L6-v2"),
         MethodInfo(id="tf", name="TF-IDF Cosine", desc="Sublinear TF-IDF term weighting with cosine similarity"),
@@ -183,8 +213,15 @@ def handle_query(req: QueryRequest):
     # Guardrail 2: PII Redaction
     sanitized_query, _ = redact_pii(cleaned_query)
 
-    # Normalize method
-    method_code = METHOD_NORMALIZATION.get(req.method.lower(), "hyb")
+    # Auto-mode: pick method based on query characteristics
+    requested_method = req.method.lower()
+    auto_method_chosen = None
+    if requested_method == "auto":
+        auto_method_chosen = auto_select_method(sanitized_query)
+        method_code = auto_method_chosen
+    else:
+        method_code = METHOD_NORMALIZATION.get(requested_method, "hyb")
+
     retriever = engines.get(method_code, engines.get("hyb"))
     if not retriever:
         raise HTTPException(status_code=500, detail="Retrieval engine not initialized")
@@ -202,13 +239,13 @@ def handle_query(req: QueryRequest):
     answer_original = None
     answer_polished = None
     polished = False
+    ai_generated = False
     matched_faq_id = None
     groq_latency_ms = None
     groq_failed = False
 
-    if is_fallback or not top_candidates:
-        department_contact = fallback_router.get_department_contact(category_filter)
-    else:
+    if not is_fallback and top_candidates:
+        # ── Engine matched successfully ──────────────────────────────────────
         top_cand = top_candidates[0]
         matched_faq_id = top_cand["id"]
         matched_faq = MatchedFaq(
@@ -219,7 +256,7 @@ def handle_query(req: QueryRequest):
         answer_original = top_cand["answer"]
         department_contact = top_cand.get("department_contact") or fallback_router.get_department_contact(top_cand["category"])
 
-        # Phase 7: Grounded Groq Polish Layer
+        # Grounded Groq Polish Layer
         if req.polish and polisher and polisher.is_available():
             raw_polished, groq_ok, groq_lat, msg = polisher.polish(
                 query=sanitized_query,
@@ -234,7 +271,6 @@ def handle_query(req: QueryRequest):
                     polished = True
                     groq_failed = False
                 else:
-                    # Grounding verification failed! Block hallucinated response
                     answer_polished = None
                     polished = False
                     groq_failed = True
@@ -242,6 +278,26 @@ def handle_query(req: QueryRequest):
                 answer_polished = None
                 polished = False
                 groq_failed = True if ("failed" in msg or "timeout" in msg) else False
+
+    else:
+        # ── Engine missed → try Groq direct AI answer ───────────────────────
+        department_contact = fallback_router.get_department_contact(category_filter)
+
+        if req.polish and polisher and polisher.is_available() and not polisher.is_adversarial(sanitized_query):
+            ai_answer, groq_ok, groq_lat, msg = polisher.direct_answer(
+                query=sanitized_query,
+                category=category_filter
+            )
+            groq_latency_ms = groq_lat
+            if groq_ok and ai_answer:
+                answer_original = ai_answer
+                ai_generated = True
+                # is_fallback remains True to record retrieval abstention in telemetry & API,
+                # while ai_generated=True signals generative AI fallback to the client
+                groq_failed = False
+            else:
+                groq_failed = True
+        # If Groq unavailable or fails, is_fallback stays True (existing fallback card shown)
 
     latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
@@ -274,9 +330,11 @@ def handle_query(req: QueryRequest):
     return QueryResponse(
         query_id=query_id,
         fallback=is_fallback,
+        ai_generated=ai_generated,
         confidence=round(top_score, 4),
         threshold=round(active_threshold, 4),
         method=method_code,
+        auto_method=auto_method_chosen,
         matched_faq=matched_faq,
         answer_original=answer_original,
         answer_polished=answer_polished,
