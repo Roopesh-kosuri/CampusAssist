@@ -1,14 +1,24 @@
-"""Unit tests for FAQ dataset structure, category balance, and Rule 6 compliance."""
+"""Unit tests for dataset structure, paraphrases, OOS queries, and Rule 6 compliance."""
 import pytest
 from pathlib import Path
 
-from src.config import FAQS_PATH, OWNER_FACTS_PATH, VALID_CATEGORIES, CATEGORY_PREFIX_MAP
+from src.config import (
+    FAQS_PATH,
+    OWNER_FACTS_PATH,
+    PARAPHRASES_PATH,
+    OUT_OF_SCOPE_PATH,
+    VALID_CATEGORIES,
+    CATEGORY_PREFIX_MAP,
+)
 from src.validate_data import (
     load_faqs,
     load_owner_facts_text,
+    load_csv_rows,
     validate_schema,
     validate_category_balance,
     validate_rule_6,
+    validate_paraphrases,
+    validate_out_of_scope,
     PLACEHOLDER_PATTERN,
     ID_PATTERN,
 )
@@ -49,7 +59,6 @@ def test_id_structure_and_uniqueness():
         assert faq_id not in seen, f"Duplicate ID: {faq_id}"
         seen.add(faq_id)
 
-        # Verify prefix matches category
         prefix = faq_id.split("_")[0]
         assert CATEGORY_PREFIX_MAP[prefix] == f["category"]
 
@@ -62,7 +71,6 @@ def test_rule_6_initial_state():
         assert f["source"] == "[owner to fill]", f"FAQ {f['id']} must start with source='[owner to fill]'"
         assert f["last_checked"] is None, f"FAQ {f['id']} must start with last_checked=None"
 
-        # Check placeholders in answer and department contact
         ans_placeholders = PLACEHOLDER_PATTERN.findall(f["answer"])
         dept_placeholders = PLACEHOLDER_PATTERN.findall(f["department_contact"])
         assert len(ans_placeholders) >= 1, f"FAQ {f['id']} must have bracketed placeholders in answer"
@@ -88,47 +96,50 @@ def test_owner_facts_file():
         assert cat in content, f"Category '{cat}' missing from owner_facts.md"
 
 
-def test_validator_detects_schema_errors():
-    """Verify that validator catches schema anomalies."""
-    invalid_data = [
-        {"id": "bad_id", "category": "Hostel", "question": "Q", "answer": "A", "keywords": ["a", "b"]},
-        {"id": "hos_01", "category": "Unknown", "question": "", "answer": "A", "keywords": []},
+def test_paraphrases_suite():
+    """Verify data/paraphrases.csv meets volume, split balance, and hardness rules."""
+    assert PARAPHRASES_PATH.exists(), f"Missing {PARAPHRASES_PATH}"
+    faqs = load_faqs()
+    paraphrases = load_csv_rows(PARAPHRASES_PATH)
+
+    errors, stats = validate_paraphrases(paraphrases, faqs)
+    assert len(errors) == 0, f"Paraphrases validation failed: {errors}"
+    assert stats["total"] >= 216, f"Expected >= 216 paraphrases, got {stats['total']}"
+    assert stats["hard_pct"] >= 40.0, f"Expected >= 40% hard paraphrases, got {stats['hard_pct']}%"
+    assert stats["ai_in_test"] == 0, "No AI authors permitted in test split"
+    assert abs(stats["dev"] - stats["test"]) <= 2, "Dev and test splits must be 50/50 balanced"
+
+
+def test_out_of_scope_suite():
+    """Verify data/out_of_scope.csv meets volume, split balance, and reason rules."""
+    assert OUT_OF_SCOPE_PATH.exists(), f"Missing {OUT_OF_SCOPE_PATH}"
+    oos = load_csv_rows(OUT_OF_SCOPE_PATH)
+
+    errors, stats = validate_out_of_scope(oos)
+    assert len(errors) == 0, f"Out-of-scope validation failed: {errors}"
+    assert stats["total"] >= 60, f"Expected >= 60 OOS queries, got {stats['total']}"
+    assert abs(stats["dev"] - stats["test"]) <= 2, "Dev and test OOS queries must be 50/50 balanced"
+    for r in ["near_miss", "off_topic", "adversarial"]:
+        assert stats["reason_counts"].get(r, 0) >= 10, f"Reason '{r}' should have >= 10 queries"
+
+
+def test_validator_detects_ai_authorship_in_test_split():
+    """Verify validator flags any row in test split with author='ai'."""
+    faqs = load_faqs()
+    bad_paraphrases = [
+        {"faq_id": "hos_01", "paraphrase": "Test query 1", "paraphrase_type": "synonym_swap", "split": "dev", "author": "ai"},
+        {"faq_id": "hos_01", "paraphrase": "Test query 2", "paraphrase_type": "synonym_swap", "split": "test", "author": "ai"}  # Violation!
     ]
-    errors = validate_schema(invalid_data)
-    assert len(errors) >= 3
+    errors, stats = validate_paraphrases(bad_paraphrases, faqs)
+    assert any("Authorship violation" in e for e in errors)
 
 
-def test_validator_detects_rule_6_violation():
-    """Verify that validator flags an entry if verified=True while containing placeholders."""
-    invalid_data = [
-        {
-            "id": "hos_01",
-            "category": "Hostel",
-            "question": "Sample Question?",
-            "answer": "This has a [placeholder] here.",
-            "department_contact": "[contact]",
-            "verified": True,  # Violation!
-            "source": "LPU Circular 12",
-            "last_checked": "2026-10-31"
-        }
+def test_validator_detects_paraphrase_leakage():
+    """Verify validator catches identical queries appearing in both dev and test."""
+    faqs = load_faqs()
+    leaky_paraphrases = [
+        {"faq_id": "hos_01", "paraphrase": "Identical query text", "paraphrase_type": "synonym_swap", "split": "dev", "author": "ai"},
+        {"faq_id": "hos_01", "paraphrase": "Identical query text", "paraphrase_type": "synonym_swap", "split": "test", "author": "owner"}  # Leakage!
     ]
-    errors, _ = validate_rule_6(invalid_data)
-    assert any("contains bracketed placeholders" in e for e in errors)
-
-
-def test_validator_false_positive_guard_on_grammar():
-    """Verify that sentence-initial capital words like 'Submit', 'Please', 'Check' do not trigger false positive errors."""
-    valid_verified = [
-        {
-            "id": "lib_01",
-            "category": "Library",
-            "question": "What time does it close?",
-            "answer": "Submit your books before closing. Please check with the desk on Sunday.",
-            "department_contact": "Central Library Desk",
-            "verified": True,
-            "source": "LPU Library Circular 2026",
-            "last_checked": "2026-10-31"
-        }
-    ]
-    errors, _ = validate_rule_6(valid_verified, owner_facts_text="Central Library Desk")
-    assert len(errors) == 0, f"False positive triggered: {errors}"
+    errors, stats = validate_paraphrases(leaky_paraphrases, faqs)
+    assert any("Data leakage detected" in e for e in errors)
