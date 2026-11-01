@@ -226,7 +226,55 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   top: 0;
   height: 100vh;
   border-radius: 0;
+  padding: 0 18px 20px 18px;
+  box-sizing: border-box;
   transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+}
+.is-electron aside.side .logo {
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  flex-shrink: 0;
+  margin: 0 -18px 14px -18px;
+  padding: 0 16px 0 18px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--ln);
+  box-sizing: border-box;
+  -webkit-app-region: drag;
+  gap: 0;
+}
+.is-electron aside.side .logo .mark-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+.is-electron aside.side .logo .mark-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+}
+.is-electron aside.side .logo b {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+  white-space: nowrap;
+}
+.is-electron aside.side .logo em {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(217,119,87,.16);
+  border: 1px solid rgba(217,119,87,.3);
+  color: var(--ct);
+  letter-spacing: .04em;
+  margin-left: 7px;
+  font-style: normal;
 }
 .is-electron .top {
   position: fixed;
@@ -240,16 +288,193 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   border-left: none;
   border-right: none;
   padding: 0 16px 0 18px;
-  box-shadow: 0 4px 20px -8px rgba(0,0,0,0.35);
+  background: rgba(13, 21, 38, 0.75);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 20px -8px rgba(0,0,0,0.4);
   transition: left .25s cubic-bezier(.16, 1, .3, 1), border-radius .25s ease;
   -webkit-app-region: drag;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.top-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  -webkit-app-region: drag;
+}
+.top-left button {
+  -webkit-app-region: no-drag;
+}
+.is-electron:not(.sidebar-collapsed) .top-left .hdr-logo {
+  display: none !important;
+}
+.is-electron:not(.sidebar-collapsed) .top-left .brand {
+  display: none !important;
+}
+.is-electron:not(.sidebar-collapsed) .side-expand-btn {
+  display: none !important;
+}
+.is-electron .top-left .ttl {
+  color: var(--tx2);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  letter-spacing: -0.01em;
+}
+.is-electron .seg {
+  flex: 0 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 3px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  -webkit-app-region: no-drag;
+}
+.is-electron .seg .ind {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: 86px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateX(calc(var(--i, 0) * 88px));
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+}
+.is-electron .seg button {
+  position: relative;
+  z-index: 1;
+  width: 86px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--tx2);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color .15s ease;
+}
+.is-electron .seg button:hover:not(.on) {
+  color: var(--tx);
+}
+.is-electron .seg button.on {
+  color: #FFFFFF;
+  font-weight: 600;
+  background: none;
+}
+.is-electron .right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  flex: 1;
+  min-width: 0;
+  -webkit-app-region: no-drag;
+}
+.is-electron .mchip {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tx2);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--ln);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.is-electron .mchip::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+.is-electron #theme {
+  width: 50px;
+  height: 28px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ln);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+.is-electron #theme:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.is-electron #theme .knob {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform .25s cubic-bezier(.2, 1, .3, 1);
+}
+.is-electron #theme[data-d="1"] .knob {
+  transform: translateX(22px);
+}
+.is-electron #theme span {
+  position: relative;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  color: var(--tx3);
+  transition: color .2s;
+}
+.is-electron #theme span.a {
+  color: #FFFFFF;
+}
+.is-electron #app-menu-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--ln);
+  color: var(--tx2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.is-electron #app-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--tx);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .is-electron .wrap {
   padding-top: 76px;
   transition: padding-left .25s cubic-bezier(.16, 1, .3, 1);
-}
-.is-electron aside.side .logo {
-  -webkit-app-region: drag;
 }
 .is-electron .top button,
 .is-electron .top input,
@@ -262,16 +487,17 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 }
 .side-toggle-btn {
   margin-left: auto;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 8px;
   display: none;
   place-items: center;
   color: var(--tx3);
-  background: var(--in);
+  background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--ln);
   cursor: pointer;
   transition: all .15s ease;
+  flex-shrink: 0;
   -webkit-app-region: no-drag;
 }
 .is-electron .side-toggle-btn {
@@ -279,24 +505,26 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 }
 .side-toggle-btn:hover {
   color: var(--tx);
-  background: var(--cs);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .side-expand-btn {
   display: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   place-items: center;
   color: var(--tx2);
-  background: var(--in);
+  background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--ln);
-  margin-right: 12px;
   cursor: pointer;
+  flex-shrink: 0;
   -webkit-app-region: no-drag;
 }
 .side-expand-btn:hover {
   color: var(--tx);
-  background: var(--cs);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 /* Collapsed Desktop Sidebar State */
 body.sidebar-collapsed aside.side {
@@ -308,6 +536,14 @@ body.sidebar-collapsed .top {
 }
 body.sidebar-collapsed .side-expand-btn {
   display: grid;
+}
+body.sidebar-collapsed .top-left .hdr-logo {
+  display: block !important;
+}
+body.sidebar-collapsed .top-left .brand {
+  display: block !important;
+  font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--tx);
 }
 body.sidebar-collapsed .wrap {
   padding-left: 24px;
@@ -326,30 +562,29 @@ body.sidebar-collapsed .wrap {
 }
 .wc-sep {
   width: 1px;
-  height: 20px;
+  height: 16px;
   background: var(--ln);
-  margin: 0 4px;
+  margin: 0 3px;
   opacity: 0.8;
 }
 .wc-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
   color: var(--tx2);
-  background: var(--in);
+  background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--ln);
   cursor: pointer;
   padding: 0;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   -webkit-app-region: no-drag;
 }
 .wc-btn:hover {
-  background: var(--cs);
-  color: var(--ct);
-  border-color: var(--ct);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--tx);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 .wc-btn.wc-close:hover {
   background: #E81123 !important;
@@ -407,21 +642,23 @@ body.sidebar-collapsed .wrap {
  <button id="hist-clear">Clear all history</button>
 </div>
 <header class="glass top">
- <button class="ib side-expand-btn" id="side-expand-btn" title="Open Sidebar" aria-label="Open Sidebar">
-   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><path d="m13 15 3-3-3-3"/></svg>
- </button>
- <button class="ib hamb" id="hamb" aria-label="Open menu" data-ic="menu"></button>
- <img src="/static/icons/icon-192x192.png" alt="Logo" style="width:28px;height:28px;border-radius:8px;margin-right:6px;vertical-align:middle;object-fit:cover" class="hdr-logo">
- <b class="brand">CampusAssist</b><span class="ttl" id="ttl">New conversation</span>
+ <div class="top-left">
+  <button class="ib side-expand-btn" id="side-expand-btn" title="Open Sidebar" aria-label="Open Sidebar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><path d="m13 15 3-3-3-3"/></svg>
+  </button>
+  <button class="ib hamb" id="hamb" aria-label="Open menu" data-ic="menu"></button>
+  <img src="/static/icons/icon-192x192.png" alt="Logo" style="width:28px;height:28px;border-radius:8px;vertical-align:middle;object-fit:cover" class="hdr-logo">
+  <b class="brand">CampusAssist</b><span class="ttl" id="ttl">New conversation</span>
+ </div>
  <nav class="seg" id="seg"></nav>
  <div class="right">
-   <span class="mchip" id="mchip"></span>
-   <button class="ib" id="theme" aria-label="Toggle theme"></button>
-   <div class="app-menu-wrap" style="position:relative">
-     <button class="ib" id="app-menu-btn" aria-label="Desktop options" title="Options" style="width:34px;height:34px;border-radius:50%;background:var(--in);border:1px solid var(--ln);display:grid;place-items:center">
-       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
-     </button>
-     <div class="glass app-menu-dropdown" id="app-menu-dropdown" style="display:none;position:absolute;top:44px;right:0;width:200px;padding:8px;border-radius:16px;z-index:100;box-shadow:0 14px 32px rgba(0,0,0,0.4);border:1px solid var(--ln)">
+  <span class="mchip" id="mchip"></span>
+  <button class="ib" id="theme" aria-label="Toggle theme"></button>
+  <div class="app-menu-wrap" style="position:relative">
+   <button class="ib" id="app-menu-btn" aria-label="Desktop options" title="Options">
+     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
+   </button>
+   <div class="glass app-menu-dropdown" id="app-menu-dropdown" style="display:none;position:absolute;top:44px;right:0;width:200px;padding:8px;border-radius:16px;z-index:100;box-shadow:0 14px 32px rgba(0,0,0,0.4);border:1px solid var(--ln)">
        <button class="menu-item" id="opt-reload" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:10px;font-size:13px;text-align:left;color:var(--tx)"><span>↻</span> Reload App <small style="margin-left:auto;color:var(--tx3);font-size:11px">Ctrl+R</small></button>
        <button class="menu-item" id="opt-fs" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:10px;font-size:13px;text-align:left;color:var(--tx)"><span>⛶</span> Fullscreen <small style="margin-left:auto;color:var(--tx3);font-size:11px">F11</small></button>
        <div style="height:1px;background:var(--ln);margin:4px 0"></div>
