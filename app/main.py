@@ -171,7 +171,11 @@ def serve_index():
     index_file = APP_DIR / "static" / "index.html"
     if not index_file.exists():
         raise HTTPException(status_code=404, detail="UI index.html not found")
-    return FileResponse(index_file)
+    resp = FileResponse(index_file)
+    # Prevent Electron/browser caching stale HTML between app updates
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
 
 
 @app.get("/manifest.json", response_class=FileResponse)

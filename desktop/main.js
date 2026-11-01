@@ -109,7 +109,8 @@ function createWindow() {
     checkBackendReady(DEFAULT_URL, (ready) => {
       if (ready || attempts > 15) {
         clearInterval(pollInterval);
-        mainWindow.loadURL(DEFAULT_URL).catch((err) => {
+        // Cache-busting timestamp forces fresh HTML fetch every launch
+        mainWindow.loadURL(DEFAULT_URL + "?_e=" + Date.now()).catch((err) => {
           console.error("Failed to load application URL:", err);
         });
       }

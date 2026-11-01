@@ -243,21 +243,34 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .win-controls .wc-close:hover{background:#C42B1C;color:#fff}
 </style>
 <script>
-// Synchronous Electron detection - runs before first paint so buttons hide instantly
+// Runs synchronously before first paint.
+// Buttons are hidden by default (hidden attr). Un-hide them ONLY in web context.
 (function(){
-  var isE = !!(window.electronAPI && window.electronAPI.isElectron) || /Electron/.test(navigator.userAgent);
-  if(isE) document.documentElement.classList.add("is-electron");
+  var ua = navigator.userAgent || "";
+  var isE = !!(window.electronAPI && window.electronAPI.isElectron) || /Electron/.test(ua);
+  if (isE) {
+    // Desktop app: keep buttons hidden, mark html for CSS
+    document.documentElement.classList.add("is-electron");
+  } else {
+    // Web browser: show the install/download buttons
+    document.addEventListener("DOMContentLoaded", function() {
+      var pwa = document.getElementById("pwa-install-btn");
+      var dl  = document.getElementById("dl-win-btn");
+      if (pwa) pwa.removeAttribute("hidden");
+      if (dl)  dl.removeAttribute("hidden");
+    });
+  }
 })();
 </script>
 </head>
 <body>
 <div class="blobs"><i></i><i></i><i></i></div>
 <aside class="glass side" id="side">
- <div class="logo"><div class="mark-logo"><img src="/static/icons/icon-192x192.png" alt="CA" style="width:36px;height:36px;border-radius:12px;display:block;object-fit:cover;box-shadow:0 8px 20px -6px rgba(200,95,60,.7)"></div><b>CampusAssist</b><em>LPU</em></div>
+ <div class="logo"><div class="mark-logo"><img src="/static/icons/icon-192x192.png" alt="CA" style="width:36px;height:36px;border-radius:12px;display:block;object-fit:cover;"></div><b>CampusAssist</b><em>LPU</em></div>
  <button class="btn" id="newchat"><span data-ic="plus"></span>New chat</button>
  <button class="btn" id="histbtn" style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;margin-top:-4px"><span data-ic="hist"></span>History</button>
- <button class="btn" id="pwa-install-btn" style="background:linear-gradient(135deg,var(--fill),#EA580C);font-size:13px;padding:10px 14px;margin-top:-4px;box-shadow:0 4px 14px -3px var(--fill)"><span data-ic="phone"></span>Install Mobile App</button>
- <a href="/downloads/CampusAssist-Portable.exe" class="btn" id="dl-win-btn" download style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;font-size:13px;padding:10px 14px;margin-top:-4px;text-decoration:none"><span data-ic="dl"></span>Download Windows App (.exe)</a>
+ <button class="btn" id="pwa-install-btn" hidden style="background:linear-gradient(135deg,var(--fill),#EA580C);font-size:13px;padding:10px 14px;margin-top:-4px;box-shadow:0 4px 14px -3px var(--fill)"><span data-ic="phone"></span>Install Mobile App</button>
+ <a href="/downloads/CampusAssist-Portable.exe" class="btn" id="dl-win-btn" hidden download style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;font-size:13px;padding:10px 14px;margin-top:-4px;text-decoration:none"><span data-ic="dl"></span>Download Windows App (.exe)</a>
  <h6>Retrieval method</h6><div id="methods"></div>
  <div class="card"><div class="row"><b>AI-polished answers</b><button class="tg on" id="polish" role="switch" aria-checked="true" aria-label="AI-polished answers"></button></div><p>Rewrites the matched FAQ in friendlier language. Never used for matching.</p></div>
  <h6>Category</h6><div class="chips" id="cats"></div>
