@@ -5,9 +5,9 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#0B0F19",
-  "theme_color": "#2563EB",
+  "orientation": "portrait",
+  "background_color": "#090E19",
+  "theme_color": "#090E19",
   "categories": ["education", "utilities", "productivity"],
   "icons": [
     {
