@@ -1,3 +1,14 @@
+---
+title: CampusAssist - LPU Student AI Assistant
+emoji: 🎓
+colorFrom: orange
+colorTo: red
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
 # 🎓 CampusAssist · Lovely Professional University (LPU)
 ### ⚡ AI-Powered Semantic Campus Assistant & Knowledge Engine
 
