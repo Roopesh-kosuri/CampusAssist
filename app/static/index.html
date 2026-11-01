@@ -143,8 +143,8 @@ h1,h2,h3{font-optical-sizing:auto;letter-spacing:-.025em}
 #empty h1{font-weight:400;font-size:clamp(34px,6vw,52px)}
 #empty p{font-size:16px}
 .ans{font-size:17px;line-height:1.7;letter-spacing:-.011em}
-.chat-link{color:var(--ct);font-weight:500;text-decoration:underline;text-decoration-color:rgba(210,106,69,0.45);text-underline-offset:3px;text-decoration-thickness:1.5px;word-break:break-all;border-radius:4px;padding:0 2px;transition:all .15s ease}
-.chat-link:hover{color:var(--ct);text-decoration-color:var(--ct);background:rgba(210,106,69,0.12)}
+.chat-link{color:var(--ct);font-weight:500;text-decoration:underline;text-decoration-color:rgba(210,106,69,0.45);text-underline-offset:3px;text-decoration-thickness:1.5px;word-break:break-all;transition:all .15s ease}
+.chat-link:hover{color:var(--ct);text-decoration-color:var(--ct);text-decoration-thickness:2px}
 .src{font:italic 400 15px/1.5 Newsreader,Georgia,serif}
 h6{font-size:11px;letter-spacing:.09em}
 .pill,.chip,.opt b{font-weight:500}
@@ -758,7 +758,10 @@ const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="no
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function formatText(s){
   let t=esc(s);
-  t=t.replace(/(https?:\/\/[^\s<]+)/g,(fullMatch)=>{
+  t=t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g,'<a class="chat-link" href="$2" target="_blank" rel="noopener">$1</a>');
+  t=t.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  t=t.replace(/`([^`]+)`/g,'<code style="background:var(--in);padding:2px 6px;border-radius:4px;font-size:14px;border:1px solid var(--ln)">$1</code>');
+  t=t.replace(/(?<!href=["'])(https?:\/\/[^\s<"']+)/g,(fullMatch)=>{
     let url=fullMatch,trailing="",changed=true;
     while(changed&&url.length>0){
       changed=false;
@@ -770,7 +773,7 @@ function formatText(s){
         }
       }
       const lastChar=url.slice(-1);
-      if(/[.,;:!?'"\\-]/.test(lastChar)){
+      if(/[.,;:!?'"\\*_\`~]/.test(lastChar)){
         trailing=lastChar+trailing;
         url=url.slice(0,-1);
         changed=true;
