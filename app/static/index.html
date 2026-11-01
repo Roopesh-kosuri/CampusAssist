@@ -213,12 +213,32 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 #hist-clear:hover{background:var(--cs);color:var(--ct)}
 /* auto badge on method chip in header */
 .mchip.auto-mode::after{content:"Auto";font-size:10px;background:var(--cs);color:var(--ct);border-radius:99px;padding:1px 6px;margin-left:4px}
+/* Desktop App (Electron) Integration & Platform Visibility */
+.is-electron #pwa-install-btn,
+.is-electron #dl-win-btn {
+  display: none !important;
+}
+.is-electron .top {
+  -webkit-app-region: drag;
+  padding-right: 140px;
+}
+.is-electron .top button,
+.is-electron .top input,
+.is-electron .top nav,
+.is-electron .top a,
+.is-electron .top .right,
+.is-electron .top .seg,
+.is-electron .top .brand {
+  -webkit-app-region: no-drag;
+}
+.menu-item{transition:background .15s, color .15s}
+.menu-item:hover{background:var(--cs);color:var(--ct)}
 </style>
 </head>
 <body>
 <div class="blobs"><i></i><i></i><i></i></div>
 <aside class="glass side" id="side">
- <div class="logo"><span class="mark">C</span><b>CampusAssist</b><em>LPU</em></div>
+ <div class="logo"><img src="/static/icons/icon-192x192.png" alt="CampusAssist Logo" class="mark" style="object-fit:cover;border:none;padding:0"><b>CampusAssist</b><em>LPU</em></div>
  <button class="btn" id="newchat"><span data-ic="plus"></span>New chat</button>
  <button class="btn" id="histbtn" style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;margin-top:-4px"><span data-ic="hist"></span>History</button>
  <button class="btn" id="pwa-install-btn" style="background:linear-gradient(135deg,var(--fill),#EA580C);font-size:13px;padding:10px 14px;margin-top:-4px;box-shadow:0 4px 14px -3px var(--fill)"><span data-ic="phone"></span>Install Mobile App</button>
@@ -238,9 +258,24 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 </div>
 <header class="glass top">
  <button class="ib hamb" id="hamb" aria-label="Open menu" data-ic="menu"></button>
+ <img src="/static/icons/icon-192x192.png" alt="Logo" style="width:28px;height:28px;border-radius:8px;margin-right:6px;vertical-align:middle;object-fit:cover" class="hdr-logo">
  <b class="brand">CampusAssist</b><span class="ttl" id="ttl">New conversation</span>
  <nav class="seg" id="seg"></nav>
- <div class="right"><span class="mchip" id="mchip"></span><button class="ib" id="theme" aria-label="Toggle theme"></button></div>
+ <div class="right">
+   <span class="mchip" id="mchip"></span>
+   <button class="ib" id="theme" aria-label="Toggle theme"></button>
+   <div class="app-menu-wrap" style="position:relative">
+     <button class="ib" id="app-menu-btn" aria-label="Desktop options" title="Options" style="width:34px;height:34px;border-radius:50%;background:var(--in);border:1px solid var(--ln);display:grid;place-items:center">
+       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
+     </button>
+     <div class="glass app-menu-dropdown" id="app-menu-dropdown" style="display:none;position:absolute;top:44px;right:0;width:200px;padding:8px;border-radius:16px;z-index:100;box-shadow:0 14px 32px rgba(0,0,0,0.4);border:1px solid var(--ln)">
+       <button class="menu-item" id="opt-reload" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:10px;font-size:13px;text-align:left;color:var(--tx)"><span>↻</span> Reload App <small style="margin-left:auto;color:var(--tx3);font-size:11px">Ctrl+R</small></button>
+       <button class="menu-item" id="opt-fs" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:10px;font-size:13px;text-align:left;color:var(--tx)"><span>⛶</span> Fullscreen <small style="margin-left:auto;color:var(--tx3);font-size:11px">F11</small></button>
+       <div style="height:1px;background:var(--ln);margin:4px 0"></div>
+       <button class="menu-item" id="opt-about" style="display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:10px;font-size:13px;text-align:left;color:var(--tx)"><span>ℹ️</span> About CampusAssist</button>
+     </div>
+   </div>
+ </div>
 </header>
 <div class="wrap">
  <main class="view on" id="v-chat">
@@ -288,6 +323,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 <nav class="glass tabbar" id="tabbar"></nav>
 <script>
 const $=s=>document.querySelector(s),root=document.documentElement;
+const api=p=>((localStorage.getItem("ca-api-url")||"").replace(/\/$/,"")+p);
 const P={menu:"M4 6h16M4 12h16M4 18h16",plus:"M12 5v14M5 12h14",up:"M12 19V5M5 12l7-7 7 7",ok:"M5 12l5 5 9-9",chev:"M6 9l6 6 6-6",tu:"M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9H19a2 2 0 012 2.3l-1.2 7A2 2 0 0117.8 20H7",copy:"M9 9h10v10H9zM5 15V5h10",sun:"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 100 8 4 4 0 000-8z",moon:"M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z",chat:"M4 5h16v11H9l-5 4z",chart:"M5 20V10M12 20V4M19 20v-7",eval:"M5 12l4 4 10-10M5 20h14",hist:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",close:"M6 18L18 6M6 6l12 12",dl:"M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17",phone:"M12 18h.01M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"};
 const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -357,7 +393,7 @@ async function ask(t){
   const u=document.createElement("div");u.className="u";u.textContent=t;msgs.append(u);
   const sk=document.createElement("div");sk.className="glass sk";sk.innerHTML="<i></i><i></i><i></i>";msgs.append(sk);scroll();
   try{
-    const res=await fetch("/api/query",{
+    const res=await fetch(api("/api/query"),{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({query:t,method:state.method,category:state.cat,polish:state.polish})
@@ -405,7 +441,7 @@ msgs.addEventListener("click",async e=>{
       b.classList.add("on");
       if(m&&m.qid){
         try{
-          await fetch("/api/feedback",{
+          await fetch(api("/api/feedback"),{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({query_id:m.qid,helpful:isUp})
@@ -521,7 +557,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(b)
 
 async function stats(){
   try{
-    const res=await fetch("/api/analytics");
+    const res=await fetch(api("/api/analytics"));
     if(!res.ok)return;
     const data=await res.json();
     const cards=[["Total queries",data.total_queries],["Fallback rate",data.fallback_rate+"%"],["Avg confidence",data.avg_confidence+"%"],["Helpful",data.helpful_percent+"%"]];
@@ -535,7 +571,7 @@ async function stats(){
 
 async function loadEval(){
   try{
-    const res=await fetch("/api/evaluation");
+    const res=await fetch(api("/api/evaluation"));
     if(!res.ok)return;
     const data=await res.json();
     const m=data.methods||{};
@@ -617,7 +653,7 @@ let st=null;try{st=localStorage.getItem("ca-theme")}catch(_){}
 async function init(){
   setTheme(st||(isDark()?"dark":"light"));
   try{
-    const res=await fetch("/api/config");
+    const res=await fetch(api("/api/config"));
     if(res.ok){
       const cfg=await res.json();
       state.thresholds=cfg.thresholds||{};
@@ -630,6 +666,48 @@ async function init(){
   drawSide();setView("chat");
 }
 init();
+
+/* Desktop App (Electron) Detection & In-App Menu */
+const isElectron = Boolean(window.electronAPI?.isElectron || navigator.userAgent.includes("Electron"));
+if (isElectron) {
+  root.classList.add("is-electron");
+}
+
+const appMenuBtn = document.getElementById("app-menu-btn");
+const appMenuDropdown = document.getElementById("app-menu-dropdown");
+
+if (appMenuBtn && appMenuDropdown) {
+  appMenuBtn.onclick = (e) => {
+    e.stopPropagation();
+    const isShown = appMenuDropdown.style.display === "block";
+    appMenuDropdown.style.display = isShown ? "none" : "block";
+  };
+  document.addEventListener("click", () => {
+    appMenuDropdown.style.display = "none";
+  });
+  appMenuDropdown.onclick = (e) => e.stopPropagation();
+
+  document.getElementById("opt-reload")?.addEventListener("click", () => {
+    appMenuDropdown.style.display = "none";
+    if (window.electronAPI?.reload) window.electronAPI.reload();
+    else location.reload();
+  });
+
+  document.getElementById("opt-fs")?.addEventListener("click", () => {
+    appMenuDropdown.style.display = "none";
+    if (window.electronAPI?.toggleFullscreen) {
+      window.electronAPI.toggleFullscreen();
+    } else {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  document.getElementById("opt-about")?.addEventListener("click", () => {
+    appMenuDropdown.style.display = "none";
+    alert("CampusAssist · LPU Campus FAQ AI Assistant\nVersion: 1.0.0 Desktop Edition\nLovely Professional University");
+  });
+}
 
 /* PWA Service Worker Registration & Mobile Install Trigger */
 if ('serviceWorker' in navigator) {

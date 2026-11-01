@@ -1,9 +1,12 @@
-const { app, BrowserWindow, shell, Menu } = require("electron");
+const { app, BrowserWindow, shell, Menu, ipcMain } = require("electron");
 const path = require("path");
 const http = require("http");
 
 let mainWindow = null;
 const DEFAULT_URL = process.env.CAMPUSASSIST_URL || "http://127.0.0.1:8000";
+
+// Completely remove the default Win32 menu bar (CampusAssist, Edit, View)
+Menu.setApplicationMenu(null);
 
 function checkBackendReady(urlStr, callback) {
   try {
@@ -40,6 +43,13 @@ function createWindow() {
     title: "CampusAssist - LPU Student AI Assistant",
     icon: iconPath,
     backgroundColor: "#0B0F19",
+    autoHideMenuBar: true,
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#0B0F19",
+      symbolColor: "#EAF0FB",
+      height: 38,
+    },
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -48,7 +58,7 @@ function createWindow() {
     },
   });
 
-  // Splash loading HTML
+  // Modern Liquid Glass splash loading HTML
   const splashHTML = `
   <!DOCTYPE html>
   <html>
@@ -66,18 +76,19 @@ function createWindow() {
         background: #0B0F19;
         color: #EAF0FB;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        overflow: hidden;
       }
       .loader {
-        width: 50px;
-        height: 50px;
-        border: 4px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #2563EB;
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(255, 255, 255, 0.08);
+        border-top-color: #D26A45;
         border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
+        animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        margin-bottom: 22px;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
-      h2 { font-weight: 500; margin: 0 0 8px 0; }
+      h2 { font-weight: 600; font-size: 24px; margin: 0 0 8px 0; letter-spacing: -0.02em; }
       p { color: #8593AB; font-size: 14px; margin: 0; }
     </style>
   </head>
@@ -114,56 +125,25 @@ function createWindow() {
     return { action: "allow" };
   });
 
-  // Build native application menu
-  const menuTemplate = [
-    {
-      label: "CampusAssist",
-      submenu: [
-        {
-          label: "About CampusAssist",
-          click: () => {
-            shell.openExternal("https://www.lpu.in");
-          },
-        },
-        { type: "separator" },
-        { role: "quit" },
-      ],
-    },
-    {
-      label: "Edit",
-      submenu: [
-        { role: "undo" },
-        { role: "redo" },
-        { type: "separator" },
-        { role: "cut" },
-        { role: "copy" },
-        { role: "paste" },
-        { role: "selectAll" },
-      ],
-    },
-    {
-      label: "View",
-      submenu: [
-        { role: "reload" },
-        { role: "forceReload" },
-        { role: "toggleDevTools" },
-        { type: "separator" },
-        { role: "resetZoom" },
-        { role: "zoomIn" },
-        { role: "zoomOut" },
-        { type: "separator" },
-        { role: "togglefullscreen" },
-      ],
-    },
-  ];
-
-  const menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
-
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
 }
+
+// IPC Handlers for modern in-app controls
+ipcMain.on("app-reload", () => {
+  if (mainWindow) mainWindow.reload();
+});
+
+ipcMain.on("app-toggle-fullscreen", () => {
+  if (mainWindow) {
+    mainWindow.setFullScreen(!mainWindow.isFullScreen());
+  }
+});
+
+ipcMain.on("app-devtools", () => {
+  if (mainWindow) mainWindow.webContents.toggleDevTools();
+});
 
 app.whenReady().then(() => {
   createWindow();
