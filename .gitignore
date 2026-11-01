@@ -30,3 +30,7 @@ desktop/node_modules/
 desktop/dist/
 *.exe
 *.blockmap
+
+# Allow exe downloads for Vercel CDN hosting
+!app/static/downloads/
+!app/static/downloads/*.exe

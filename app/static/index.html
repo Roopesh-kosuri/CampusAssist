@@ -169,6 +169,7 @@ h6{font-size:11px;letter-spacing:.09em}
 :root[data-theme="dark"]{--b1:#090E19;--b2:#0D1526;--tx:#E9EEF6;--tx2:#9AA6B8;--tx3:#7D899D;--gl:rgba(255,255,255,.055);--e1:rgba(255,255,255,.2);--e2:rgba(255,255,255,.03);--hl:rgba(255,255,255,.1);--sheen:rgba(255,255,255,.045);--ln:rgba(255,255,255,.08);--in:rgba(255,255,255,.035);--cs:rgba(217,119,87,.14);--ct:#E8987A;--fill:#CF6A46;--grad:linear-gradient(180deg,#D8734F,#C4603D);--knob:rgba(255,255,255,.12);--o1:rgba(72,104,168,.16);--o2:rgba(217,119,87,.07);--o3:rgba(56,92,140,.12);--sh:rgba(0,0,0,.55)}
 .logo b,.brand{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--tx)}
 .mark{box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+.mark-logo{width:36px;height:36px;border-radius:12px;flex-shrink:0;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 20px -6px rgba(200,95,60,.7)}
 .btn,.send{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 1px 2px rgba(0,0,0,.25)}
 .u{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 20px -12px rgba(0,0,0,.5)}
 .opt.on{box-shadow:none;border-color:var(--cl)}
@@ -220,7 +221,8 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 }
 .is-electron .top {
   -webkit-app-region: drag;
-  padding-right: 140px;
+  padding-right: 150px;
+  position: relative;
 }
 .is-electron .top button,
 .is-electron .top input,
@@ -233,12 +235,25 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 }
 .menu-item{transition:background .15s, color .15s}
 .menu-item:hover{background:var(--cs);color:var(--ct)}
+/* Custom window controls for Electron frameless mode */
+.win-controls{display:none;align-items:stretch;position:absolute;top:0;right:0;z-index:9999;-webkit-app-region:no-drag}
+.is-electron .win-controls{display:flex}
+.win-controls button{width:46px;height:38px;display:grid;place-items:center;font-size:15px;color:var(--tx2);border-radius:0;border:none;background:transparent;transition:background .15s,color .15s;cursor:pointer;-webkit-app-region:no-drag}
+.win-controls button:hover{background:rgba(255,255,255,.1);color:var(--tx)}
+.win-controls .wc-close:hover{background:#C42B1C;color:#fff}
 </style>
+<script>
+// Synchronous Electron detection - runs before first paint so buttons hide instantly
+(function(){
+  var isE = !!(window.electronAPI && window.electronAPI.isElectron) || /Electron/.test(navigator.userAgent);
+  if(isE) document.documentElement.classList.add("is-electron");
+})();
+</script>
 </head>
 <body>
 <div class="blobs"><i></i><i></i><i></i></div>
 <aside class="glass side" id="side">
- <div class="logo"><img src="/static/icons/icon-192x192.png" alt="CampusAssist Logo" class="mark" style="object-fit:cover;border:none;padding:0"><b>CampusAssist</b><em>LPU</em></div>
+ <div class="logo"><div class="mark-logo"><img src="/static/icons/icon-192x192.png" alt="CA" style="width:36px;height:36px;border-radius:12px;display:block;object-fit:cover;box-shadow:0 8px 20px -6px rgba(200,95,60,.7)"></div><b>CampusAssist</b><em>LPU</em></div>
  <button class="btn" id="newchat"><span data-ic="plus"></span>New chat</button>
  <button class="btn" id="histbtn" style="background:var(--in);color:var(--tx);border:1px solid var(--ln);box-shadow:none;font-weight:500;margin-top:-4px"><span data-ic="hist"></span>History</button>
  <button class="btn" id="pwa-install-btn" style="background:linear-gradient(135deg,var(--fill),#EA580C);font-size:13px;padding:10px 14px;margin-top:-4px;box-shadow:0 4px 14px -3px var(--fill)"><span data-ic="phone"></span>Install Mobile App</button>
@@ -276,6 +291,17 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
      </div>
    </div>
  </div>
+ <div class="win-controls" id="win-controls">
+    <button class="wc-min" onclick="window.electronAPI&&window.electronAPI.winMinimize()" title="Minimize" aria-label="Minimize">
+      <svg width="12" height="2" viewBox="0 0 12 2"><rect width="12" height="2" rx="1" fill="currentColor"/></svg>
+    </button>
+    <button class="wc-max" onclick="window.electronAPI&&window.electronAPI.winMaximize()" title="Maximize" aria-label="Maximize" id="wc-max-btn">
+      <svg width="11" height="11" viewBox="0 0 11 11"><rect x="1" y="1" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+    </button>
+    <button class="wc-close" onclick="window.electronAPI&&window.electronAPI.winClose()" title="Close" aria-label="Close">
+      <svg width="11" height="11" viewBox="0 0 11 11"><line x1="1" y1="1" x2="10" y2="10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="10" y1="1" x2="1" y2="10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
 </header>
 <div class="wrap">
  <main class="view on" id="v-chat">
@@ -671,6 +697,20 @@ init();
 const isElectron = Boolean(window.electronAPI?.isElectron || navigator.userAgent.includes("Electron"));
 if (isElectron) {
   root.classList.add("is-electron");
+  // Listen for maximize/restore state changes to update the icon
+  if (window.electronAPI && window.electronAPI.onWinStateChange) {
+    window.electronAPI.onWinStateChange(function(state) {
+      var btn = document.getElementById("wc-max-btn");
+      if (!btn) return;
+      if (state === "maximized") {
+        btn.innerHTML = "<svg width=11 height=11 viewBox=\"0 0 11 11\"><rect x=3 y=1 width=7 height=7 rx=1.5 stroke=currentColor stroke-width=1.5 fill=none/><rect x=1 y=3 width=7 height=7 rx=1.5 stroke=currentColor stroke-width=1.5 fill=none/></svg>";
+        btn.title = "Restore";
+      } else {
+        btn.innerHTML = "<svg width=11 height=11 viewBox=\"0 0 11 11\"><rect x=1 y=1 width=9 height=9 rx=2 stroke=currentColor stroke-width=1.6 fill=none/></svg>";
+        btn.title = "Maximize";
+      }
+    });
+  }
 }
 
 const appMenuBtn = document.getElementById("app-menu-btn");

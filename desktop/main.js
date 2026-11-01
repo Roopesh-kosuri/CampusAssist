@@ -5,7 +5,7 @@ const http = require("http");
 let mainWindow = null;
 const DEFAULT_URL = process.env.CAMPUSASSIST_URL || "http://127.0.0.1:8000";
 
-// Completely remove the default Win32 menu bar (CampusAssist, Edit, View)
+// Remove the native Win32 menu bar entirely
 Menu.setApplicationMenu(null);
 
 function checkBackendReady(urlStr, callback) {
@@ -43,13 +43,8 @@ function createWindow() {
     title: "CampusAssist - LPU Student AI Assistant",
     icon: iconPath,
     backgroundColor: "#0B0F19",
-    autoHideMenuBar: true,
-    titleBarStyle: "hidden",
-    titleBarOverlay: {
-      color: "#0B0F19",
-      symbolColor: "#EAF0FB",
-      height: 38,
-    },
+    // Fully frameless — we draw our own title bar in HTML
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -66,8 +61,8 @@ function createWindow() {
     <meta charset="utf-8">
     <title>CampusAssist Loading</title>
     <style>
+      * { box-sizing: border-box; margin: 0; }
       body {
-        margin: 0;
         height: 100vh;
         display: flex;
         flex-direction: column;
@@ -77,7 +72,11 @@ function createWindow() {
         color: #EAF0FB;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         overflow: hidden;
+        -webkit-user-select: none;
+        user-select: none;
       }
+      /* Draggable region so user can move window during splash */
+      .drag { position: fixed; top: 0; left: 0; right: 0; height: 38px; -webkit-app-region: drag; }
       .loader {
         width: 48px;
         height: 48px;
@@ -93,6 +92,7 @@ function createWindow() {
     </style>
   </head>
   <body>
+    <div class="drag"></div>
     <div class="loader"></div>
     <h2>CampusAssist</h2>
     <p>Connecting to Campus AI Engine...</p>
@@ -125,22 +125,36 @@ function createWindow() {
     return { action: "allow" };
   });
 
+  // Update maximize/restore icon when window state changes
+  mainWindow.on("maximize", () => {
+    mainWindow.webContents.send("win-state-changed", "maximized");
+  });
+  mainWindow.on("unmaximize", () => {
+    mainWindow.webContents.send("win-state-changed", "normal");
+  });
+
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
 }
 
-// IPC Handlers for modern in-app controls
+// ── IPC: Custom window controls ──────────────────────────────────────────────
+ipcMain.on("win-minimize", () => mainWindow?.minimize());
+ipcMain.on("win-maximize", () => {
+  if (!mainWindow) return;
+  mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+});
+ipcMain.on("win-close", () => mainWindow?.close());
+
+// ── IPC: App utilities ───────────────────────────────────────────────────────
 ipcMain.on("app-reload", () => {
   if (mainWindow) mainWindow.reload();
 });
-
 ipcMain.on("app-toggle-fullscreen", () => {
   if (mainWindow) {
     mainWindow.setFullScreen(!mainWindow.isFullScreen());
   }
 });
-
 ipcMain.on("app-devtools", () => {
   if (mainWindow) mainWindow.webContents.toggleDevTools();
 });
