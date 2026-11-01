@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: campusassist
+    env: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      - key: PORT
+        value: 7860
