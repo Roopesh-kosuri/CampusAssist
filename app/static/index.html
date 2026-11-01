@@ -221,44 +221,66 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 }
 .menu-item{transition:background .15s, color .15s}
 .menu-item:hover{background:var(--cs);color:var(--ct)}
-/* Desktop App (Electron) Full-Width Header & Sidebar Toggle */
+/* ==========================================================================
+   DESKTOP APP (ELECTRON) FLOATING ROUNDED GLASS CAPSULE UI
+   ========================================================================== */
+
+/* 1. Floating Rounded Sidebar */
 .is-electron aside.side {
-  top: 0;
-  height: 100vh;
-  border-radius: 0;
-  padding: 0 18px 20px 18px;
+  position: fixed;
+  top: 14px;
+  bottom: 14px;
+  left: 14px;
+  width: 270px;
+  height: calc(100vh - 28px);
+  border-radius: 24px;
+  border: 1px solid var(--ln);
+  background: var(--gl);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  backdrop-filter: blur(36px) saturate(180%);
+  box-shadow: inset 0 1px 0 var(--hl), 0 16px 40px -16px var(--sh);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   box-sizing: border-box;
-  transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+  transform: none;
+  transition: transform .32s cubic-bezier(.16, 1, .3, 1), opacity .25s ease;
+  z-index: 40;
 }
+
+/* Sidebar Logo & Header */
 .is-electron aside.side .logo {
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
   flex-shrink: 0;
-  margin: 0 -18px 14px -18px;
-  padding: 0 16px 0 18px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--ln);
-  box-sizing: border-box;
+  padding: 0 4px;
+  gap: 8px;
+  border-bottom: none;
   -webkit-app-region: drag;
-  gap: 0;
 }
 .is-electron aside.side .logo .mark-logo {
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 999px;
   flex-shrink: 0;
-  margin-right: 10px;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 .is-electron aside.side .logo .mark-logo img {
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 999px;
+  display: block;
+  object-fit: contain;
 }
 .is-electron aside.side .logo b {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--tx);
@@ -267,37 +289,62 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .is-electron aside.side .logo em {
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: rgba(217,119,87,.16);
-  border: 1px solid rgba(217,119,87,.3);
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--cs);
+  border: 1px solid var(--ln);
   color: var(--ct);
   letter-spacing: .04em;
-  margin-left: 7px;
   font-style: normal;
 }
+.side-toggle-btn {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: none;
+  place-items: center;
+  color: var(--tx2);
+  background: var(--in);
+  border: 1px solid var(--ln);
+  cursor: pointer;
+  transition: all .18s ease;
+  flex-shrink: 0;
+  -webkit-app-region: no-drag;
+}
+.is-electron .side-toggle-btn {
+  display: grid;
+}
+.side-toggle-btn:hover {
+  color: var(--tx);
+  background: var(--cs);
+  border-color: var(--ct);
+  transform: scale(1.05);
+}
+
+/* 2. Floating Rounded Top Bar */
 .is-electron .top {
   position: fixed;
-  top: 0;
-  left: 280px;
-  right: 0;
-  height: 56px;
-  border-radius: 0 16px 0 0;
-  border-bottom: 1px solid var(--ln);
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  padding: 0 16px 0 18px;
-  background: rgba(13, 21, 38, 0.75);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 20px -8px rgba(0,0,0,0.4);
-  transition: left .25s cubic-bezier(.16, 1, .3, 1), border-radius .25s ease;
-  -webkit-app-region: drag;
+  top: 14px;
+  left: 298px;
+  right: 14px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid var(--ln);
+  background: var(--gl);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  backdrop-filter: blur(36px) saturate(180%);
+  box-shadow: inset 0 1px 0 var(--hl), 0 16px 36px -12px var(--sh);
+  padding: 0 12px 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: left .32s cubic-bezier(.16, 1, .3, 1), padding .2s ease;
+  -webkit-app-region: drag;
+  z-index: 35;
 }
+
+/* Top Bar Left Section */
 .top-left {
   display: flex;
   align-items: center;
@@ -309,14 +356,31 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .top-left button {
   -webkit-app-region: no-drag;
 }
-.is-electron:not(.sidebar-collapsed) .top-left .hdr-logo {
-  display: none !important;
+.side-expand-btn {
+  display: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  place-items: center;
+  color: var(--tx);
+  background: var(--in);
+  border: 1px solid var(--ln);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .18s ease;
+  -webkit-app-region: no-drag;
 }
-.is-electron:not(.sidebar-collapsed) .top-left .brand {
-  display: none !important;
+.side-expand-btn:hover {
+  color: var(--tx);
+  background: var(--cs);
+  border-color: var(--ct);
+  transform: scale(1.05);
 }
-.is-electron:not(.sidebar-collapsed) .side-expand-btn {
-  display: none !important;
+.is-electron .top-left .hdr-logo {
+  display: none;
+}
+.is-electron .top-left .brand {
+  display: none;
 }
 .is-electron .top-left .ttl {
   color: var(--tx2);
@@ -325,19 +389,21 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 260px;
+  max-width: 240px;
   letter-spacing: -0.01em;
 }
+
+/* Center Section: Pill-Shaped View Switcher */
 .is-electron .seg {
   flex: 0 0 auto;
   position: relative;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--in);
   border: 1px solid var(--ln);
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 3px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
   -webkit-app-region: no-drag;
 }
 .is-electron .seg .ind {
@@ -346,10 +412,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   bottom: 3px;
   left: 3px;
   width: 86px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: var(--knob);
+  box-shadow: inset 0 1px 0 var(--hl), 0 4px 12px -4px var(--sh);
   transform: translateX(calc(var(--i, 0) * 88px));
   transition: transform .25s cubic-bezier(.16, 1, .3, 1);
 }
@@ -367,7 +432,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   color: var(--tx2);
   background: transparent;
   border: none;
-  border-radius: 7px;
+  border-radius: 999px;
   cursor: pointer;
   transition: color .15s ease;
 }
@@ -375,15 +440,17 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   color: var(--tx);
 }
 .is-electron .seg button.on {
-  color: #FFFFFF;
+  color: var(--tx);
   font-weight: 600;
   background: none;
 }
+
+/* Right Section: Pill-Shaped Controls */
 .is-electron .right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 7px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
   -webkit-app-region: no-drag;
@@ -392,9 +459,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   font-size: 12px;
   font-weight: 500;
   color: var(--tx2);
-  padding: 4px 10px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--in);
   border: 1px solid var(--ln);
   display: inline-flex;
   align-items: center;
@@ -415,8 +482,8 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .is-electron #theme {
   width: 50px;
   height: 28px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  background: var(--in);
   border: 1px solid var(--ln);
   padding: 2px;
   display: flex;
@@ -426,7 +493,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   transition: border-color .15s ease;
 }
 .is-electron #theme:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--ct);
 }
 .is-electron #theme .knob {
   position: absolute;
@@ -434,9 +501,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   top: 2px;
   width: 22px;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--grad);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   transition: transform .25s cubic-bezier(.2, 1, .3, 1);
 }
 .is-electron #theme[data-d="1"] .knob {
@@ -458,8 +525,8 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .is-electron #app-menu-btn {
   width: 30px;
   height: 30px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  border-radius: 999px;
+  background: var(--in);
   border: 1px solid var(--ln);
   color: var(--tx2);
   display: grid;
@@ -468,129 +535,87 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   transition: all .15s ease;
 }
 .is-electron #app-menu-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--cs);
   color: var(--tx);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--ct);
 }
-.is-electron .wrap {
-  padding-top: 76px;
-  transition: padding-left .25s cubic-bezier(.16, 1, .3, 1);
-}
-.is-electron .top button,
-.is-electron .top input,
-.is-electron .top nav,
-.is-electron .top a,
-.is-electron .top .right,
-.is-electron .top .seg,
-.is-electron .top .brand {
-  -webkit-app-region: no-drag;
-}
-.side-toggle-btn {
-  margin-left: auto;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  display: none;
-  place-items: center;
-  color: var(--tx3);
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--ln);
-  cursor: pointer;
-  transition: all .15s ease;
-  flex-shrink: 0;
-  -webkit-app-region: no-drag;
-}
-.is-electron .side-toggle-btn {
-  display: grid;
-}
-.side-toggle-btn:hover {
-  color: var(--tx);
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-.side-expand-btn {
-  display: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  place-items: center;
-  color: var(--tx2);
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--ln);
-  cursor: pointer;
-  flex-shrink: 0;
-  -webkit-app-region: no-drag;
-}
-.side-expand-btn:hover {
-  color: var(--tx);
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-/* Collapsed Desktop Sidebar State */
-body.sidebar-collapsed aside.side {
-  transform: translateX(-100%);
-}
-body.sidebar-collapsed .top {
-  left: 0;
-  border-radius: 16px 16px 0 0;
-}
-body.sidebar-collapsed .side-expand-btn {
-  display: grid;
-}
-body.sidebar-collapsed .top-left .hdr-logo {
-  display: block !important;
-}
-body.sidebar-collapsed .top-left .brand {
-  display: block !important;
-  font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--tx);
-}
-body.sidebar-collapsed .wrap {
-  padding-left: 24px;
-  max-width: 960px;
-  margin: 0 auto;
-}
-.win-controls {
-  display: none;
-  align-items: center;
-  gap: 5px;
-  margin-left: 2px;
-  -webkit-app-region: no-drag;
-}
-.is-electron .win-controls {
-  display: flex;
-}
-.wc-sep {
+.is-electron .wc-sep {
   width: 1px;
   height: 16px;
   background: var(--ln);
   margin: 0 3px;
   opacity: 0.8;
 }
-.wc-btn {
+.is-electron .win-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.is-electron .wc-btn {
   width: 30px;
   height: 30px;
-  border-radius: 8px;
+  border-radius: 999px;
   display: grid;
   place-items: center;
   color: var(--tx2);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--in);
   border: 1px solid var(--ln);
   cursor: pointer;
   padding: 0;
   transition: all 0.15s ease;
   -webkit-app-region: no-drag;
 }
-.wc-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
+.is-electron .wc-btn:hover {
+  background: var(--cs);
   color: var(--tx);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--ct);
+  transform: scale(1.05);
 }
-.wc-btn.wc-close:hover {
+.is-electron .wc-btn.wc-close:hover {
   background: #E81123 !important;
   color: #FFFFFF !important;
   border-color: #E81123 !important;
-  box-shadow: 0 4px 12px rgba(232, 17, 35, 0.35);
+  box-shadow: 0 4px 12px rgba(232, 17, 35, 0.4);
+}
+
+/* 3. Main Content Wrapper */
+.is-electron .wrap {
+  padding-top: 80px;
+  padding-left: 298px;
+  padding-right: 14px;
+  transition: padding-left .32s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* 4. Collapsed Desktop Sidebar State */
+body.sidebar-collapsed aside.side,
+html.sidebar-collapsed aside.side {
+  transform: translateX(calc(-100% - 24px)) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+body.sidebar-collapsed .top,
+html.sidebar-collapsed .top {
+  left: 14px !important;
+}
+body.sidebar-collapsed .side-expand-btn,
+html.sidebar-collapsed .side-expand-btn {
+  display: grid !important;
+}
+body.sidebar-collapsed .top-left .hdr-logo,
+html.sidebar-collapsed .top-left .hdr-logo {
+  display: block !important;
+}
+body.sidebar-collapsed .top-left .brand,
+html.sidebar-collapsed .top-left .brand {
+  display: block !important;
+  font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--tx);
+}
+body.sidebar-collapsed .wrap,
+html.sidebar-collapsed .wrap {
+  padding-left: 24px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 </style>
 <script>
@@ -1097,9 +1122,20 @@ if (isElectron) {
 // Desktop Sidebar Collapse / Expand Toggle
 const sideCollapseBtn = document.getElementById("side-collapse-btn");
 const sideExpandBtn = document.getElementById("side-expand-btn");
-const toggleDesktopSidebar = () => document.body.classList.toggle("sidebar-collapsed");
+const toggleDesktopSidebar = () => {
+  document.body.classList.toggle("sidebar-collapsed");
+  document.documentElement.classList.toggle("sidebar-collapsed");
+};
 if (sideCollapseBtn) sideCollapseBtn.onclick = toggleDesktopSidebar;
 if (sideExpandBtn) sideExpandBtn.onclick = toggleDesktopSidebar;
+
+// Shortcut: Ctrl+B or Cmd+B to toggle sidebar
+window.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
+    e.preventDefault();
+    toggleDesktopSidebar();
+  }
+});
 
 const appMenuBtn = document.getElementById("app-menu-btn");
 const appMenuDropdown = document.getElementById("app-menu-dropdown");
