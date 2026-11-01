@@ -12,6 +12,7 @@ license: mit
 # 🎓 CampusAssist · Lovely Professional University (LPU)
 ### ⚡ AI-Powered Semantic Campus Assistant & Knowledge Engine
 
+[![Live Web App](https://img.shields.io/badge/Render-Live%20App%20Online-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://campusassist-h0zp.onrender.com/)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11.9-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Electron](https://img.shields.io/badge/Electron-Desktop%20App-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)

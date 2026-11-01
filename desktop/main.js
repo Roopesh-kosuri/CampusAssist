@@ -1,9 +1,10 @@
 const { app, BrowserWindow, shell, Menu, ipcMain } = require("electron");
 const path = require("path");
 const http = require("http");
+const https = require("https");
 
 let mainWindow = null;
-const DEFAULT_URL = process.env.CAMPUSASSIST_URL || "http://127.0.0.1:8000";
+const DEFAULT_URL = process.env.CAMPUSASSIST_URL || "https://campusassist-h0zp.onrender.com";
 
 // Remove the native Win32 menu bar entirely
 Menu.setApplicationMenu(null);
@@ -11,12 +12,13 @@ Menu.setApplicationMenu(null);
 function checkBackendReady(urlStr, callback) {
   try {
     const parsed = new URL(urlStr);
-    const req = http.get(
+    const client = parsed.protocol === "https:" ? https : http;
+    const req = client.get(
       {
         host: parsed.hostname,
         port: parsed.port || (parsed.protocol === "https:" ? 443 : 80),
         path: "/health",
-        timeout: 2000,
+        timeout: 4000,
       },
       (res) => {
         callback(res.statusCode === 200);
