@@ -219,28 +219,88 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 .is-electron #dl-win-btn {
   display: none !important;
 }
-.is-electron .top {
-  -webkit-app-region: drag;
-  padding-right: 150px;
-  position: relative;
-}
-.is-electron .top button,
-.is-electron .top input,
-.is-electron .top nav,
-.is-electron .top a,
-.is-electron .top .right,
-.is-electron .top .seg,
-.is-electron .top .brand {
-  -webkit-app-region: no-drag;
-}
 .menu-item{transition:background .15s, color .15s}
 .menu-item:hover{background:var(--cs);color:var(--ct)}
-/* Custom window controls for Electron frameless mode */
-.win-controls{display:none;align-items:stretch;position:absolute;top:0;right:0;z-index:9999;-webkit-app-region:no-drag}
-.is-electron .win-controls{display:flex}
-.win-controls button{width:46px;height:38px;display:grid;place-items:center;font-size:15px;color:var(--tx2);border-radius:0;border:none;background:transparent;transition:background .15s,color .15s;cursor:pointer;-webkit-app-region:no-drag}
-.win-controls button:hover{background:rgba(255,255,255,.1);color:var(--tx)}
-.win-controls .wc-close:hover{background:#C42B1C;color:#fff}
+/* Dedicated Desktop Titlebar & Window Controls (Electron) */
+.desktop-titlebar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  background: var(--b1);
+  border-bottom: 1px solid var(--ln);
+  z-index: 10000;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.is-electron .desktop-titlebar {
+  display: flex;
+}
+.dt-drag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 14px;
+  flex: 1;
+  height: 100%;
+  -webkit-app-region: drag;
+}
+.dt-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: block;
+  object-fit: cover;
+}
+.dt-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tx3);
+  letter-spacing: -0.01em;
+}
+.dt-controls {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+.dt-btn {
+  width: 46px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--tx2);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+  -webkit-app-region: no-drag;
+}
+.dt-btn:hover {
+  background: var(--in);
+  color: var(--tx);
+}
+.dt-btn.dt-close:hover {
+  background: #E81123 !important;
+  color: #FFFFFF !important;
+}
+.is-electron aside.side {
+  top: 34px;
+  height: calc(100vh - 34px);
+}
+.is-electron .top {
+  top: 44px;
+}
+.is-electron .wrap {
+  padding-top: 104px;
+}
+.is-electron.is-maximized .desktop-titlebar {
+  padding-top: 4px;
+}
 </style>
 <script>
 // Runs synchronously before first paint.
@@ -264,6 +324,23 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
 </script>
 </head>
 <body>
+<div class="desktop-titlebar" id="desktop-titlebar">
+  <div class="dt-drag">
+    <img src="/static/icons/icon-192x192.png" alt="Logo" class="dt-icon">
+    <span class="dt-title">CampusAssist · LPU Campus FAQ</span>
+  </div>
+  <div class="dt-controls">
+    <button class="dt-btn dt-min" onclick="window.electronAPI&&window.electronAPI.winMinimize()" title="Minimize" aria-label="Minimize">
+      <svg width="10" height="1" viewBox="0 0 10 1"><rect width="10" height="1" fill="currentColor"/></svg>
+    </button>
+    <button class="dt-btn dt-max" id="dt-max-btn" onclick="window.electronAPI&&window.electronAPI.winMaximize()" title="Maximize" aria-label="Maximize">
+      <svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.75" y="0.75" width="8.5" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+    </button>
+    <button class="dt-btn dt-close" onclick="window.electronAPI&&window.electronAPI.winClose()" title="Close" aria-label="Close">
+      <svg width="10" height="10" viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</div>
 <div class="blobs"><i></i><i></i><i></i></div>
 <aside class="glass side" id="side">
  <div class="logo"><div class="mark-logo"><img src="/static/icons/icon-192x192.png" alt="CA" style="width:36px;height:36px;border-radius:12px;display:block;object-fit:cover;"></div><b>CampusAssist</b><em>LPU</em></div>
@@ -304,17 +381,6 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
      </div>
    </div>
  </div>
- <div class="win-controls" id="win-controls">
-    <button class="wc-min" onclick="window.electronAPI&&window.electronAPI.winMinimize()" title="Minimize" aria-label="Minimize">
-      <svg width="12" height="2" viewBox="0 0 12 2"><rect width="12" height="2" rx="1" fill="currentColor"/></svg>
-    </button>
-    <button class="wc-max" onclick="window.electronAPI&&window.electronAPI.winMaximize()" title="Maximize" aria-label="Maximize" id="wc-max-btn">
-      <svg width="11" height="11" viewBox="0 0 11 11"><rect x="1" y="1" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
-    </button>
-    <button class="wc-close" onclick="window.electronAPI&&window.electronAPI.winClose()" title="Close" aria-label="Close">
-      <svg width="11" height="11" viewBox="0 0 11 11"><line x1="1" y1="1" x2="10" y2="10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="10" y1="1" x2="1" y2="10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
-  </div>
 </header>
 <div class="wrap">
  <main class="view on" id="v-chat">
@@ -713,14 +779,19 @@ if (isElectron) {
   // Listen for maximize/restore state changes to update the icon
   if (window.electronAPI && window.electronAPI.onWinStateChange) {
     window.electronAPI.onWinStateChange(function(state) {
-      var btn = document.getElementById("wc-max-btn");
-      if (!btn) return;
+      var btn = document.getElementById("dt-max-btn");
       if (state === "maximized") {
-        btn.innerHTML = "<svg width=11 height=11 viewBox=\"0 0 11 11\"><rect x=3 y=1 width=7 height=7 rx=1.5 stroke=currentColor stroke-width=1.5 fill=none/><rect x=1 y=3 width=7 height=7 rx=1.5 stroke=currentColor stroke-width=1.5 fill=none/></svg>";
-        btn.title = "Restore";
+        document.documentElement.classList.add("is-maximized");
+        if (btn) {
+          btn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10"><rect x="2.5" y="0.75" width="6.75" height="6.75" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="0.75" y="2.5" width="6.75" height="6.75" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="var(--b1)"/></svg>';
+          btn.title = "Restore";
+        }
       } else {
-        btn.innerHTML = "<svg width=11 height=11 viewBox=\"0 0 11 11\"><rect x=1 y=1 width=9 height=9 rx=2 stroke=currentColor stroke-width=1.6 fill=none/></svg>";
-        btn.title = "Maximize";
+        document.documentElement.classList.remove("is-maximized");
+        if (btn) {
+          btn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.75" y="0.75" width="8.5" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>';
+          btn.title = "Maximize";
+        }
       }
     });
   }
