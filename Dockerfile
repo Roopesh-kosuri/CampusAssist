@@ -36,8 +36,8 @@ USER user
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')" && \
     python -c "from src.validate_data import load_faqs; from src.config import FAQS_PATH; from src.retrievers.embedding import EmbeddingRetriever; e=EmbeddingRetriever(); e.fit(load_faqs(FAQS_PATH))"
 
-# Expose standard HF Spaces port
-EXPOSE 7860
+# Expose standard ports (Render uses 10000 / dynamic $PORT, HF uses 7860, local uses 8000)
+EXPOSE 8000 7860 10000
 
-# Launch FastAPI server with the Liquid Glass web interface
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Launch FastAPI server with the Liquid Glass web interface (binds to dynamic $PORT with 1 worker for free-tier RAM safety)
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000} --workers 1"]
