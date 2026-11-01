@@ -1,54 +1,54 @@
 {
   "tuned_on": "dev",
-  "calibrated_at": "2026-10-31T16:07:39.497334+00:00",
+  "calibrated_at": "2026-11-01T05:24:22.821131+00:00",
   "objective": "Max harmonic mean of In-Scope Precision and OOS Rejection subject to Coverage >= 0.75",
   "thresholds": {
     "kw": 0.24,
     "tf": 0.2,
     "emb": 0.47,
-    "emb_kw": 0.47,
-    "hyb": 0.4
+    "emb_kw": 0.44,
+    "hyb": 0.36
   },
   "metrics": {
     "kw": {
       "name": "Keyword Overlap",
       "calibrated_threshold": 0.24,
-      "dev_coverage_pct": 77.78,
-      "dev_precision_pct": 83.04,
+      "dev_coverage_pct": 78.47,
+      "dev_precision_pct": 82.3,
       "dev_oos_rejection_pct": 66.67,
-      "harmonic_utility": 0.7396
+      "harmonic_utility": 0.7366
     },
     "tf": {
       "name": "TF-IDF Cosine",
       "calibrated_threshold": 0.2,
       "dev_coverage_pct": 75.69,
-      "dev_precision_pct": 88.99,
-      "dev_oos_rejection_pct": 63.33,
-      "harmonic_utility": 0.74
+      "dev_precision_pct": 86.24,
+      "dev_oos_rejection_pct": 66.67,
+      "harmonic_utility": 0.752
     },
     "emb": {
       "name": "Dense Embeddings",
       "calibrated_threshold": 0.47,
-      "dev_coverage_pct": 76.39,
-      "dev_precision_pct": 80.91,
+      "dev_coverage_pct": 75.69,
+      "dev_precision_pct": 79.82,
       "dev_oos_rejection_pct": 83.33,
-      "harmonic_utility": 0.821
+      "harmonic_utility": 0.8154
     },
     "emb_kw": {
       "name": "Embeddings + KW",
-      "calibrated_threshold": 0.47,
-      "dev_coverage_pct": 79.17,
-      "dev_precision_pct": 90.35,
-      "dev_oos_rejection_pct": 86.67,
-      "harmonic_utility": 0.8847
+      "calibrated_threshold": 0.44,
+      "dev_coverage_pct": 79.86,
+      "dev_precision_pct": 89.57,
+      "dev_oos_rejection_pct": 76.67,
+      "harmonic_utility": 0.8262
     },
     "hyb": {
       "name": "Hybrid Fusion",
-      "calibrated_threshold": 0.4,
-      "dev_coverage_pct": 76.39,
-      "dev_precision_pct": 92.73,
+      "calibrated_threshold": 0.36,
+      "dev_coverage_pct": 75.0,
+      "dev_precision_pct": 94.44,
       "dev_oos_rejection_pct": 86.67,
-      "harmonic_utility": 0.8959
+      "harmonic_utility": 0.9039
     }
   }
 }

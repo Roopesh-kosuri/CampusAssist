@@ -123,7 +123,7 @@ async def lifespan(app: FastAPI):
     emb_kw = EmbeddingRetriever(include_keywords=True)
     emb_kw.fit(faqs_data)
 
-    hyb = HybridRetriever(alpha=0.70)
+    hyb = HybridRetriever(alpha=0.55)
     hyb.fit(faqs_data)
 
     engines = {

@@ -46,7 +46,7 @@ class EmbeddingRetriever(BaseRetriever):
         """Encode or load cached FAQ embeddings and construct FAISS IndexFlatIP."""
         self.faqs = list(faqs)
         faq_hash = self._compute_faqs_hash(self.faqs)
-        cache_mode = "kw" if self.include_keywords else "plain"
+        cache_mode = "rich_kw" if self.include_keywords else "plain"
         cache_path = self.cache_dir / f"emb_{cache_mode}_{faq_hash}.npy"
 
         # Check for precomputed disk cache
@@ -61,7 +61,7 @@ class EmbeddingRetriever(BaseRetriever):
             corpus = []
             for f in self.faqs:
                 if self.include_keywords:
-                    raw_text = f["question"] + " " + " ".join(f.get("keywords", []))
+                    raw_text = f"Category: {f.get('category', '')} | Question: {f['question']} | Keywords: {' '.join(f.get('keywords', []))} | Context: {f.get('answer', '')[:140]}"
                 else:
                     raw_text = f["question"]
                 corpus.append(preprocess_semantic(raw_text))

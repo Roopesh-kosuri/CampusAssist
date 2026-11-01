@@ -10,7 +10,7 @@ Provides dual preprocessing strategies:
 import re
 import unicodedata
 
-# Hinglish vocabulary normalization map for common student terms
+# Hinglish vocabulary normalization map for common student terms & common typos
 HINGLISH_LEXICAL_MAP = {
     "kab": "when",
     "kaha": "where",
@@ -41,8 +41,48 @@ HINGLISH_LEXICAL_MAP = {
     "khana": "food",
     "kamra": "room",
     "gadi": "vehicle",
-    "gaadi": "vehicle"
+    "gaadi": "vehicle",
+    # Campus typos & slang
+    "timetible": "timetable",
+    "downlod": "download",
+    "registar": "register",
+    "supplemntary": "supplementary",
+    "attandance": "attendance",
+    "attendence": "attendance",
+    "reappear": "backlog",
+    "recheck": "scrutiny",
+    "rechecking": "scrutiny",
+    "outpass": "gatepass",
+    "hostle": "hostel",
+    "maintence": "maintenance",
+    "complant": "complaint",
+    "pluming": "plumbing",
+    "nite": "night",
+    "duplcate": "duplicate",
+    "crd": "card",
+    "aply": "apply",
 }
+
+# Campus-specific phrase synonyms and expansion patterns
+CAMPUS_SYNONYMS = [
+    (r"\b(?:test hall permit|hall permit|exam permit|hall ticket)\b", "admit card hall ticket examination permit"),
+    (r"\b(?:datesheet|timetible|time table|schedule)\b", "datesheet timetable examination schedule"),
+    (r"\b(?:fitness tracking band|fitness band|smartwatch|smart watch|wearable)\b", "smartwatch electronic gadget prohibited unfair means"),
+    (r"\b(?:supplemntary|backlog|reappear|re-appear|compartment)\b", "re-appear backlog supplementary examination"),
+    (r"\b(?:written solutions were completely correct|scrutiny|re-evaluation|recheck|rechecking)\b", "scrutiny re-evaluation rechecking grade dispute"),
+    (r"\b(?:attendance threshold|attendance percentage|short attendance|debarred)\b", "75 percent attendance eligibility debarred permit"),
+    (r"\b(?:concurrent examination timings|clash|overlap|same time exam)\b", "date sheet clash grievance conflict concurrent examination"),
+    (r"\b(?:official cgpa results|grade sheet|transcripts|marksheet)\b", "result declaration cgpa gradesheet timeline"),
+    (r"\b(?:room tap|dripping water|water leaking|tap leak|washroom)\b", "plumber water maintenance hostel complaint repair"),
+    (r"\b(?:surcharge|penalty charge|late installment penalty)\b", "late fee fine penalty surcharge cut-off"),
+    (r"\b(?:chest pain|unconscious|severe bleeding|heart attack|fainted|ambulance needed)\b", "medical emergency unihospital ambulance doctor hospital 24x7"),
+    (r"\b(?:extend (?:the )?borrowing period|extend borrowing|extend due date)\b", "renew book renewal extend borrowing period online catalogue OPAC"),
+    (r"\b(?:electronic campus credential|identity pass|university credential)\b", "id card student identity card smart card"),
+    (r"\b(?:shuttle fleet|transit vehicle|morning transit vehicle)\b", "university bus transport campus bus service"),
+    (r"\b(?:cancellation and fee surrender|fee surrender|wired back|deducted money)\b", "fee refund withdrawal cancellation fee policy surrender"),
+    (r"\b(?:private project rooms|discussion rooms|cubicles)\b", "study rooms research cubicles discussion rooms central library"),
+    (r"\b(?:purchasing new ai reference texts|procure books|book requisition)\b", "library book recommendation requisition procurement purchase professor"),
+]
 
 # Semantic vocabulary translation (English replacements preserving clause semantics)
 HINGLISH_SEMANTIC_REPLACEMENTS = [
@@ -163,6 +203,8 @@ def preprocess_lexical(text: str) -> tuple[list[str], list[str]]:
         tuple[list[str], list[str]]: (unigrams, bigrams)
     """
     clean = clean_control_chars(text).lower()
+    for pattern, replacement in CAMPUS_SYNONYMS:
+        clean = re.sub(pattern, replacement, clean, flags=re.IGNORECASE)
     # Replace non-alphanumeric chars (except apostrophes inside words) with space
     clean = re.sub(r"[^a-z0-9\s-]", " ", clean)
     clean = re.sub(r"[-_]", " ", clean)
@@ -190,6 +232,9 @@ def preprocess_semantic(text: str) -> str:
     while normalizing whitespace and translating Hinglish domain terms.
     """
     clean = clean_control_chars(text)
+    # Apply campus domain query expansion
+    for pattern, replacement in CAMPUS_SYNONYMS:
+        clean = re.sub(pattern, replacement, clean, flags=re.IGNORECASE)
     # Normalize multiple spaces and tabs
     clean = re.sub(r"\s+", " ", clean).strip()
 

@@ -81,7 +81,7 @@ def calibrate_thresholds() -> dict:
     emb_kw = EmbeddingRetriever(include_keywords=True)
     emb_kw.fit(faqs)
 
-    hyb = HybridRetriever(alpha=0.70)
+    hyb = HybridRetriever(alpha=0.55)
     hyb.fit(faqs)
 
     engines = [

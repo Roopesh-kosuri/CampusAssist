@@ -34,3 +34,4 @@ desktop/dist/
 # Allow exe downloads for Vercel CDN hosting
 !app/static/downloads/
 !app/static/downloads/*.exe
+scratch/

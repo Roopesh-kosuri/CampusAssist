@@ -97,7 +97,7 @@ def run_evaluation(split: str = "test", seed: int = 42) -> dict:
     emb_kw = EmbeddingRetriever(include_keywords=True)
     emb_kw.fit(faqs)
 
-    hyb = HybridRetriever(alpha=0.70)
+    hyb = HybridRetriever(alpha=0.55)
     hyb.fit(faqs)
 
     engines = [
@@ -105,7 +105,7 @@ def run_evaluation(split: str = "test", seed: int = 42) -> dict:
         ("tf", "TF-IDF Cosine", tf),
         ("emb", "Dense Embeddings", emb),
         ("emb_kw", "Embeddings + KW (Ablation)", emb_kw),
-        ("hyb", "Hybrid Fusion (a=0.70)", hyb),
+        ("hyb", "Hybrid Fusion (a=0.55)", hyb),
     ]
 
     thresholds = load_calibrated_thresholds()

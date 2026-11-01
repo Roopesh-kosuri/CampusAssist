@@ -37,7 +37,7 @@ def run_benchmark():
     emb = EmbeddingRetriever(include_keywords=False)
     emb.fit(faqs)
 
-    hyb = HybridRetriever(alpha=0.70)
+    hyb = HybridRetriever(alpha=0.55)
     hyb.fit(faqs)
 
     models = [("kw", kw), ("tf", tf), ("emb", emb), ("hyb", hyb)]

@@ -1,22 +1,16 @@
 split,method,paraphrase_type,query,expected_id,predicted_id,predicted_score,predicted_question
-test,kw,typo,where to downlod end term exam datesheet and timetible,exm_01,trn_10,0.3893,Are special buses arranged during end-term examinations or late evenings?
-test,kw,synonym_swap,What is the mandatory attendance threshold to generate a test hall permit?,exm_02,hos_12,0.1214,What are the rules regarding keeping a vehicle or cycle in the hostel parking?
-test,kw,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_11,0.2125,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
-test,kw,typo,how to registar for supplemntary backlog exam on portal,exm_05,fee_09,0.34,"Is there an additional fee for backlogs, reappears, or makeup examinations?"
-test,kw,low_overlap,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,exm_06,exm_08,0.1545,What should I do if two of my exam papers clash on the same date and time slot?
+test,kw,typo,where to downlod end term exam datesheet and timetible,exm_01,trn_10,0.7278,Are special buses arranged during end-term examinations or late evenings?
 test,kw,synonym_swap,"What electronic devices, notes, and calculation tools are barred from test classrooms?",exm_06,hos_07,0.1889,How do I connect to the hostel Wi-Fi network and register my devices?
-test,kw,synonym_swap,Where can I log a date sheet conflict grievance for concurrent examination timings?,exm_08,exm_01,0.3402,Where and when is the semester examination date sheet published?
-test,kw,synonym_swap,How many weeks after final examinations does the university calculate official CGPA results?,exm_10,idc_10,0.1889,Do final-year students need to surrender their ID cards before graduating?
-test,kw,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_11,0.2076,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
-test,kw,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.2076,What should I do if money was deducted from my bank but the fee receipt was not generated?
+test,kw,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,trn_01,0.3644,What are the routes and timings for university day-scholar buses?
+test,kw,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.5386,What should I do if money was deducted from my bank but the fee receipt was not generated?
+test,kw,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,fee_07,0.6,What should I do if money was deducted from my bank but the fee receipt was not generated?
 test,kw,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_08,0.1889,How do I pay hostel and mess fees for the upcoming academic year?
 test,kw,low_overlap,What is the payment calendar window for booking residence accommodation next year?,fee_08,hos_08,0.2125,How can visitors or parents visit me in the hostel or book guest accommodation?
-test,kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.3965,How do I register for reappear or backlog examinations?
+test,kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.5583,How do I register for reappear or backlog examinations?
 test,kw,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_04,0.1889,What is the tuition fee refund policy if a student withdraws admission?
-test,kw,low_overlap,My roommate has sudden severe chest pain and cannot stand up,hos_10,hos_02,0.1062,What are the evening curfew and hostel gate closing timings?
 test,kw,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_07,0.3187,Is parking facility available for day-scholar personal cars or motorbikes?
-test,kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.5967,How much is the fee for a duplicate student ID card and where do I pay it?
-test,kw,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.3643,I lost my university student ID card. What is the immediate replacement procedure?
+test,kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.6567,How much is the fee for a duplicate student ID card and where do I pay it?
+test,kw,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.7061,I lost my university student ID card. What is the immediate replacement procedure?
 test,kw,low_overlap,How many rupees does the security section charge to print a second identity card?,idc_02,idc_01,0.2076,I lost my university student ID card. What is the immediate replacement procedure?
 test,kw,low_overlap,The optical electronic chip in my card beeps red and denies barrier passage,idc_04,idc_02,0.17,How much is the fee for a duplicate student ID card and where do I pay it?
 test,kw,low_overlap,My family surname is misspelled by two letters on the front of my badge,idc_06,hos_08,0.1214,How can visitors or parents visit me in the hostel or book guest accommodation?
@@ -24,8 +18,7 @@ test,kw,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroo
 test,kw,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,trn_08,0.2833,Can hostel students use university day-scholar buses for weekend trips to nearby cities?
 test,kw,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_05,0.4143,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
 test,kw,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.255,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
-test,kw,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_01,0.2429,I lost my university student ID card. What is the immediate replacement procedure?
-test,kw,low_overlap,What is the online catalogue button to extend the borrowing period of my novel?,lib_02,lib_05,0.2429,How many books can a student borrow at a time and for how long?
+test,kw,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_03,0.4659,How do newly admitted first-year students collect their official campus ID card?
 test,kw,synonym_swap,Can I sit and read in the central facility on weekend mornings and festive breaks?,lib_04,hos_09,0.1889,Where are hostel laundry facilities located and how do I use them?
 test,kw,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_02,0.1889,"How do I issue, renew, or return books from the library?"
 test,kw,reorder,lost library book replacment policy and penlaty charges,lib_07,lib_03,0.3402,What is the fine for overdue or late library books?
@@ -33,68 +26,54 @@ test,kw,low_overlap,Where can my final-year capstone team reserve an enclosed so
 test,kw,low_overlap,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,lib_10,lib_02,0.1214,"How do I issue, renew, or return books from the library?"
 test,kw,synonym_swap,What is the per-page fee for digital laser printing inside the library building?,lib_10,lib_03,0.1889,What is the fine for overdue or late library books?
 test,kw,typo,libary clearance slip and no dues certifcate for final year students,lib_11,idc_10,0.4153,Do final-year students need to surrender their ID cards before graduating?
-test,kw,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,hos_08,0.1062,How can visitors or parents visit me in the hostel or book guest accommodation?
-test,kw,low_overlap,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,trn_06,trn_11,0.1889,What emergency transport is available for injured or unwell students on campus?
+test,kw,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_06,0.2455,What should I do if my designated university bus does not arrive or is delayed?
 test,kw,synonym_swap,What emergency control number should commuters dial if their scheduled coach fails to show up?,trn_06,fee_07,0.17,What should I do if money was deducted from my bank but the fee receipt was not generated?
 test,kw,low_overlap,Can transit privileges be revoked if a student argues loudly with the transport conductor?,trn_12,trn_11,0.2833,What emergency transport is available for injured or unwell students on campus?
-test,tf,typo,where to downlod end term exam datesheet and timetible,exm_01,trn_10,0.2686,Are special buses arranged during end-term examinations or late evenings?
-test,tf,low_overlap,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",exm_02,exm_07,0.1311,What is the procedure if a student falls ill during examination days?
-test,tf,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_11,0.2256,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
 test,tf,synonym_swap,How many days after marks release can a candidate petition to view their graded answer booklet?,exm_04,exm_09,0.2,How are Continuous Assessment (CA) and internal marks calculated and viewed?
-test,tf,low_overlap,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,exm_06,exm_08,0.1123,What should I do if two of my exam papers clash on the same date and time slot?
-test,tf,synonym_swap,"What electronic devices, notes, and calculation tools are barred from test classrooms?",exm_06,hos_07,0.1189,How do I connect to the hostel Wi-Fi network and register my devices?
-test,tf,synonym_swap,Where can I log a date sheet conflict grievance for concurrent examination timings?,exm_08,exm_01,0.3737,Where and when is the semester examination date sheet published?
-test,tf,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_11,0.2736,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
-test,tf,synonym_swap,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,fee_02,fee_05,0.1473,Can I pay my semester fee in installments or request a deadline extension?
-test,tf,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,trn_01,0.1244,What are the routes and timings for university day-scholar buses?
-test,tf,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.2822,What should I do if money was deducted from my bank but the fee receipt was not generated?
-test,tf,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,idc_10,0.2099,Do final-year students need to surrender their ID cards before graduating?
-test,tf,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_08,0.1286,How do I pay hostel and mess fees for the upcoming academic year?
+test,tf,low_overlap,My regular semester course and my repeat paper both appear on the exact same Thursday morning slot,exm_08,fee_09,0.1292,"Is there an additional fee for backlogs, reappears, or makeup examinations?"
+test,tf,synonym_swap,How many weeks after final examinations does the university calculate official CGPA results?,exm_10,exm_11,0.6242,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
+test,tf,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_11,0.579,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
+test,tf,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,exm_01,0.468,Where and when is the semester examination date sheet published?
+test,tf,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.4456,What should I do if money was deducted from my bank but the fee receipt was not generated?
+test,tf,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,fee_07,0.4473,What should I do if money was deducted from my bank but the fee receipt was not generated?
+test,tf,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_08,0.1271,How do I pay hostel and mess fees for the upcoming academic year?
 test,tf,low_overlap,What is the payment calendar window for booking residence accommodation next year?,fee_08,hos_08,0.1401,How can visitors or parents visit me in the hostel or book guest accommodation?
-test,tf,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.4929,How do I register for reappear or backlog examinations?
-test,tf,reorder,reappear exam fee per subject and how to pay on portal,fee_09,exm_05,0.3098,How do I register for reappear or backlog examinations?
-test,tf,synonym_swap,What is the latest time at night we are permitted to enter our residence block?,hos_02,idc_12,0.2019,Can my ID card be blocked or suspended for disciplinary violations?
-test,tf,low_overlap,After what hour do the security turnstiles lock us out of the dormitory building?,hos_02,lib_01,0.221,What are the central library opening and closing hours?
-test,tf,typo,how to aply for hostal nite out pass on portal,hos_03,trn_02,0.1716,How do I apply for or renew a semester bus pass?
-test,tf,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_04,0.1354,What is the tuition fee refund policy if a student withdraws admission?
-test,tf,low_overlap,My roommate has sudden severe chest pain and cannot stand up,hos_10,exm_09,0.1113,How are Continuous Assessment (CA) and internal marks calculated and viewed?
+test,tf,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.8379,How do I register for reappear or backlog examinations?
+test,tf,reorder,reappear exam fee per subject and how to pay on portal,fee_09,exm_05,0.7083,How do I register for reappear or backlog examinations?
+test,tf,synonym_swap,What is the latest time at night we are permitted to enter our residence block?,hos_02,idc_12,0.2088,Can my ID card be blocked or suspended for disciplinary violations?
+test,tf,low_overlap,After what hour do the security turnstiles lock us out of the dormitory building?,hos_02,lib_01,0.2099,What are the central library opening and closing hours?
+test,tf,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_04,0.1383,What is the tuition fee refund policy if a student withdraws admission?
 test,tf,synonym_swap,What telephone extension calls an emergency paramedic vehicle to our hostel block?,hos_10,trn_11,0.1976,What emergency transport is available for injured or unwell students on campus?
 test,tf,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,fee_08,0.0746,How do I pay hostel and mess fees for the upcoming academic year?
-test,tf,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_07,0.2056,Is parking facility available for day-scholar personal cars or motorbikes?
-test,tf,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.3408,How much is the fee for a duplicate student ID card and where do I pay it?
-test,tf,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.2955,I lost my university student ID card. What is the immediate replacement procedure?
+test,tf,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_07,0.1962,Is parking facility available for day-scholar personal cars or motorbikes?
+test,tf,hinglish_mixed,mera student id card kho gaya duplicate card kaise banwaye,idc_01,idc_02,0.3985,How much is the fee for a duplicate student ID card and where do I pay it?
+test,tf,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.4415,How much is the fee for a duplicate student ID card and where do I pay it?
+test,tf,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.4814,I lost my university student ID card. What is the immediate replacement procedure?
 test,tf,low_overlap,How many rupees does the security section charge to print a second identity card?,idc_02,idc_01,0.1994,I lost my university student ID card. What is the immediate replacement procedure?
 test,tf,reorder,where to colect new student id card after admission verification,idc_03,idc_01,0.3511,I lost my university student ID card. What is the immediate replacement procedure?
 test,tf,low_overlap,My family surname is misspelled by two letters on the front of my badge,idc_06,fee_10,0.1494,How can I obtain an official Fee Estimate letter for an education loan application?
 test,tf,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,trn_08,0.2076,Can hostel students use university day-scholar buses for weekend trips to nearby cities?
 test,tf,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_07,0.3834,Is it mandatory to wear or display the ID card on campus at all times?
-test,tf,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.1986,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
-test,tf,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_10,0.1375,Do final-year students need to surrender their ID cards before graduating?
-test,tf,low_overlap,What is the online catalogue button to extend the borrowing period of my novel?,lib_02,lib_05,0.2134,How many books can a student borrow at a time and for how long?
-test,tf,synonym_swap,Can I sit and read in the central facility on weekend mornings and festive breaks?,lib_04,lib_01,0.1243,What are the central library opening and closing hours?
+test,tf,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.1979,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
+test,tf,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_03,0.3425,How do newly admitted first-year students collect their official campus ID card?
+test,tf,synonym_swap,Can I sit and read in the central facility on weekend mornings and festive breaks?,lib_04,trn_08,0.1217,Can hostel students use university day-scholar buses for weekend trips to nearby cities?
 test,tf,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_07,0.1529,What should I do if I lose or damage a borrowed library book?
-test,tf,low_overlap,Where can my final-year capstone team reserve an enclosed soundproof conference room?,lib_08,idc_10,0.2518,Do final-year students need to surrender their ID cards before graduating?
-test,tf,synonym_swap,What is the scheduling procedure for private project rooms in the central library?,lib_08,lib_01,0.2154,What are the central library opening and closing hours?
+test,tf,low_overlap,Where can my final-year capstone team reserve an enclosed soundproof conference room?,lib_08,idc_10,0.2529,Do final-year students need to surrender their ID cards before graduating?
 test,tf,low_overlap,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,lib_10,lib_02,0.1091,"How do I issue, renew, or return books from the library?"
-test,tf,low_overlap,Who should a department professor contact to request purchasing new AI reference texts?,lib_12,fee_05,0.1465,Can I pay my semester fee in installments or request a deadline extension?
-test,tf,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_05,0.1581,Are internal campus shuttles or e-rickshaws available inside the university?
-test,tf,low_overlap,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,trn_06,trn_11,0.1788,What emergency transport is available for injured or unwell students on campus?
+test,tf,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_09,0.3304,What is the transport fee refund policy if I discontinue the bus service?
+test,tf,low_overlap,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,trn_06,trn_09,0.3933,What is the transport fee refund policy if I discontinue the bus service?
 test,tf,synonym_swap,What emergency control number should commuters dial if their scheduled coach fails to show up?,trn_06,trn_11,0.1332,What emergency transport is available for injured or unwell students on campus?
 test,tf,low_overlap,Can transit privileges be revoked if a student argues loudly with the transport conductor?,trn_12,trn_11,0.2221,What emergency transport is available for injured or unwell students on campus?
-test,emb,low_overlap,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",exm_02,idc_05,0.478,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
-test,emb,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_11,0.3229,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
+test,emb,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_11,0.4267,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
 test,emb,synonym_swap,How many days after marks release can a candidate petition to view their graded answer booklet?,exm_04,exm_01,0.536,Where and when is the semester examination date sheet published?
-test,emb,low_overlap,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,exm_06,fee_09,0.324,"Is there an additional fee for backlogs, reappears, or makeup examinations?"
 test,emb,hinglish_mixed,agar exam ke time bimar ho jaye toh medical certificate submit karke re-exam hoga kya,exm_07,exm_05,0.4394,How do I register for reappear or backlog examinations?
-test,emb,synonym_swap,How many weeks after final examinations does the university calculate official CGPA results?,exm_10,exm_09,0.5156,How are Continuous Assessment (CA) and internal marks calculated and viewed?
-test,emb,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_01,0.5623,Where and when is the semester examination date sheet published?
-test,emb,synonym_swap,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,fee_02,fee_05,0.6288,Can I pay my semester fee in installments or request a deadline extension?
-test,emb,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,fee_05,0.3716,Can I pay my semester fee in installments or request a deadline extension?
-test,emb,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,trn_04,0.3266,What is the fee structure for day-scholar transport services?
-test,emb,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,fee_02,0.4638,What is the late fee penalty if tuition is paid after the deadline?
+test,emb,synonym_swap,Where can I log a date sheet conflict grievance for concurrent examination timings?,exm_08,exm_01,0.5454,Where and when is the semester examination date sheet published?
+test,emb,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_01,0.6124,Where and when is the semester examination date sheet published?
+test,emb,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,fee_05,0.4077,Can I pay my semester fee in installments or request a deadline extension?
+test,emb,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,trn_09,0.4899,What is the transport fee refund policy if I discontinue the bus service?
 test,emb,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_04,0.5452,What is the tuition fee refund policy if a student withdraws admission?
 test,emb,synonym_swap,What is the renewal application criteria for entrance merit tuition waivers?,fee_06,trn_02,0.5338,How do I apply for or renew a semester bus pass?
-test,emb,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.553,How do I register for reappear or backlog examinations?
+test,emb,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.5804,How do I register for reappear or backlog examinations?
 test,emb,synonym_swap,Where can I apply for an official Bonafide and course cost certificate for bank credit?,fee_10,lib_11,0.5393,What is the procedure for getting a library no-dues clearance certificate?
 test,emb,low_overlap,"I received an ID misconduct violation charge, which cash counter clears it?",fee_12,idc_12,0.5216,Can my ID card be blocked or suspended for disciplinary violations?
 test,emb,typo,how to registar hostle maintence complant for pluming,hos_01,exm_05,0.3247,How do I register for reappear or backlog examinations?
@@ -103,89 +82,58 @@ test,emb,synonym_swap,How do I switch my catering meal plan to a different dinin
 test,emb,reorder,What are the visiting hours for relatives in the hostel reception lounge?,hos_08,hos_02,0.5918,What are the evening curfew and hostel gate closing timings?
 test,emb,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,idc_03,0.4405,How do newly admitted first-year students collect their official campus ID card?
 test,emb,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_05,0.5708,Are internal campus shuttles or e-rickshaws available inside the university?
-test,emb,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.5994,I lost my university student ID card. What is the immediate replacement procedure?
+test,emb,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.7714,I lost my university student ID card. What is the immediate replacement procedure?
 test,emb,hinglish_mixed,kya mobile me id card ki photo dikha kar hostel ya exam me entry mil sakti hai,idc_05,exm_03,0.3826,How and when can I download my examination admit card or hall ticket?
 test,emb,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,exm_03,0.4503,How and when can I download my examination admit card or hall ticket?
 test,emb,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,idc_01,0.5561,I lost my university student ID card. What is the immediate replacement procedure?
 test,emb,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_01,0.4565,I lost my university student ID card. What is the immediate replacement procedure?
 test,emb,reorder,where to submit found student id card lost and found counter,idc_09,idc_01,0.7263,I lost my university student ID card. What is the immediate replacement procedure?
 test,emb,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.4196,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
-test,emb,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_08,0.5665,How do day scholars get an authorized campus gate entry pass if they forgot their ID at home?
-test,emb,low_overlap,What is the online catalogue button to extend the borrowing period of my novel?,lib_02,lib_05,0.4531,How many books can a student borrow at a time and for how long?
+test,emb,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_01,0.6647,I lost my university student ID card. What is the immediate replacement procedure?
 test,emb,synonym_swap,How do I borrow textbooks at the front circulation counter using my identity badge?,lib_02,lib_09,0.4869,How does the book bank facility work for semester textbooks?
 test,emb,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_09,0.351,How does the book bank facility work for semester textbooks?
 test,emb,hinglish_mixed,agar library ki book gum ho jaye ya phat jaye toh kya karna hoga,lib_07,lib_09,0.2814,How does the book bank facility work for semester textbooks?
 test,emb,reorder,lost library book replacment policy and penlaty charges,lib_07,lib_02,0.6568,"How do I issue, renew, or return books from the library?"
 test,emb,low_overlap,Where can my final-year capstone team reserve an enclosed soundproof conference room?,lib_08,exm_06,0.3572,What items are prohibited inside the examination hall?
-test,emb,synonym_swap,What is the scheduling procedure for private project rooms in the central library?,lib_08,lib_01,0.604,What are the central library opening and closing hours?
 test,emb,low_overlap,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,lib_10,lib_06,0.412,"How do I access digital library resources, e-books, and research journals off-campus?"
-test,emb,low_overlap,Who should a department professor contact to request purchasing new AI reference texts?,lib_12,idc_11,0.3526,"How do research scholars, project assistants, or temporary staff get an ID card?"
+test,emb,low_overlap,Who should a department professor contact to request purchasing new AI reference texts?,lib_12,lib_02,0.4677,"How do I issue, renew, or return books from the library?"
 test,emb,synonym_swap,How do I recommend a new academic book acquisition to the chief librarian?,lib_12,lib_02,0.6174,"How do I issue, renew, or return books from the library?"
 test,emb,synonym_swap,Where on the student system do commuters enroll for daily bus transport for the next session?,trn_02,trn_01,0.6323,What are the routes and timings for university day-scholar buses?
-test,emb,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_01,0.3289,What are the routes and timings for university day-scholar buses?
+test,emb,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_06,0.5158,What should I do if my designated university bus does not arrive or is delayed?
 test,emb,synonym_swap,What emergency control number should commuters dial if their scheduled coach fails to show up?,trn_06,trn_11,0.4554,What emergency transport is available for injured or unwell students on campus?
-test,emb_kw,low_overlap,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",exm_02,idc_05,0.4483,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
-test,emb_kw,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_10,0.3216,When are semester grade reports and provisional transcripts issued after exams?
-test,emb_kw,hinglish_mixed,agar exam ke time bimar ho jaye toh medical certificate submit karke re-exam hoga kya,exm_07,exm_05,0.5038,How do I register for reappear or backlog examinations?
-test,emb_kw,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,fee_03,0.5073,How can I download official fee payment receipts and tuition invoices?
-test,emb_kw,synonym_swap,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,fee_02,fee_05,0.5838,Can I pay my semester fee in installments or request a deadline extension?
-test,emb_kw,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,fee_05,0.3951,Can I pay my semester fee in installments or request a deadline extension?
-test,emb_kw,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_01,0.2802,What are the accepted payment modes for semester tuition fees?
-test,emb_kw,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,trn_09,0.4978,What is the transport fee refund policy if I discontinue the bus service?
-test,emb_kw,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_04,0.4814,What is the tuition fee refund policy if a student withdraws admission?
-test,emb_kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.6435,How do I register for reappear or backlog examinations?
-test,emb_kw,hinglish_mixed,bhai hostel room ka pankha kharab ho gaya kahan complain karu,hos_01,hos_08,0.3797,How can visitors or parents visit me in the hostel or book guest accommodation?
-test,emb_kw,typo,how to registar hostle maintence complant for pluming,hos_01,exm_05,0.3206,How do I register for reappear or backlog examinations?
-test,emb_kw,hinglish_mixed,ghar jane ke liye hostel se leave pass kaise apply kare,hos_03,fee_08,0.3979,How do I pay hostel and mess fees for the upcoming academic year?
-test,emb_kw,hinglish_mixed,hostel room me kettle aur iron use kar sakte hai kya,hos_05,hos_09,0.4301,Where are hostel laundry facilities located and how do I use them?
-test,emb_kw,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,trn_07,0.453,Is parking facility available for day-scholar personal cars or motorbikes?
-test,emb_kw,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_05,0.5757,Are internal campus shuttles or e-rickshaws available inside the university?
-test,emb_kw,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.5399,How much is the fee for a duplicate student ID card and where do I pay it?
-test,emb_kw,hinglish_mixed,kya mobile me id card ki photo dikha kar hostel ya exam me entry mil sakti hai,idc_05,exm_03,0.4225,How and when can I download my examination admit card or hall ticket?
-test,emb_kw,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.4607,How do newly admitted first-year students collect their official campus ID card?
-test,emb_kw,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,exm_03,0.4958,How and when can I download my examination admit card or hall ticket?
-test,emb_kw,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,exm_03,0.4482,How and when can I download my examination admit card or hall ticket?
-test,emb_kw,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,lib_03,0.3824,What is the fine for overdue or late library books?
-test,emb_kw,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_08,0.5484,How do day scholars get an authorized campus gate entry pass if they forgot their ID at home?
-test,emb_kw,hinglish_mixed,library book late return karne par kitna fine lagta hai per day,lib_03,lib_02,0.434,"How do I issue, renew, or return books from the library?"
-test,emb_kw,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_09,0.3802,How does the book bank facility work for semester textbooks?
-test,emb_kw,hinglish_mixed,agar library ki book gum ho jaye ya phat jaye toh kya karna hoga,lib_07,lib_09,0.3249,How does the book bank facility work for semester textbooks?
-test,emb_kw,synonym_swap,What is the scheduling procedure for private project rooms in the central library?,lib_08,lib_01,0.5467,What are the central library opening and closing hours?
-test,emb_kw,low_overlap,Who should a department professor contact to request purchasing new AI reference texts?,lib_12,idc_11,0.3598,"How do research scholars, project assistants, or temporary staff get an ID card?"
-test,emb_kw,synonym_swap,Where on the student system do commuters enroll for daily bus transport for the next session?,trn_02,trn_01,0.596,What are the routes and timings for university day-scholar buses?
-test,emb_kw,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,exm_02,0.3127,What is the minimum attendance required to appear in examinations and get an admit card?
-test,emb_kw,low_overlap,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,trn_06,trn_11,0.2476,What emergency transport is available for injured or unwell students on campus?
-test,hyb,low_overlap,"If my biometric classroom record stands at 71%, will I be debarred from writing exams?",exm_02,idc_05,0.3494,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
-test,hyb,low_overlap,I received a D grade but was confident my written solutions were completely correct,exm_04,exm_11,0.2937,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
-test,hyb,low_overlap,Will my testing paper be cancelled if proctor staff spot a fitness tracking band on my wrist?,exm_06,fee_09,0.2268,"Is there an additional fee for backlogs, reappears, or makeup examinations?"
-test,hyb,hinglish_mixed,agar exam ke time bimar ho jaye toh medical certificate submit karke re-exam hoga kya,exm_07,exm_05,0.3762,How do I register for reappear or backlog examinations?
-test,hyb,synonym_swap,Where can I log a date sheet conflict grievance for concurrent examination timings?,exm_08,exm_01,0.5179,Where and when is the semester examination date sheet published?
-test,hyb,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_11,0.4183,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
-test,hyb,synonym_swap,How much extra surcharge is charged if I deposit my college installment after the cut-off date?,fee_02,fee_05,0.4844,Can I pay my semester fee in installments or request a deadline extension?
-test,hyb,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,fee_05,0.288,Can I pay my semester fee in installments or request a deadline extension?
-test,hyb,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,fee_07,0.2865,What should I do if money was deducted from my bank but the fee receipt was not generated?
-test,hyb,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,fee_02,0.3805,What is the late fee penalty if tuition is paid after the deadline?
-test,hyb,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,fee_04,0.3928,What is the tuition fee refund policy if a student withdraws admission?
-test,hyb,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.535,How do I register for reappear or backlog examinations?
-test,hyb,low_overlap,"I received an ID misconduct violation charge, which cash counter clears it?",fee_12,idc_12,0.3936,Can my ID card be blocked or suspended for disciplinary violations?
-test,hyb,typo,how to registar hostle maintence complant for pluming,hos_01,exm_05,0.2273,How do I register for reappear or backlog examinations?
-test,hyb,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_07,0.3199,What should I do if money was deducted from my bank but the fee receipt was not generated?
-test,hyb,synonym_swap,How do I switch my catering meal plan to a different dining hall?,hos_06,hos_04,0.3192,How do I change my hostel room or room-partner?
-test,hyb,synonym_swap,Where can a residential student obtain an authorized barcode sticker for a two-wheeler?,hos_12,idc_03,0.3164,How do newly admitted first-year students collect their official campus ID card?
-test,hyb,low_overlap,Are undergraduate hostellers permitted to bring a personal motorbike onto campus?,hos_12,trn_05,0.4203,Are internal campus shuttles or e-rickshaws available inside the university?
-test,hyb,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.3972,How much is the fee for a duplicate student ID card and where do I pay it?
-test,hyb,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.5082,I lost my university student ID card. What is the immediate replacement procedure?
-test,hyb,reorder,where to colect new student id card after admission verification,idc_03,idc_01,0.6209,I lost my university student ID card. What is the immediate replacement procedure?
-test,hyb,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.3976,How do newly admitted first-year students collect their official campus ID card?
-test,hyb,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,idc_01,0.418,I lost my university student ID card. What is the immediate replacement procedure?
-test,hyb,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_01,0.3922,I lost my university student ID card. What is the immediate replacement procedure?
-test,hyb,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.3533,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
-test,hyb,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_08,0.4194,How do day scholars get an authorized campus gate entry pass if they forgot their ID at home?
-test,hyb,low_overlap,What is the online catalogue button to extend the borrowing period of my novel?,lib_02,lib_05,0.3812,How many books can a student borrow at a time and for how long?
-test,hyb,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_09,0.2793,How does the book bank facility work for semester textbooks?
-test,hyb,synonym_swap,What is the scheduling procedure for private project rooms in the central library?,lib_08,lib_01,0.4874,What are the central library opening and closing hours?
-test,hyb,low_overlap,Who should a department professor contact to request purchasing new AI reference texts?,lib_12,idc_11,0.276,"How do research scholars, project assistants, or temporary staff get an ID card?"
-test,hyb,synonym_swap,Where on the student system do commuters enroll for daily bus transport for the next session?,trn_02,trn_01,0.4925,What are the routes and timings for university day-scholar buses?
-test,hyb,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_05,0.2442,Are internal campus shuttles or e-rickshaws available inside the university?
-test,hyb,low_overlap,Our morning transit vehicle broke down on the Grand Trunk highway with an overheated engine,trn_06,trn_11,0.1857,What emergency transport is available for injured or unwell students on campus?
-test,hyb,synonym_swap,What emergency control number should commuters dial if their scheduled coach fails to show up?,trn_06,trn_11,0.3587,What emergency transport is available for injured or unwell students on campus?
+test,emb_kw,synonym_swap,How many days after marks release can a candidate petition to view their graded answer booklet?,exm_04,exm_10,0.4545,When are semester grade reports and provisional transcripts issued after exams?
+test,emb_kw,hinglish_mixed,agar exam ke time bimar ho jaye toh medical certificate submit karke re-exam hoga kya,exm_07,exm_03,0.4024,How and when can I download my examination admit card or hall ticket?
+test,emb_kw,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,lib_04,0.3969,Is the library open on Sundays and public holidays?
+test,emb_kw,low_overlap,"I have decided to join an NIT instead, how much deducted money will be wired back?",fee_04,trn_09,0.4972,What is the transport fee refund policy if I discontinue the bus service?
+test,emb_kw,synonym_swap,What are the cancellation and fee surrender deadlines per statutory guidelines?,fee_04,trn_09,0.5734,What is the transport fee refund policy if I discontinue the bus service?
+test,emb_kw,hinglish_mixed,account se paise kat gaye par fee receipt generate nahi hui kahan complain kare,fee_07,fee_08,0.3373,How do I pay hostel and mess fees for the upcoming academic year?
+test,emb_kw,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.7077,How do I register for reappear or backlog examinations?
+test,emb_kw,low_overlap,I have been eating outside for a month and want money credited back for unused food,hos_06,fee_07,0.2884,What should I do if money was deducted from my bank but the fee receipt was not generated?
+test,emb_kw,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.7241,I lost my university student ID card. What is the immediate replacement procedure?
+test,emb_kw,reorder,where to colect new student id card after admission verification,idc_03,idc_01,0.6643,I lost my university student ID card. What is the immediate replacement procedure?
+test,emb_kw,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.4426,How do newly admitted first-year students collect their official campus ID card?
+test,emb_kw,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,idc_01,0.526,I lost my university student ID card. What is the immediate replacement procedure?
+test,emb_kw,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_05,0.4453,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
+test,emb_kw,reorder,where to submit found student id card lost and found counter,idc_09,idc_01,0.6702,I lost my university student ID card. What is the immediate replacement procedure?
+test,emb_kw,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,lib_02,0.3866,"How do I issue, renew, or return books from the library?"
+test,emb_kw,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_10,0.6711,Do final-year students need to surrender their ID cards before graduating?
+test,emb_kw,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_09,0.3784,How does the book bank facility work for semester textbooks?
+test,emb_kw,hinglish_mixed,agar library ki book gum ho jaye ya phat jaye toh kya karna hoga,lib_07,lib_02,0.3173,"How do I issue, renew, or return books from the library?"
+test,emb_kw,low_overlap,Where can I xerox twenty pages from a non-circulating reference encyclopedia?,lib_10,lib_06,0.4581,"How do I access digital library resources, e-books, and research journals off-campus?"
+test,emb_kw,synonym_swap,Where on the student system do commuters enroll for daily bus transport for the next session?,trn_02,trn_01,0.5822,What are the routes and timings for university day-scholar buses?
+test,emb_kw,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_01,0.4911,What are the routes and timings for university day-scholar buses?
+test,emb_kw,hinglish_mixed,emergency me ambulance bulane ke liye campus me kaunsa number dial kare,trn_11,hos_10,0.4954,What is the emergency medical protocol in the hostel at night?
+test,emb_kw,typo,campus emergancy ambulnce service number for sick students,trn_11,hos_10,0.4512,What is the emergency medical protocol in the hostel at night?
+test,hyb,low_overlap,Where can students download their digital grade sheet ledger after the academic term ends?,exm_10,exm_11,0.5712,What is the procedure to obtain a duplicate or corrected grade sheet/transcript?
+test,hyb,low_overlap,Will my portal access get locked if my payment arrives five days behind schedule?,fee_02,exm_01,0.3834,Where and when is the semester examination date sheet published?
+test,hyb,low_overlap,What minimum academic grade point average must I retain so my fee rebate does not lapse?,fee_06,exm_04,0.2499,What is the procedure and deadline to apply for paper re-evaluation or answer script inspection?
+test,hyb,hinglish_mixed,backlog ya reappear exam ka per subject kitna fee lagta hai,fee_09,exm_05,0.7243,How do I register for reappear or backlog examinations?
+test,hyb,typo,how to aply for duplcate id crd after losing it in campus,idc_01,idc_02,0.5266,How much is the fee for a duplicate student ID card and where do I pay it?
+test,hyb,synonym_swap,What is the replacement charge to reissue a lost electronic campus credential?,idc_02,idc_01,0.6486,I lost my university student ID card. What is the immediate replacement procedure?
+test,hyb,hinglish_mixed,campus me har waqt gale me id card pehan kar ghumna zaroori hai kya,idc_07,idc_03,0.3892,How do newly admitted first-year students collect their official campus ID card?
+test,hyb,low_overlap,I left my university card on my bedroom study table in Jalandhar city this morning,idc_08,idc_01,0.3463,I lost my university student ID card. What is the immediate replacement procedure?
+test,hyb,hinglish_mixed,kisi aur ka id card campus me mila kahan submit karna chahiye,idc_09,idc_05,0.3889,Can I use a digital soft copy or photo of my ID card for campus and exam entry?
+test,hyb,low_overlap,Will the turnstile access reader flash red and reject me if I have unpaid dues?,idc_12,idc_04,0.2978,What should I do if my RFID smart ID card stops scanning at turnstiles or mess readers?
+test,hyb,synonym_swap,Under what university provisions can proctorial officials deactivate an identity pass?,idc_12,idc_10,0.5139,Do final-year students need to surrender their ID cards before graduating?
+test,hyb,hinglish_mixed,ek student ko library se kitni books milti hai kitne din ke liye,lib_05,lib_02,0.2607,"How do I issue, renew, or return books from the library?"
+test,hyb,low_overlap,What is the registration cut-off to book a guaranteed seat on the Phagwara shuttle fleet?,trn_02,trn_01,0.3517,What are the routes and timings for university day-scholar buses?
