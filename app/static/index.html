@@ -103,11 +103,15 @@ h6{font:600 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:var(-
 .sug{padding:16px 18px;border-radius:24px;display:block;width:100%}
 .sug small{font:600 11px Inter;letter-spacing:.06em;text-transform:uppercase;color:var(--ct)}
 .sug span{display:block;margin-top:4px;font-size:15px}
-.bar{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(760px,calc(100% - 32px));border-radius:999px;padding:8px 8px 8px 22px;display:flex;align-items:center;gap:8px}
+.bar{position:fixed;z-index:35;left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom,0px));width:min(760px,calc(100% - 32px));border-radius:999px;border:1px solid var(--ln);background:var(--gl);-webkit-backdrop-filter:blur(36px) saturate(180%);backdrop-filter:blur(36px) saturate(180%);box-shadow:inset 0 1px 0 var(--hl),0 16px 40px -10px var(--sh);padding:8px 8px 8px 22px;display:flex;align-items:center;gap:8px;transition:all .25s cubic-bezier(.16,1,.3,1)}
 .bar input{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;font-size:16px;color:var(--tx)}
 .bar input::placeholder{color:var(--tx3)}
 .send{width:44px;height:44px;border-radius:50%;background:var(--fill);color:#fff;display:grid;place-items:center;flex:none}
-.hint{position:fixed;z-index:30;left:0;right:0;text-align:center;font-size:12px;color:var(--tx3);bottom:calc(60px + env(safe-area-inset-bottom,0px));display:none}
+.hint{position:fixed;z-index:35;left:0;right:0;text-align:center;font-size:12px;color:var(--tx3);bottom:calc(56px + env(safe-area-inset-bottom,0px));display:none;pointer-events:none}
+.liquid-blur-top,.liquid-blur-bottom{position:fixed;right:0;pointer-events:none;z-index:22;transition:left .32s cubic-bezier(.16,1,.3,1)}
+.liquid-blur-top{top:0;height:78px;left:0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);background:linear-gradient(to bottom,var(--b1) 20%,transparent 100%);-webkit-mask-image:linear-gradient(to top,transparent 0%,black 80%);mask-image:linear-gradient(to top,transparent 0%,black 80%)}
+.liquid-blur-bottom{bottom:0;height:82px;left:0;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);background:linear-gradient(to top,var(--b1) 25%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 75%);mask-image:linear-gradient(to bottom,transparent 0%,black 75%)}
+#v-chat{-webkit-mask-image:linear-gradient(to bottom,transparent 0px,black 38px,black calc(100% - 46px),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0px,black 38px,black calc(100% - 46px),transparent 100%)}
 .tabbar{position:fixed;z-index:30;left:16px;right:16px;bottom:calc(8px + env(safe-area-inset-bottom,0px));height:62px;border-radius:999px;display:flex}
 .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:500;color:var(--tx2)}
 .tabbar button.on{color:var(--ct);font-weight:600}
@@ -125,7 +129,8 @@ table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}th,td{tex
 .seg{display:flex}.mchip{display:block}.right{flex:1;justify-content:flex-end}
 .wrap{padding-left:280px}.view{padding-left:32px;padding-right:32px;padding-bottom:140px}
 .sugs{grid-template-columns:1fr 1fr}
-.bar{bottom:44px;left:calc(280px + (100% - 280px)/2)}.hint{display:block;bottom:16px;left:280px}
+.bar{bottom:18px;left:calc(280px + (100% - 280px)/2)}.hint{display:block;bottom:4px;left:280px}
+.liquid-blur-top,.liquid-blur-bottom{left:280px}
 .tabbar{display:none}.g4{grid-template-columns:repeat(4,1fr)}
 }
 /* polish layer */
@@ -587,6 +592,18 @@ html{scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
   padding-right: 14px;
   transition: padding-left .32s cubic-bezier(.16, 1, .3, 1);
 }
+.is-electron .bar {
+  bottom: 18px;
+  left: calc(298px + (100% - 298px)/2);
+}
+.is-electron .hint {
+  bottom: 4px;
+  left: 298px;
+}
+.is-electron .liquid-blur-top,
+.is-electron .liquid-blur-bottom {
+  left: 298px;
+}
 
 /* 4. Collapsed Desktop Sidebar State */
 body.sidebar-collapsed aside.side,
@@ -618,6 +635,21 @@ html.sidebar-collapsed .wrap {
   padding-left: 24px;
   max-width: 960px;
   margin: 0 auto;
+}
+body.sidebar-collapsed .bar,
+html.sidebar-collapsed .bar {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+body.sidebar-collapsed .hint,
+html.sidebar-collapsed .hint {
+  left: 0 !important;
+}
+body.sidebar-collapsed .liquid-blur-top,
+body.sidebar-collapsed .liquid-blur-bottom,
+html.sidebar-collapsed .liquid-blur-top,
+html.sidebar-collapsed .liquid-blur-bottom {
+  left: 0 !important;
 }
 </style>
 <script>
@@ -747,6 +779,8 @@ html.sidebar-collapsed .wrap {
   </div>
  </main>
 </div>
+<div class="liquid-blur-top" aria-hidden="true"></div>
+<div class="liquid-blur-bottom" aria-hidden="true"></div>
 <form class="glass bar" id="form"><input id="q" autocomplete="off" maxlength="300" placeholder="Ask about hostel, fees, library, exams..." aria-label="Your question"><button class="send" aria-label="Send" data-ic="up"></button></form>
 <div class="hint">Enter to send</div>
 <nav class="glass tabbar" id="tabbar"></nav>
