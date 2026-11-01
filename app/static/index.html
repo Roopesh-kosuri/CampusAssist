@@ -143,6 +143,8 @@ h1,h2,h3{font-optical-sizing:auto;letter-spacing:-.025em}
 #empty h1{font-weight:400;font-size:clamp(34px,6vw,52px)}
 #empty p{font-size:16px}
 .ans{font-size:17px;line-height:1.7;letter-spacing:-.011em}
+.chat-link{color:var(--ct);font-weight:500;text-decoration:underline;text-decoration-color:rgba(210,106,69,0.45);text-underline-offset:3px;text-decoration-thickness:1.5px;word-break:break-all;border-radius:4px;padding:0 2px;transition:all .15s ease}
+.chat-link:hover{color:var(--ct);text-decoration-color:var(--ct);background:rgba(210,106,69,0.12)}
 .src{font:italic 400 15px/1.5 Newsreader,Georgia,serif}
 h6{font-size:11px;letter-spacing:.09em}
 .pill,.chip,.opt b{font-weight:500}
@@ -756,7 +758,35 @@ const ic=(n,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="no
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function formatText(s){
   let t=esc(s);
-  t=t.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:var(--ct);text-decoration:underline;word-break:break-all">$1</a>');
+  t=t.replace(/(https?:\/\/[^\s<]+)/g,(fullMatch)=>{
+    let url=fullMatch,trailing="",changed=true;
+    while(changed&&url.length>0){
+      changed=false;
+      for(const ent of["&quot;","&gt;","&lt;","&amp;"]){
+        if(url.endsWith(ent)){
+          trailing=ent+trailing;
+          url=url.slice(0,-ent.length);
+          changed=true;
+        }
+      }
+      const lastChar=url.slice(-1);
+      if(/[.,;:!?'"\\-]/.test(lastChar)){
+        trailing=lastChar+trailing;
+        url=url.slice(0,-1);
+        changed=true;
+      }else if(lastChar===")"||lastChar==="]"||lastChar==="}"){
+        const openChar=lastChar===")"?"(":lastChar==="]"?"[":"{";
+        const openCount=(url.match(new RegExp("\\"+openChar,"g"))||[]).length;
+        const closeCount=(url.match(new RegExp("\\"+lastChar,"g"))||[]).length;
+        if(closeCount>openCount){
+          trailing=lastChar+trailing;
+          url=url.slice(0,-1);
+          changed=true;
+        }
+      }
+    }
+    return `<a class="chat-link" href="${url}" target="_blank" rel="noopener">${url}</a>${trailing}`;
+  });
   return t;
 }
 
@@ -854,7 +884,7 @@ msgs.addEventListener("click",async e=>{
   const c=b.closest("[data-i]"),m=M[c.dataset.i],a=b.dataset.act;
   if(a==="orig"){
     m.showOrig=!m.showOrig;
-    c.querySelector(".ans").textContent=m.showOrig?m.ans_orig:m.ans_pol;
+    c.querySelector(".ans").innerHTML=formatText(m.showOrig?m.ans_orig:m.ans_pol);
     b.textContent=m.showOrig?"Show AI-polished answer":"Show original FAQ answer";
   }else if(a==="closest"){
     c.querySelector(".cl").hidden=false;b.remove();
