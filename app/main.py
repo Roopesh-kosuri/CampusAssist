@@ -189,11 +189,14 @@ def serve_manifest():
 
 @app.get("/service-worker.js", response_class=FileResponse)
 def serve_service_worker():
-    """Serve PWA Service Worker."""
+    """Serve PWA Service Worker with zero-caching so client updates apply immediately."""
     sw_file = APP_DIR / "static" / "service-worker.js"
     if not sw_file.exists():
         raise HTTPException(status_code=404, detail="service-worker.js not found")
-    return FileResponse(sw_file, media_type="application/javascript")
+    resp = FileResponse(sw_file, media_type="application/javascript")
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
 
 
 @app.get("/favicon.ico", response_class=FileResponse)
